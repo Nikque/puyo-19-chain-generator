@@ -1,0 +1,8 @@
+/build/
+/out/
+/.vs/
+*.obj
+*.o
+*.exe
+*.pdb
+19chain_urls.txt
