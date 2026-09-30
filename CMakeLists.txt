@@ -13,6 +13,9 @@ if(MSVC)
     set_property(TARGET random_19_chain PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
+if(MINGW)
+    target_link_options(random_19_chain PRIVATE -municode)
+endif()
 
 include(CTest)
 if(BUILD_TESTING)
@@ -26,7 +29,23 @@ if(BUILD_TESTING)
     endif()
     add_test(NAME generator_regressions COMMAND generator_tests)
     find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(WIN32)
+        add_executable(console_tests tests/console_tests.cpp)
+        set_target_properties(console_tests PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
+        if(MSVC)
+            target_compile_options(console_tests PRIVATE /utf-8)
+            set_property(TARGET console_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        endif()
+        if(MINGW)
+            target_link_options(console_tests PRIVATE -municode)
+        endif()
+    endif()
     if(Python3_Interpreter_FOUND)
+        if(WIN32)
+            add_test(NAME windows_console_utf8
+                COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_console.py"
+                    "$<TARGET_FILE:console_tests>" "$<TARGET_FILE:random_19_chain>")
+        endif()
         add_test(NAME independent_output_verification
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/verify_output.py"
                 "${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/solutions.log" --allow-extra)
@@ -40,8 +59,12 @@ if(BUILD_TESTING)
     endif()
 endif()
 
-add_custom_command(TARGET random_19_chain POST_BUILD
+add_custom_target(generator_runtime_files ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/config.ini"
         "$<TARGET_FILE_DIR:random_19_chain>/config.ini"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/run.cmd"
+        "$<TARGET_FILE_DIR:random_19_chain>/run.cmd"
+    DEPENDS random_19_chain
 )

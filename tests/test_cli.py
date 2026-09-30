@@ -12,7 +12,7 @@ base = dict(initial_seed=42, color_count=4, beam_width=16,
 
 def run(settings, directory):
     config = directory / "config.ini"
-    config.write_text("".join(f"{k}={v}\n" for k, v in settings.items()))
+    config.write_text("".join(f"{k}={v}\n" for k, v in settings.items()), encoding="utf-8")
     return subprocess.run([executable, str(config)], cwd=directory,
                           capture_output=True, encoding="utf-8", timeout=30)
 
@@ -45,4 +45,41 @@ with tempfile.TemporaryDirectory(prefix="puyo-cli-test-") as temp:
         result = run(dict(base, **overrides), directory)
         assert result.returncode == 2
         assert not (directory / "19chain_urls.txt").exists()
-print("CLI integration tests passed (shorter chains, odd counts, legacy config, invalid ranges).")
+    directory = root / "日本語🟢"
+    directory.mkdir()
+    settings = dict(base, target_chain=1)
+    config = directory / "設定🟢.ini"
+    config.write_text("".join(f"{k}={v}\n" for k, v in settings.items()), encoding="utf-8-sig")
+    result = subprocess.run([executable, str(config)], cwd=directory,
+                            capture_output=True, encoding="utf-8", timeout=30)
+    assert result.returncode == 0, result.stderr
+    assert verify(result.stdout, True) == {"1-chain/4-cell": 1}
+    missing = directory / "存在しない🟢.ini"
+    result = subprocess.run([executable, str(missing)], cwd=directory,
+                            capture_output=True, encoding="utf-8", timeout=30)
+    assert result.returncode == 2 and str(missing) in result.stderr
+
+    for index, ending in enumerate(["", "\r", "\n", "\r\n"]):
+        directory = root / f"history-{index}"
+        directory.mkdir()
+        history = directory / "19chain_urls.txt"
+        old_url = "https://ishikawapuyo.net/simu/pe.html?abc"
+        history.write_bytes((old_url + ending).encode("ascii"))
+        result = run(settings, directory)
+        assert result.returncode == 0, result.stderr
+        assert len(history.read_text().splitlines()) == 2
+        assert history.read_text().splitlines()[0] == old_url
+        first_urls = set(history.read_text().splitlines())
+        result = run(settings, directory)
+        assert result.returncode == 0, result.stderr
+        assert "重複したため保存をスキップ" in result.stdout
+        assert len(set(history.read_text().splitlines())) == 3
+        assert first_urls <= set(history.read_text().splitlines())
+
+    directory = root / "unwritable-output"
+    directory.mkdir()
+    (directory / "19chain_urls.txt").mkdir()
+    result = run(settings, directory)
+    assert result.returncode == 2
+    assert "output file" in result.stderr
+print("CLI integration tests passed (generation, Unicode/BOM paths, invalid config, URL append/deduplication, I/O errors).")

@@ -1,6 +1,6 @@
-#define main generatorProgramMain
+#define PUYO_GENERATOR_NO_MAIN
 #include "../random_19_chain.cpp"
-#undef main
+#undef PUYO_GENERATOR_NO_MAIN
 #include "reference_predecessors.h"
 
 static void check(bool ok, const char* message) {
