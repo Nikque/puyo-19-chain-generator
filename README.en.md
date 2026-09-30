@@ -4,6 +4,14 @@
 
 A C++20 randomized inverse-chain beam search for playable constructions using pairs of puyos. Each of the configured 1–19 waves clears exactly one group of four. The default run generates **100 new 19-chain, 76-cell boards using four colors**. Successful URLs are appended to `19chain_urls.txt` in the working directory. Shorter chains use the same filename for compatibility.
 
+## Windows release (v0.2.1)
+
+Extract the release's `windows-x64.zip` and run `run.cmd`. Direct execution of the exe also displays Japanese correctly: attached consoles use UTF-8 during execution, then regain their original output code page. Redirected logs remain UTF-8. Progress lines fit the console width to prevent wrapping during updates.
+
+Windows configuration paths support Japanese and emoji. The launcher changes to its own directory to read settings and save URLs; the exe without arguments reads `config.ini` in its working directory. Existing settings remain compatible. An existing URL file without a final newline receives a separator before the next URL. Existing-file read failures are reported as errors.
+
+Every CMake build synchronizes both `config.ini` and `run.cmd` beside the executable, including when only settings changed. Windows tests verify actual Japanese text emitted by both the exe and launcher in real consoles initially set to CP932, code-page restoration, and progress without wrapping. Additional integration checks cover Unicode/BOM configuration paths, unterminated URL history, duplicate exclusion, and I/O errors.
+
 ## Board rules and verification
 
 - The board is six columns by 13 rows. Row 13 falls when supporting cells disappear but does not participate in matching.

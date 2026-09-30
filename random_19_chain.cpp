@@ -4,6 +4,8 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
+#include <filesystem>
+#include "console_output.h"
 #include <cctype>
 #include <chrono>
 #include <stdexcept>
@@ -737,9 +739,7 @@ static void reportProgress(
     }
 
     std::string line = status.str();
-    constexpr size_t STATUS_WIDTH = 140;
-    if (line.size() < STATUS_WIDTH) line.resize(STATUS_WIDTH, ' ');
-    std::cout << '\r' << line << std::flush;
+    writeProgressLine(line);
     lastUpdate = now;
 }
 
@@ -882,12 +882,31 @@ static std::string fieldToUrl(const Field& field) {
     return "https://ishikawapuyo.net/simu/pe.html?" + encoded;
 }
 
+static std::string pathToUtf8(const std::filesystem::path& path) {
+    const auto text = path.u8string();
+    return std::string(text.begin(), text.end());
+}
+
 static void appendSuccessfulUrl(const std::string& url) {
     constexpr const char* OUTPUT_PATH = "19chain_urls.txt";
-    std::ofstream output(OUTPUT_PATH, std::ios::app);
+    // An edited/copied URL file may not end with a newline. Keep URLs separate.
+    bool needsNewline = false;
+    if (std::filesystem::exists(OUTPUT_PATH)) {
+        std::ifstream previous(OUTPUT_PATH, std::ios::binary);
+        if (!previous) throw std::runtime_error("cannot read output file: 19chain_urls.txt");
+        previous.seekg(0, std::ios::end);
+        if (previous.tellg() > 0) {
+            previous.seekg(-1, std::ios::end);
+            char last = 0;
+            if (!previous.get(last)) throw std::runtime_error("failed reading output file: 19chain_urls.txt");
+            needsNewline = last != '\n';
+        }
+    }
+    std::ofstream output(OUTPUT_PATH, std::ios::binary | std::ios::app);
     if (!output) {
         throw std::runtime_error(std::string("cannot open output file: ") + OUTPUT_PATH);
     }
+    if (needsNewline) output << '\n';
     output << url << '\n';
     output.flush();
     if (!output) {
@@ -955,7 +974,11 @@ static std::string trim(std::string value) {
 static std::unordered_set<std::string> loadExistingUrls(const std::string& path) {
     std::unordered_set<std::string> urls;
     std::ifstream input(path);
-    if (!input) return urls; // 初回実行時は出力ファイルがまだない。
+    if (!input) {
+        if (std::filesystem::exists(path))
+            throw std::runtime_error("cannot read output file: " + path);
+        return urls; // First run: there is no output file yet.
+    }
 
     const std::string urlPrefix = "https://ishikawapuyo.net/simu/pe.html?";
     std::string line;
@@ -965,6 +988,7 @@ static std::unordered_set<std::string> loadExistingUrls(const std::string& path)
             urls.insert(std::move(line));
         }
     }
+    if (input.bad()) throw std::runtime_error("failed reading output file: " + path);
     return urls;
 }
 
@@ -989,10 +1013,10 @@ static int parsePositiveInt(const std::string& text, const std::string& key) {
     return static_cast<int>(value);
 }
 
-static GeneratorConfig loadConfig(const std::string& path) {
+static GeneratorConfig loadConfig(const std::filesystem::path& path) {
     std::ifstream file(path);
     if (!file) {
-        throw std::runtime_error("cannot open config file: " + path);
+        throw std::runtime_error("cannot open config file: " + pathToUtf8(path));
     }
 
     GeneratorConfig config;
@@ -1062,6 +1086,8 @@ static GeneratorConfig loadConfig(const std::string& path) {
         }
     }
 
+    if (file.bad()) throw std::runtime_error("failed reading config file: " + pathToUtf8(path));
+
     const std::array<std::string, 6> required{{
         "initial_seed", "color_count", "beam_width",
         "restarts", "candidates_per_parent", "target_success_count"
@@ -1084,9 +1110,9 @@ static GeneratorConfig loadConfig(const std::string& path) {
     return config;
 }
 
-int main(int argc, char* argv[]) {
+static int runGenerator(const std::filesystem::path& configPath) {
+    ConsoleOutputEncoding consoleEncoding;
     try {
-        const std::string configPath = argc >= 2 ? argv[1] : "config.ini";
         const GeneratorConfig config = loadConfig(configPath);
         const int targetChain=config.targetChain;
 
@@ -1170,3 +1196,15 @@ int main(int argc, char* argv[]) {
         return 2;
     }
 }
+
+#ifndef PUYO_GENERATOR_NO_MAIN
+#ifdef _WIN32
+int wmain(int argc, wchar_t* argv[]) {
+    return runGenerator(argc >= 2 ? std::filesystem::path(argv[1]) : std::filesystem::path(L"config.ini"));
+}
+#else
+int main(int argc, char* argv[]) {
+    return runGenerator(argc >= 2 ? std::filesystem::path(argv[1]) : std::filesystem::path("config.ini"));
+}
+#endif
+#endif
