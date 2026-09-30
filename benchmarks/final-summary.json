@@ -1,0 +1,218 @@
+[
+  {
+    "settings": {
+      "beam": 32,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 628,
+    "seconds": 25.180968399974518,
+    "first_success_seconds": [
+      0.8888347999891266,
+      0.07124339998699725,
+      0.5252990000299178
+    ],
+    "fifth_success_seconds": [
+      2.09227770002326,
+      1.5372974000056274,
+      1.1440095999860205
+    ],
+    "success_rate": 0.09554140127388536,
+    "successes_per_second": 2.382751888130749
+  },
+  {
+    "settings": {
+      "beam": 64,
+      "per_parent": 2,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 360,
+    "seconds": 26.190371899981983,
+    "first_success_seconds": [
+      0.27145020000170916,
+      0.2119937000097707,
+      0.12368849996710196
+    ],
+    "fifth_success_seconds": [
+      2.1700391999911517,
+      1.0266024000011384,
+      1.3484566999832168
+    ],
+    "success_rate": 0.16666666666666666,
+    "successes_per_second": 2.2909182133469925
+  },
+  {
+    "settings": {
+      "beam": 64,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 312,
+    "seconds": 26.51967750006588,
+    "first_success_seconds": [
+      0.4481895000208169,
+      0.12882290000561625,
+      0.13776670000515878
+    ],
+    "fifth_success_seconds": [
+      0.9704079999937676,
+      1.6467464999877848,
+      2.1134929999825545
+    ],
+    "success_rate": 0.19230769230769232,
+    "successes_per_second": 2.2624709519884223
+  },
+  {
+    "settings": {
+      "beam": 32,
+      "per_parent": 4,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 608,
+    "seconds": 28.084795199974906,
+    "first_success_seconds": [
+      1.2913015999947675,
+      0.20269040000857785,
+      0.4262008999940008
+    ],
+    "fifth_success_seconds": [
+      3.1766320999595337,
+      1.4528074000263587,
+      3.5121006999979727
+    ],
+    "success_rate": 0.09868421052631579,
+    "successes_per_second": 2.136387307536913
+  },
+  {
+    "settings": {
+      "beam": 32,
+      "per_parent": 2,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 830,
+    "seconds": 28.40139790001558,
+    "first_success_seconds": [
+      0.7489198999828659,
+      0.6814949000254273,
+      0.9672001000144519
+    ],
+    "fifth_success_seconds": [
+      4.269336899975315,
+      1.311094700009562,
+      2.3939105999888852
+    ],
+    "success_rate": 0.07228915662650602,
+    "successes_per_second": 2.1125720716714116
+  },
+  {
+    "settings": {
+      "beam": 128,
+      "per_parent": 8,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 152,
+    "seconds": 30.070687900006305,
+    "first_success_seconds": [
+      0.19051590003073215,
+      0.3871623000013642,
+      0.17964500002563
+    ],
+    "fifth_success_seconds": [
+      2.219794200034812,
+      2.152468099957332,
+      2.736682099988684
+    ],
+    "success_rate": 0.39473684210526316,
+    "successes_per_second": 1.9952985511843717
+  },
+  {
+    "settings": {
+      "beam": 32,
+      "per_parent": 4,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 869,
+    "seconds": 32.17847109999275,
+    "first_success_seconds": [
+      0.08611820003716275,
+      0.12980409996816888,
+      0.863495800003875
+    ],
+    "fifth_success_seconds": [
+      0.6695342999882996,
+      1.317534199974034,
+      2.96530859998893
+    ],
+    "success_rate": 0.06904487917146145,
+    "successes_per_second": 1.864600708142828
+  },
+  {
+    "settings": {
+      "beam": 128,
+      "per_parent": 8,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 217,
+    "seconds": 35.41470459999982,
+    "first_success_seconds": [
+      0.834391400043387,
+      0.22172309999587014,
+      1.0500165999983437
+    ],
+    "fifth_success_seconds": [
+      2.267077299999073,
+      2.3092962999944575,
+      3.7213401999906637
+    ],
+    "success_rate": 0.2764976958525346,
+    "successes_per_second": 1.694211505578965
+  },
+  {
+    "settings": {
+      "beam": 128,
+      "per_parent": 32,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "successes": 60,
+    "attempts": 213,
+    "seconds": 54.70137699996121,
+    "first_success_seconds": [
+      0.5671446999767795,
+      3.9399081000010483,
+      1.015757599961944
+    ],
+    "fifth_success_seconds": [
+      3.9640297000296414,
+      7.250690300017595,
+      5.185475300007965
+    ],
+    "success_rate": 0.28169014084507044,
+    "successes_per_second": 1.0968645268297825
+  }
+]

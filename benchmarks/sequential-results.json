@@ -1,0 +1,452 @@
+[
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 20.300549100036733,
+    "successes": 20,
+    "completed_attempts": 71,
+    "first_success_seconds": 0.28783410001778975,
+    "fifth_success_seconds": 4.945777900051326,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "before-allocation-change"
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 20.007665999990422,
+    "successes": 20,
+    "completed_attempts": 68,
+    "first_success_seconds": 1.3740834000054747,
+    "fifth_success_seconds": 6.440272999985609,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "before-allocation-change"
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 26.410684200003743,
+    "successes": 20,
+    "completed_attempts": 94,
+    "first_success_seconds": 0.3699054000317119,
+    "fifth_success_seconds": 4.9655446000397205,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "before-allocation-change"
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 19.266811300010886,
+    "successes": 20,
+    "completed_attempts": 71,
+    "first_success_seconds": 0.2189485999988392,
+    "fifth_success_seconds": 5.0359849000233226,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "optimized-old-parameters"
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 16.743858799978625,
+    "successes": 20,
+    "completed_attempts": 68,
+    "first_success_seconds": 1.228341799986083,
+    "fifth_success_seconds": 5.384787099959794,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "optimized-old-parameters"
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 128,
+      "candidates_per_parent": 32,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 23.28057830000762,
+    "successes": 20,
+    "completed_attempts": 94,
+    "first_success_seconds": 0.3034548000432551,
+    "fifth_success_seconds": 4.263361499994062,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "optimized-old-parameters"
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.833388899976853,
+    "successes": 20,
+    "completed_attempts": 250,
+    "first_success_seconds": 0.18038410000735894,
+    "fifth_success_seconds": 2.492290999973193,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 5.969234100019094,
+    "successes": 20,
+    "completed_attempts": 143,
+    "first_success_seconds": 0.3165508999954909,
+    "fifth_success_seconds": 1.4711645999923348,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.411798999994062,
+    "successes": 20,
+    "completed_attempts": 209,
+    "first_success_seconds": 0.4721255000331439,
+    "fifth_success_seconds": 2.115464200032875,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 10.705093700031284,
+    "successes": 20,
+    "completed_attempts": 268,
+    "first_success_seconds": 0.07052910001948476,
+    "fifth_success_seconds": 1.5275963000021875,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.422730099991895,
+    "successes": 20,
+    "completed_attempts": 205,
+    "first_success_seconds": 0.8134195999591611,
+    "fifth_success_seconds": 2.0537702000001445,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.068806700001005,
+    "successes": 20,
+    "completed_attempts": 155,
+    "first_success_seconds": 0.5439518999774009,
+    "fifth_success_seconds": 1.1758745999541134,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-32"
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.580093900032807,
+    "successes": 20,
+    "completed_attempts": 138,
+    "first_success_seconds": 0.6793556000338867,
+    "fifth_success_seconds": 1.8926305000204593,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.461194499977864,
+    "successes": 20,
+    "completed_attempts": 152,
+    "first_success_seconds": 0.1393975000246428,
+    "fifth_success_seconds": 1.6952408999786712,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.753772599971853,
+    "successes": 20,
+    "completed_attempts": 158,
+    "first_success_seconds": 0.48105459997896105,
+    "fifth_success_seconds": 2.621869499969762,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.597844799980521,
+    "successes": 20,
+    "completed_attempts": 154,
+    "first_success_seconds": 0.05922529997769743,
+    "fifth_success_seconds": 1.960943899990525,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 5.580742700025439,
+    "successes": 20,
+    "completed_attempts": 100,
+    "first_success_seconds": 0.4506902000284754,
+    "fifth_success_seconds": 1.717735400015954,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.339855299971532,
+    "successes": 20,
+    "completed_attempts": 104,
+    "first_success_seconds": 0.5793433000217192,
+    "fifth_success_seconds": 1.6051851999945939,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "label": "candidate-48"
+  }
+]

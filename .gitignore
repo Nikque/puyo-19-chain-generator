@@ -6,3 +6,5 @@
 *.exe
 *.pdb
 19chain_urls.txt
+__pycache__/
+*.pyc

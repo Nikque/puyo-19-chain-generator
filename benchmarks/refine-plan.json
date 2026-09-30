@@ -1,0 +1,42 @@
+{
+  "seeds": [
+    20260925,
+    42,
+    123,
+    2026,
+    98765,
+    1234567
+  ],
+  "attempts": 1500,
+  "seconds": 60,
+  "settings": [
+    {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    }
+  ]
+}

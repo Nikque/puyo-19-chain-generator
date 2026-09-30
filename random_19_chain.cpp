@@ -1,4 +1,4 @@
-﻿#include <algorithm>
+#include <algorithm>
 #include <array>
 #include <cstdint>
 #include <iostream>
@@ -20,8 +20,9 @@
 constexpr int W = 6;
 constexpr int H = 13;
 constexpr int CLEAR_H = 12;
-constexpr int TARGET_CHAIN = 19;
-constexpr int DEFAULT_COLORS = 5;
+constexpr int MIN_TARGET_CHAIN = 1;
+constexpr int MAX_TARGET_CHAIN = 19;
+constexpr int DEFAULT_TARGET_CHAIN = MAX_TARGET_CHAIN;
 
 // 色: 0=空, 1..4/5=通常色。おじゃまぷよは使わない。
 using Cell = uint8_t;
@@ -63,12 +64,15 @@ struct Domino {
     Cell colorA;
     Cell colorB;
     char orientation; // 'V' または 'H'
+    std::string controls; // L/R/D: move, A/B: rotate; then lock and split/drop
+    int setupClear = 0; // explicitly planned 5-clear to create odd cell parity
 };
 
 struct Solution {
     Field field;
     std::array<Point, 4> trigger;
     std::vector<Domino> placementSequence;
+    int targetChain = DEFAULT_TARGET_CHAIN;
 };
 
 static bool containsPoint(const std::array<Point, 4>& points, Point p) {
@@ -80,68 +84,59 @@ struct WaveInfo {
     std::vector<std::vector<Point>> groups;
 };
 
-static int clearAndDrop(Field& field, WaveInfo* waveOut = nullptr) {
-    std::array<std::array<bool, H>, W> seen{};
-    std::array<std::array<bool, H>, W> remove{};
-    WaveInfo wave;
-
-    const std::array<Point, 4> dirs{{
-        {1, 0}, {-1, 0}, {0, 1}, {0, -1}
-    }};
-
+// Fixed-size scratch storage avoids heap allocations for every connected component.
+static int clearAndDrop(Field &field, WaveInfo *waveOut = nullptr) {
+    bool seen[W][H]{};
+    bool remove[W][H]{};
+    Point stack[W * CLEAR_H], component[W * CLEAR_H];
+    int removed = 0;
+    if (waveOut)
+        waveOut->groups.clear();
+    constexpr Point dirs[] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     for (int x = 0; x < W; ++x) {
-        const int limitY = std::min(CLEAR_H, static_cast<int>(field.col[x].size()));
-
-        for (int y = 0; y < limitY; ++y) {
+        const int limit = std::min(CLEAR_H, int(field.col[x].size()));
+        for (int y = 0; y < limit; ++y) {
+            if (seen[x][y] || !field.col[x][y])
+                continue;
             const Cell color = field.col[x][y];
-            if (color == 0 || seen[x][y]) continue;
-
-            std::vector<Point> component;
-            std::vector<Point> stack{{x, y}};
+            int top = 0, count = 0;
+            stack[top++] = {x, y};
             seen[x][y] = true;
-
-            while (!stack.empty()) {
-                const Point p = stack.back();
-                stack.pop_back();
-                component.push_back(p);
-
-                for (const Point d : dirs) {
-                    const int nx = p.first + d.first;
-                    const int ny = p.second + d.second;
-                    if (nx < 0 || nx >= W || ny < 0 || ny >= CLEAR_H) continue;
-                    if (ny >= static_cast<int>(field.col[nx].size())) continue;
-                    if (seen[nx][ny] || field.col[nx][ny] != color) continue;
+            while (top) {
+                Point q = stack[--top];
+                component[count++] = q;
+                for (Point d : dirs) {
+                    int nx = q.first + d.first, ny = q.second + d.second;
+                    if (nx < 0 || nx >= W || ny < 0 || ny >= CLEAR_H ||
+                        ny >= int(field.col[nx].size()) || seen[nx][ny] ||
+                        field.col[nx][ny] != color)
+                        continue;
                     seen[nx][ny] = true;
-                    stack.emplace_back(nx, ny);
+                    stack[top++] = {nx, ny};
                 }
             }
-
-            if (component.size() >= 4) {
-                std::sort(component.begin(), component.end());
-                wave.groups.push_back(component);
-                for (const Point p : component) remove[p.first][p.second] = true;
+            if (count < 4)
+                continue;
+            removed += count;
+            for (int i = 0; i < count; ++i)
+                remove[component[i].first][component[i].second] = true;
+            if (waveOut) {
+                std::vector<Point> group(component, component + count);
+                std::sort(group.begin(), group.end());
+                waveOut->groups.push_back(std::move(group));
             }
         }
     }
-
-    int removedCount = 0;
-    for (const auto& group : wave.groups) {
-        removedCount += static_cast<int>(group.size());
-    }
-    if (waveOut) *waveOut = wave;
-    if (removedCount == 0) return 0;
-
-    // すべての消去を同時に適用し、13段すべてを列ごとに落下させる。
+    if (!removed)
+        return 0;
     for (int x = 0; x < W; ++x) {
-        std::vector<Cell> compact;
-        compact.reserve(field.col[x].size());
-        for (int y = 0; y < static_cast<int>(field.col[x].size()); ++y) {
-            if (!remove[x][y]) compact.push_back(field.col[x][y]);
-        }
-        field.col[x] = std::move(compact);
+        int dst = 0;
+        for (int y = 0; y < int(field.col[x].size()); ++y)
+            if (!remove[x][y])
+                field.col[x][dst++] = field.col[x][y];
+        field.col[x].resize(dst);
     }
-
-    return removedCount;
+    return removed;
 }
 
 static int chainCount(Field field) {
@@ -150,9 +145,10 @@ static int chainCount(Field field) {
     return chains;
 }
 
-static bool cleanChain19(
+static bool cleanChain(
     Field field,
     const std::array<Point, 4>& expectedTrigger,
+    int targetChain = DEFAULT_TARGET_CHAIN,
     std::vector<WaveInfo>* traceOut = nullptr)
 {
     int waves = 0;
@@ -161,7 +157,7 @@ static bool cleanChain19(
         const int removed = clearAndDrop(field, &wave);
         if (removed == 0) break;
 
-        // 19連鎖の各波は、同時消しなし・4個ちょうどの単独グループ。
+        // 各波は、同時消しなし・4個ちょうどの単独グループ。
         if (wave.groups.size() != 1 || wave.groups.front().size() != 4) {
             return false;
         }
@@ -177,10 +173,10 @@ static bool cleanChain19(
 
         ++waves;
         if (traceOut) traceOut->push_back(wave);
-        if (waves > TARGET_CHAIN) return false;
+        if (waves > targetChain) return false;
     }
 
-    return waves == TARGET_CHAIN;
+    return waves == targetChain;
 }
 static Shape normalizeShape(Shape shape) {
     int minX = shape.front().first;
@@ -230,15 +226,15 @@ static std::vector<Shape> makeTetrominoShapes() {
     return std::vector<Shape>(unique.begin(), unique.end());
 }
 
-static std::vector<Candidate> predecessors(
-    const Field& post,
-    const std::vector<Shape>& shapes,
-    int colorCount)
-{
-    std::vector<Candidate> result;
-    std::unordered_set<std::string> seenFields;
+static std::vector<Candidate> predecessors(const Field &post, const std::vector<Shape> &shapes,
+                                           int colorCount, std::mt19937_64* rng = nullptr, size_t sampleLimit = 0) {
+    // Keep small insertion descriptions until sampling. Most candidates at
+    // intermediate depths are discarded, so allocating six columns for each
+    // of them wastes time. Shuffle preserves the original sampling order.
+    struct Insertion { const Shape* shape; int x, y; Cell color; };
+    std::vector<Insertion> insertions;
 
-    for (const Shape& shape : shapes) {
+    for (const Shape &shape : shapes) {
         int maxX = 0;
         int maxY = 0;
         for (const Point p : shape) {
@@ -249,18 +245,22 @@ static std::vector<Candidate> predecessors(
 
         // 各相対列に入るテトロミノぷよの相対y座標。
         std::array<std::vector<int>, W> groupYs{};
-        for (const Point p : shape) groupYs[p.first].push_back(p.second);
+        for (const Point p : shape)
+            groupYs[p.first].push_back(p.second);
 
         bool columnsAreContiguous = true;
         for (int dx = 0; dx < shapeW; ++dx) {
-            auto& ys = groupYs[dx];
-            if (ys.empty()) continue;
+            auto &ys = groupYs[dx];
+            if (ys.empty())
+                continue;
             std::sort(ys.begin(), ys.end());
             for (size_t i = 1; i < ys.size(); ++i) {
-                if (ys[i] != ys[i - 1] + 1) columnsAreContiguous = false;
+                if (ys[i] != ys[i - 1] + 1)
+                    columnsAreContiguous = false;
             }
         }
-        if (!columnsAreContiguous) continue;
+        if (!columnsAreContiguous)
+            continue;
 
         for (int x0 = 0; x0 + shapeW <= W; ++x0) {
             for (int y0 = 0; y0 + maxY < CLEAR_H; ++y0) {
@@ -269,8 +269,9 @@ static std::vector<Candidate> predecessors(
                 bool valid = true;
 
                 for (int dx = 0; dx < shapeW; ++dx) {
-                    const auto& ys = groupYs[dx];
-                    if (ys.empty()) continue;
+                    const auto &ys = groupYs[dx];
+                    if (ys.empty())
+                        continue;
 
                     const int x = x0 + dx;
                     const int slot = y0 + ys.front();
@@ -284,53 +285,95 @@ static std::vector<Candidate> predecessors(
                     slots[x] = slot;
                     counts[x] = count;
                 }
-                if (!valid) continue;
+                if (!valid)
+                    continue;
 
-                for (int color = 1; color <= colorCount; ++color) {
-                    Field pre;
-
-                    for (int x = 0; x < W; ++x) {
-                        if (counts[x] == 0) {
-                            pre.col[x] = post.col[x];
+                // Insert empty slots first. All pre-existing components must be
+                // smaller than four, regardless of the color later assigned.
+                Cell cells[W][H]{};
+                int heights[W];
+                for (int x = 0; x < W; ++x) {
+                    heights[x] = int(post.col[x].size()) + counts[x];
+                    for (int y = 0; y < int(post.col[x].size()); ++y)
+                        cells[x][y + (counts[x] && y >= slots[x] ? counts[x] : 0)] = post.col[x][y];
+                }
+                bool visited[W][CLEAR_H]{};
+                bool otherClear = false;
+                constexpr Point neighbors[] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+                Point stack[W * CLEAR_H];
+                for (int x = 0; x < W && !otherClear; ++x)
+                    for (int y = 0; y < std::min(heights[x], CLEAR_H) && !otherClear; ++y) {
+                        if (!cells[x][y] || visited[x][y])
                             continue;
+                        int top = 0, count = 0;
+                        stack[top++] = {x, y};
+                        visited[x][y] = true;
+                        const Cell c = cells[x][y];
+                        while (top && !otherClear) {
+                            Point q = stack[--top];
+                            if (++count >= 4) {
+                                otherClear = true;
+                                break;
+                            }
+                            for (Point d : neighbors) {
+                                int nx = q.first + d.first, ny = q.second + d.second;
+                                if (nx < 0 || nx >= W || ny < 0 || ny >= CLEAR_H ||
+                                    visited[nx][ny] || cells[nx][ny] != c)
+                                    continue;
+                                visited[nx][ny] = true;
+                                stack[top++] = {nx, ny};
+                            }
                         }
-
-                        const int slot = slots[x];
-                        pre.col[x].insert(pre.col[x].end(),
-                            post.col[x].begin(), post.col[x].begin() + slot);
-                        for (int n = 0; n < counts[x]; ++n) {
-                            pre.col[x].push_back(static_cast<Cell>(color));
-                        }
-                        pre.col[x].insert(pre.col[x].end(),
-                            post.col[x].begin() + slot, post.col[x].end());
                     }
-
-                    std::array<Point, 4> trigger{};
-                    for (size_t i = 0; i < shape.size(); ++i) {
-                        trigger[i] = {x0 + shape[i].first, y0 + shape[i].second};
+                if (otherClear)
+                    continue;
+                unsigned forbidden = 0;
+                for (size_t i = 0; i < shape.size(); ++i) {
+                    Point q{x0 + shape[i].first, y0 + shape[i].second};
+                    for (Point d : neighbors) {
+                        int nx = q.first + d.first, ny = q.second + d.second;
+                        if (nx >= 0 && nx < W && ny >= 0 && ny < CLEAR_H)
+                            forbidden |= 1u << cells[nx][ny];
                     }
-
-                    // 逆操作の確認: 1波でちょうどこの4個が消え、postに戻ること。
-                    Field after = pre;
-                    WaveInfo wave;
-                    if (clearAndDrop(after, &wave) != 4 ||
-                        wave.groups.size() != 1 ||
-                        wave.groups.front().size() != 4) continue;
-
-                    const std::vector<Point>& removed = wave.groups.front();
-                    std::vector<Point> expected(trigger.begin(), trigger.end());
-                    std::sort(expected.begin(), expected.end());
-                    if (removed != expected || !(after == post)) continue;
-
-                    const std::string key = pre.key();
-                    if (seenFields.insert(key).second) {
-                        result.push_back(Candidate{std::move(pre), trigger});
-                    }
+                }
+                for (int color = 1; color <= colorCount; ++color) {
+                    if (forbidden & (1u << color))
+                        continue;
+                    insertions.push_back({&shape, x0, y0, Cell(color)});
                 }
             }
         }
     }
 
+    if (rng) std::shuffle(insertions.begin(), insertions.end(), *rng);
+    if (sampleLimit && insertions.size() > sampleLimit)
+        insertions.resize(sampleLimit);
+    std::vector<Candidate> result;
+    result.reserve(insertions.size());
+    for (const auto& insertion : insertions) {
+        std::array<int, W> slots;
+        slots.fill(H);
+        std::array<int, W> counts{};
+        std::array<Point, 4> trigger{};
+        for (size_t i = 0; i < insertion.shape->size(); ++i) {
+            Point q{insertion.x + (*insertion.shape)[i].first,
+                    insertion.y + (*insertion.shape)[i].second};
+            trigger[i] = q;
+            slots[q.first] = std::min(slots[q.first], q.second);
+            ++counts[q.first];
+        }
+        Field pre;
+        for (int x = 0; x < W; ++x) {
+            auto& column = pre.col[x];
+            const auto& original = post.col[x];
+            const size_t slot = counts[x] ? size_t(slots[x]) : original.size();
+            column.reserve(original.size() + counts[x]);
+            column.insert(column.end(), original.begin(), original.begin() + slot);
+            column.insert(column.end(), counts[x], insertion.color);
+            column.insert(column.end(), original.begin() + slot, original.end());
+        }
+        result.push_back({std::move(pre), trigger});
+    }
     return result;
 }
 
@@ -346,14 +389,6 @@ static bool legalTrigger(
     }
     if (!hasReachableTriggerPuyo) return false;
 
-    // 左から3列目、下から12・13段目は、発火グループ以外では空ける。
-    const std::array<Point, 2> forbidden{{{2, 11}, {2, 12}}};
-    for (const Point p : forbidden) {
-        if (p.second < static_cast<int>(field.col[p.first].size()) &&
-            !containsPoint(trigger, p)) {
-            return false;
-        }
-    }
 
     return true;
 }
@@ -365,84 +400,311 @@ static bool dominoTouchesTrigger(
     return containsPoint(trigger, domino.a) || containsPoint(trigger, domino.b);
 }
 
-static void shuffleDominoes(std::vector<Domino>& values, std::mt19937_64& rng) {
-    std::shuffle(values.begin(), values.end(), rng);
+// A deliberately conservative, discrete Tsu movement model. Axis starts at
+// (column 3,row 12), child above; the axis never enters row 14. Normal turns,
+// side/floor kicks and quick turns are searched, without teleporting over walls.
+// We never store a row-14 puyo: solutions need no persistent row-14 obstruction.
+struct FallingPair {
+    int x, y, r;
+};
+static constexpr Point PAIR_OFFSETS[] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+static bool pairFits(const Field &f, FallingPair p) {
+    Point d = PAIR_OFFSETS[p.r];
+    int cx = p.x + d.first, cy = p.y + d.second;
+    if (p.x < 0 || p.x >= W || p.y < 0 || p.y >= H || cx < 0 || cx >= W || cy < 0 || cy > H)
+        return false;
+    return p.y >= int(f.col[p.x].size()) && cy >= int(f.col[cx].size());
+}
+static std::optional<FallingPair> turnPair(const Field &f, FallingPair p, int dir) {
+    FallingPair q{p.x, p.y, (p.r + dir + 4) % 4};
+    if (pairFits(f, q))
+        return q;
+    Point d = PAIR_OFFSETS[q.r];
+    if (d.first) { // blocked child: kick away from it
+        q.x -= d.first;
+        if (pairFits(f, q))
+            return q;
+    } else if (d.second < 0) { // floor kick (one cell)
+        ++q.y;
+        if (pairFits(f, q))
+            return q;
+    }
+    // Quick turn swaps axis/child when BOTH horizontal sides are blocked.
+    if (p.r == 0 || p.r == 2) {
+        FallingPair left{p.x, p.y, 3}, right{p.x, p.y, 1};
+        if (!pairFits(f, left) && !pairFits(f, right)) {
+            q = {p.x, p.y + PAIR_OFFSETS[p.r].second, (p.r + 2) % 4};
+            if (pairFits(f, q))
+                return q;
+        }
+    }
+    return std::nullopt;
+}
+static bool landingMatches(const Field &lower, FallingPair p, const Domino &d) {
+    if (pairFits(lower, {p.x, p.y - 1, p.r}))
+        return false;
+    Point off = PAIR_OFFSETS[p.r];
+    Point a{p.x, int(lower.col[p.x].size())};
+    Point b{p.x + off.first, int(lower.col[p.x + off.first].size())};
+    if (off.first == 0) {
+        if (off.second > 0)
+            ++b.second;
+        else
+            ++a.second;
+    }
+    // Select the incoming pair colors to match this axis/child orientation.
+    return (a == d.a && b == d.b) || (a == d.b && b == d.a);
+}
+static bool findPlacementRoute(const Field &lower, Domino &d) {
+    constexpr int N = W * H * 4;
+    auto id = [](FallingPair p) { return (p.y * W + p.x) * 4 + p.r; };
+    FallingPair queue[N];
+    int previous[N];
+    char command[N];
+    std::fill(previous, previous + N, -2);
+    FallingPair spawn{2, 11, 0};
+    if (!pairFits(lower, spawn))
+        return false; // includes the death cell
+    int head = 0, tail = 0;
+    queue[tail++] = spawn;
+    previous[id(spawn)] = -1;
+    while (head < tail) {
+        FallingPair p = queue[head++];
+        if (landingMatches(lower, p, d)) {
+            d.controls.clear();
+            for (int k = id(p); previous[k] != -1; k = previous[k]) {
+                char c = command[k];
+                if (c == 'Q' || c == 'T') {
+                    d.controls.push_back(c == 'Q' ? 'A' : 'B');
+                    d.controls.push_back(c == 'Q' ? 'A' : 'B');
+                } else
+                    d.controls.push_back(c);
+            }
+            std::reverse(d.controls.begin(), d.controls.end());
+            // Report colors in actual axis/child order, not left/bottom order.
+            Point axis{p.x, int(lower.col[p.x].size())};
+            if (p.r == 2)
+                ++axis.second;
+            if (axis == d.b) {
+                std::swap(d.a, d.b);
+                std::swap(d.colorA, d.colorB);
+            }
+            return true;
+        }
+        auto push = [&](FallingPair q, char c) {
+            if (!pairFits(lower, q) || previous[id(q)] != -2)
+                return;
+            previous[id(q)] = id(p);
+            command[id(q)] = c;
+            queue[tail++] = q;
+        };
+        push({p.x - 1, p.y, p.r}, 'L');
+        push({p.x + 1, p.y, p.r}, 'R');
+        push({p.x, p.y - 1, p.r}, 'D');
+        if (auto q = turnPair(lower, p, 1))
+            push(*q, q->r == (p.r + 1) % 4 ? 'A' : 'Q');
+        if (auto q = turnPair(lower, p, -1))
+            push(*q, q->r == (p.r + 3) % 4 ? 'B' : 'T');
+    }
+    return false;
 }
 
-// 完成盤面を上からペア単位で剥がし、空盤面からの合法なペア配置順を探す。
-// 最初に剥がすペア=実際に最後に置くペアとし、発火グループに触れることを要求する。
-static bool peelToBuildSequence(
-    const Field& field,
-    const std::array<Point, 4>& trigger,
-    bool firstPeel,
-    std::mt19937_64& rng,
-    int& nodeBudget,
-    std::unordered_set<std::string>& dead,
-    std::vector<Domino>& sequence)
-{
+// An odd target board cannot be built by pairs without a prior odd clear.
+// Six incoming puyos (AA, AA, AB) bridge two separated vertical AA groups,
+// clearing exactly five A's and leaving B at the required bottom cell.
+// Every placement and the resulting residual field are verified.
+static bool makeOddPreamble(const Field &residual, std::vector<Domino> &sequence) {
+    int x = -1;
+    Cell b = 0;
+    for (int c = 0; c < W; ++c)
+        if (!residual.col[c].empty()) {
+            if (x != -1 || residual.col[c].size() != 1)
+                return false;
+            x = c;
+            b = residual.col[c][0];
+        }
+    if (x < 0)
+        return false;
+    const Cell a = b == 1 ? 2 : 1;
+    const int other = x <= 3 ? x + 2 : x - 2, middle = (x + other) / 2;
+    sequence = {{{other, 0}, {other, 1}, a, a, 'V', {}, 0},
+                {{x, 0}, {x, 1}, a, a, 'V', {}, 0},
+                {{middle, 0}, {x, 2}, a, b, 'H', {}, 5}};
+    Field built;
+    for (size_t i = 0; i < sequence.size(); ++i) {
+        Domino &d = sequence[i];
+        if (!findPlacementRoute(built, d))
+            return false;
+        // These low placements can only land with the vertical axis below.
+        built.col[d.a.first].push_back(d.colorA);
+        built.col[d.b.first].push_back(d.colorB);
+        Field check = built;
+        WaveInfo wave;
+        int removed = clearAndDrop(check, &wave);
+        if (i < 2 && removed)
+            return false;
+        if (i == 2) {
+            if (removed != 5 || wave.groups.size() != 1 || !(check == residual))
+                return false;
+            built = std::move(check);
+        }
+    }
+    return built == residual;
+}
+
+// Peel top pairs backwards. Every edge must have a route from the spawn.
+// Removing top cells cannot introduce a clear; check the first lower field,
+// then all of its subsets are also stable until the final firing pair.
+static bool peelToBuildSequence(const Field &field, const std::array<Point, 4> &trigger,
+                                bool firstPeel, std::mt19937_64 &rng, int &nodeBudget,
+                                std::unordered_set<std::string> &dead,
+                                std::vector<Domino> &sequence) {
     if (field.empty()) {
         sequence.clear();
         return true;
     }
-    if (--nodeBudget < 0) return false;
-
+    int puyos = 0;
+    for (const auto &c : field.col)
+        puyos += int(c.size());
+    if (puyos == 1)
+        return makeOddPreamble(field, sequence);
+    if (--nodeBudget < 0)
+        return false;
     const std::string key = field.key();
-    if (!firstPeel && dead.contains(key)) return false;
-
+    if (!firstPeel && dead.contains(key))
+        return false;
     std::vector<Domino> options;
-
-    // 縦置き: 同じ列の一番上の2個。
     for (int x = 0; x < W; ++x) {
-        const int h = static_cast<int>(field.col[x].size());
-        if (h >= 2) {
-            options.push_back(Domino{
-                {x, h - 2}, {x, h - 1},
-                field.col[x][h - 2], field.col[x][h - 1], 'V'
-            });
-        }
+        int h = int(field.col[x].size());
+        if (h >= 2)
+            options.push_back(
+                {{x, h - 2}, {x, h - 1}, field.col[x][h - 2], field.col[x][h - 1], 'V', {}});
     }
-
-    // 横置き: 高さが同じ隣接2列の一番上を1個ずつ。
+    // Horizontal pairs split (chigiri) after contact, so heights may differ.
     for (int x = 0; x + 1 < W; ++x) {
-        const int h1 = static_cast<int>(field.col[x].size());
-        const int h2 = static_cast<int>(field.col[x + 1].size());
-        if (h1 > 0 && h1 == h2) {
-            options.push_back(Domino{
-                {x, h1 - 1}, {x + 1, h2 - 1},
-                field.col[x][h1 - 1], field.col[x + 1][h2 - 1], 'H'
-            });
-        }
+        int h = int(field.col[x].size()), k = int(field.col[x + 1].size());
+        if (h && k)
+            options.push_back({{x, h - 1},
+                               {x + 1, k - 1},
+                               field.col[x][h - 1],
+                               field.col[x + 1][k - 1],
+                               'H',
+                               {}});
     }
-
-    shuffleDominoes(options, rng);
-
-    for (const Domino& d : options) {
-        if (firstPeel && !dominoTouchesTrigger(d, trigger)) continue;
-
+    std::shuffle(options.begin(), options.end(), rng);
+    for (Domino d : options) {
+        if (firstPeel && !dominoTouchesTrigger(d, trigger))
+            continue;
         Field lower = field;
-        if (d.orientation == 'V') {
-            lower.col[d.a.first].pop_back();
-            lower.col[d.a.first].pop_back();
-        } else {
-            lower.col[d.a.first].pop_back();
-            lower.col[d.b.first].pop_back();
+        lower.col[d.a.first].pop_back();
+        lower.col[d.b.first].pop_back();
+        if (lower.col[2].size() >= CLEAR_H)
+            continue;
+        if (firstPeel) {
+            Field check = lower;
+            if (clearAndDrop(check))
+                continue;
         }
-
+        if (!findPlacementRoute(lower, d))
+            continue;
         std::vector<Domino> lowerSequence;
-        if (peelToBuildSequence(lower, trigger, false, rng,
-                                nodeBudget, dead, lowerSequence)) {
-            // 下のペアを先に置き、このペアを最後に置く。
+        if (peelToBuildSequence(lower, trigger, false, rng, nodeBudget, dead, lowerSequence)) {
+            if (lowerSequence.size() < 3) {
+                unsigned colors = (1u << d.colorA) | (1u << d.colorB);
+                for (const Domino &prev : lowerSequence)
+                    colors |= (1u << prev.colorA) | (1u << prev.colorB);
+                int count = 0;
+                for (unsigned v = colors; v; v >>= 1)
+                    count += int(v & 1);
+                if (count > 3)
+                    continue;
+            }
             sequence = std::move(lowerSequence);
-            sequence.push_back(d);
+            sequence.push_back(std::move(d));
             return true;
         }
+        if (nodeBudget < 0)
+            return false; // budget exhaustion is not a proof of failure
     }
-
-    if (!firstPeel) dead.insert(key);
+    if (!firstPeel)
+        dead.insert(key);
     return false;
 }
 
+static bool replayPlacement(const Field &field, const Domino &d) {
+    FallingPair p{2, 11, 0};
+    if (!pairFits(field, p))
+        return false;
+    for (size_t i = 0; i < d.controls.size(); ++i) {
+        char c = d.controls[i];
+        if (c == 'L' || c == 'R' || c == 'D') {
+            if (c == 'L')
+                --p.x;
+            else if (c == 'R')
+                ++p.x;
+            else
+                --p.y;
+            if (!pairFits(field, p))
+                return false;
+        } else if (c == 'A' || c == 'B') {
+            auto q = turnPair(field, p, c == 'A' ? 1 : -1);
+            if (!q)
+                return false;
+            if (q->r != (p.r + (c == 'A' ? 1 : 3)) % 4) {
+                // A blocked first input arms the quick turn, the second swaps.
+                if (i + 1 >= d.controls.size() || d.controls[i + 1] != c)
+                    return false;
+                ++i;
+            }
+            p = *q;
+        } else
+            return false;
+    }
+    Point axis{p.x, int(field.col[p.x].size())};
+    if (p.r == 2)
+        ++axis.second;
+    return landingMatches(field, p, d) && axis == d.a;
+}
+static bool verifyBuildSequence(const Solution &s) {
+    Field built;
+    unsigned openingColors = 0;
+    for (size_t i = 0; i < s.placementSequence.size(); ++i) {
+        const Domino &d = s.placementSequence[i];
+        if (!replayPlacement(built, d))
+            return false;
+        if (i < 3)
+            openingColors |= (1u << d.colorA) | (1u << d.colorB);
+        Point points[] = {d.a, d.b};
+        Cell colors[] = {d.colorA, d.colorB};
+        if (points[0].first == points[1].first && points[0].second > points[1].second) {
+            std::swap(points[0], points[1]);
+            std::swap(colors[0], colors[1]);
+        }
+        for (int k = 0; k < 2; ++k) {
+            if (points[k].second != int(built.col[points[k].first].size()) || points[k].second >= H)
+                return false;
+            built.col[points[k].first].push_back(colors[k]);
+        }
+        if (d.setupClear) {
+            if (i != 2 || d.setupClear != 5)
+                return false;
+            WaveInfo wave;
+            if (clearAndDrop(built, &wave) != 5 || wave.groups.size() != 1)
+                return false;
+        } else if (i + 1 < s.placementSequence.size()) {
+            Field check = built;
+            if (built.col[2].size() >= CLEAR_H || clearAndDrop(check))
+                return false;
+        }
+    }
+    int colorCount = 0;
+    for (unsigned v = openingColors; v; v >>= 1)
+        colorCount += int(v & 1);
+    return colorCount <= 3 && built == s.field && cleanChain(built, s.trigger, s.targetChain);
+}
+
 static void reportProgress(
+    int targetChain,
     int attempt,
     int totalAttempts,
     int depth,
@@ -464,7 +726,7 @@ static void reportProgress(
 
     std::ostringstream status;
     status << "再試行 " << attempt << '/' << totalAttempts
-           << " | 段階 " << depth << '/' << TARGET_CHAIN
+           << " | 段階 " << depth << '/' << targetChain
            << " | " << phase
            << " | 親盤面 " << parent << '/' << parentTotal
            << " | ビーム " << beamSize;
@@ -488,30 +750,49 @@ static std::optional<Solution> generateOne(
     std::mt19937_64& rng,
     const std::vector<Shape>& shapes,
     int attempt,
-    int totalAttempts)
+    int totalAttempts,
+    int maxExtraPuyos = 0,
+    int targetChain = DEFAULT_TARGET_CHAIN,
+    int minExtraPuyos = 0)
 {
-    std::vector<Field> beam(1); // 完全な空盤面から開始。
+    std::vector<Field> beam(1);
+    const int extraPuyos=maxExtraPuyos ? minExtraPuyos+int(rng()%(maxExtraPuyos-minExtraPuyos+1)) : 0;
+    // Seed the inverse search with a stable, non-dead residual board. This
+    // preserves the exact target number of waves for any permitted extra count.
+    for (int i=0;i<extraPuyos;++i) {
+        int x;
+        do {x=int(rng()%W);} while (int(beam[0].col[x].size()) >= (x==2?11:H));
+        int startColor=int(rng()%colorCount);
+        bool inserted=false;
+        for (int n=0;n<colorCount;++n) {
+            beam[0].col[x].push_back(Cell(1+(startColor+n)%colorCount));
+            Field check=beam[0];
+            if (!clearAndDrop(check)) {inserted=true;break;}
+            beam[0].col[x].pop_back();
+        }
+        if (!inserted) return std::nullopt;
+    }
 
-    for (int depth = 1; depth <= TARGET_CHAIN; ++depth) {
+    for (int depth = 1; depth <= targetChain; ++depth) {
         std::vector<Field> nextBeam;
         std::unordered_set<std::string> seenNext;
 
-        reportProgress(attempt, totalAttempts, depth, 0, beam.size(),
+        reportProgress(targetChain, attempt, totalAttempts, depth, 0, beam.size(),
                        beam.size(), 0, 0,
-                       depth < TARGET_CHAIN ? "盤面を展開中" : "19連鎖を検証中",
-                       true);
+                       depth < targetChain ? "盤面を展開中" : "連鎖を検証中",
+                       false);
 
         for (size_t parentIndex = 0; parentIndex < beam.size(); ++parentIndex) {
             const Field& post = beam[parentIndex];
-            reportProgress(attempt, totalAttempts, depth,
+            reportProgress(targetChain, attempt, totalAttempts, depth,
                            parentIndex + 1, beam.size(), beam.size(),
                            nextBeam.size(), 0,
-                           depth < TARGET_CHAIN ? "盤面を展開中" : "19連鎖を検証中",
-                           parentIndex == 0 || parentIndex % 16 == 0);
-            std::vector<Candidate> prev = predecessors(post, shapes, colorCount);
-            std::shuffle(prev.begin(), prev.end(), rng);
+                           depth < targetChain ? "盤面を展開中" : "連鎖を検証中",
+                           false);
+            std::vector<Candidate> prev = predecessors(
+                post, shapes, colorCount, &rng, depth < targetChain ? size_t(perParent) : 0);
 
-            if (depth < TARGET_CHAIN) {
+            if (depth < targetChain) {
                 const size_t take = std::min<size_t>(perParent, prev.size());
                 for (size_t i = 0; i < take; ++i) {
                     const std::string key = prev[i].field.key();
@@ -519,21 +800,21 @@ static std::optional<Solution> generateOne(
                         nextBeam.push_back(std::move(prev[i].field));
                     }
                 }
-                reportProgress(attempt, totalAttempts, depth,
+                reportProgress(targetChain, attempt, totalAttempts, depth,
                                parentIndex + 1, beam.size(), beam.size(),
                                nextBeam.size(), 0, "盤面を展開中");
                 continue;
             }
 
-            // 19段目で初めて発火位置・発火可能性・実配置順を確認する。
+            // 目標連鎖数で初めて発火位置・発火可能性・実配置順を確認する。
             for (size_t candidateIndex = 0;
                  candidateIndex < prev.size(); ++candidateIndex) {
-                reportProgress(attempt, totalAttempts, depth,
+                reportProgress(targetChain, attempt, totalAttempts, depth,
                                parentIndex + 1, beam.size(), beam.size(),
                                candidateIndex + 1, prev.size(), "候補を検査中");
                 Candidate& candidate = prev[candidateIndex];
                 if (!legalTrigger(candidate.field, candidate.trigger)) continue;
-                if (!cleanChain19(candidate.field, candidate.trigger)) continue;
+                if (!cleanChain(candidate.field, candidate.trigger,targetChain)) continue;
 
                 std::vector<Domino> placementSequence;
                 std::unordered_set<std::string> dead;
@@ -545,13 +826,11 @@ static std::optional<Solution> generateOne(
                     continue;
                 }
 
-                return Solution{
-                    std::move(candidate.field),
-                    candidate.trigger,
-                    std::move(placementSequence)
-                };
+                Solution solution{std::move(candidate.field),candidate.trigger,std::move(placementSequence),targetChain};
+                if (!verifyBuildSequence(solution)) continue;
+                return solution;
             }
-            reportProgress(attempt, totalAttempts, depth,
+            reportProgress(targetChain, attempt, totalAttempts, depth,
                            parentIndex + 1, beam.size(), beam.size(),
                            prev.size(), prev.size(), "候補を検査中");
         }
@@ -619,6 +898,8 @@ static void appendSuccessfulUrl(const std::string& url) {
 static void printSolution(const Solution& solution, uint64_t seed) {
     std::cout << "seed=" << seed << "\n";
     std::cout << "chains=" << chainCount(solution.field) << "\n";
+    int puyos=0;for (const auto& c:solution.field.col) puyos+=int(c.size());
+    std::cout << "puyos=" << puyos << ", extra_puyos=" << puyos-4*solution.targetChain << "\n";
     std::cout << "field (top row first; columns left to right):\n";
 
     for (int y = H - 1; y >= 0; --y) {
@@ -638,14 +919,16 @@ static void printSolution(const Solution& solution, uint64_t seed) {
     }
     std::cout << "\n";
 
-    std::cout << "pair placements from empty board; last placement fires:\n";
+    std::cout << "pair placements from empty board; setup_clear marks preparation; last placement fires:\n";
     for (size_t i = 0; i < solution.placementSequence.size(); ++i) {
         const Domino& d = solution.placementSequence[i];
         std::cout << (i + 1) << ": " << d.orientation << ' '
                   << colorChar(d.colorA) << colorChar(d.colorB)
                   << " at (" << d.a.first + 1 << ',' << d.a.second + 1
                   << ") and (" << d.b.first + 1 << ',' << d.b.second + 1
-                  << ")\n";
+                  << ") axis/child; controls=" << d.controls;
+        if (d.setupClear) std::cout << "; setup_clear=" << d.setupClear;
+        std::cout << "\n";
     }
 }
 
@@ -656,6 +939,9 @@ struct GeneratorConfig {
     int restarts = 0;
     int candidatesPerParent = 0;
     int targetSuccessCount = 0;
+    int maxExtraPuyos = 0;
+    int minExtraPuyos = 0;
+    int targetChain = DEFAULT_TARGET_CHAIN;
 };
 
 static std::string trim(std::string value) {
@@ -761,6 +1047,14 @@ static GeneratorConfig loadConfig(const std::string& path) {
             config.restarts = parsePositiveInt(value, key);
         } else if (key == "candidates_per_parent") {
             config.candidatesPerParent = parsePositiveInt(value, key);
+        } else if (key == "max_extra_puyos") {
+            if (value=="0") config.maxExtraPuyos=0;
+            else config.maxExtraPuyos=parsePositiveInt(value,key);
+        } else if (key == "target_chain") {
+            config.targetChain=parsePositiveInt(value,key);
+        } else if (key == "min_extra_puyos") {
+            if (value=="0") config.minExtraPuyos=0;
+            else config.minExtraPuyos=parsePositiveInt(value,key);
         } else if (key == "target_success_count") {
             config.targetSuccessCount = parsePositiveInt(value, key);
         } else {
@@ -781,6 +1075,12 @@ static GeneratorConfig loadConfig(const std::string& path) {
     if (config.colorCount != 4 && config.colorCount != 5) {
         throw std::runtime_error("color_count must be 4 or 5");
     }
+    if (config.targetChain<MIN_TARGET_CHAIN || config.targetChain>MAX_TARGET_CHAIN)
+        throw std::runtime_error("target_chain must be between 1 and 19");
+    if (config.maxExtraPuyos>W*H-4*config.targetChain)
+        throw std::runtime_error("max_extra_puyos exceeds 78 - 4 * target_chain");
+    if (config.minExtraPuyos>config.maxExtraPuyos)
+        throw std::runtime_error("min_extra_puyos must not exceed max_extra_puyos");
     return config;
 }
 
@@ -788,6 +1088,7 @@ int main(int argc, char* argv[]) {
     try {
         const std::string configPath = argc >= 2 ? argv[1] : "config.ini";
         const GeneratorConfig config = loadConfig(configPath);
+        const int targetChain=config.targetChain;
 
         std::cout << "seed=" << config.initialSeed
                   << ", colors=" << config.colorCount
@@ -796,7 +1097,10 @@ int main(int argc, char* argv[]) {
                   << ", candidates_per_parent="
                   << config.candidatesPerParent
                   << ", target_success_count="
-                  << config.targetSuccessCount << "\n";
+                  << config.targetSuccessCount
+                  << ", max_extra_puyos=" << config.maxExtraPuyos
+                  << ", min_extra_puyos=" << config.minExtraPuyos
+                  << ", target_chain=" << targetChain << "\n";
 
         std::mt19937_64 rng(config.initialSeed);
         const std::vector<Shape> shapes = makeTetrominoShapes();
@@ -810,7 +1114,7 @@ int main(int argc, char* argv[]) {
                successCount < config.targetSuccessCount;
              ++attemptsUsed) {
             const int attemptNumber = attemptsUsed + 1;
-            reportProgress(attemptNumber, config.restarts, 0, 0, 0,
+            reportProgress(targetChain, attemptNumber, config.restarts, 0, 0, 0,
                            1, 0, 0, "空盤面から開始", true);
             auto result = generateOne(
                 config.colorCount,
@@ -819,7 +1123,10 @@ int main(int argc, char* argv[]) {
                 rng,
                 shapes,
                 attemptNumber,
-                config.restarts);
+                config.restarts,
+                config.maxExtraPuyos,
+                targetChain,
+                config.minExtraPuyos);
 
             std::cout << '\n';
 
@@ -845,7 +1152,7 @@ int main(int argc, char* argv[]) {
 
         if (successCount == config.targetSuccessCount) {
             std::cout << "目標数 " << config.targetSuccessCount
-                      << " 件のユニークな19連鎖盤面を生成しました。\n"
+                      << " 件のユニークな" << targetChain << "連鎖盤面を生成しました。\n"
                       << "試行数: " << attemptsUsed
                       << ", 重複スキップ数: " << duplicateCount << "\n";
             return 0;
@@ -855,8 +1162,7 @@ int main(int argc, char* argv[]) {
                   << successCount << '/' << config.targetSuccessCount
                   << ", 試行数: " << attemptsUsed
                   << ", 重複スキップ数: " << duplicateCount << "\n"
-                  << "config.iniのrestarts、beam_width、candidates_per_parentを"
-                  << "増やすか、initial_seedを変更してください。\n";
+                  << "config.iniのrestartsを増やすか、initial_seedを変更してください。\n";
         return 1;
     } catch (const std::exception& e) {
         std::cerr << "Configuration or generation error: "
@@ -864,5 +1170,3 @@ int main(int argc, char* argv[]) {
         return 2;
     }
 }
-
-

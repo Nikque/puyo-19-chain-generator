@@ -1,0 +1,34 @@
+{
+  "before-allocation-change": {
+    "successes": 60,
+    "seconds": 66.7188993000309,
+    "attempts": 233,
+    "first": 0.3699054000317119,
+    "fifth": 4.9655446000397205,
+    "per_second": 0.8992954114872848
+  },
+  "optimized-old-parameters": {
+    "successes": 60,
+    "seconds": 59.29124839999713,
+    "attempts": 233,
+    "first": 0.3034548000432551,
+    "fifth": 5.0359849000233226,
+    "per_second": 1.01195373042614
+  },
+  "candidate-32": {
+    "successes": 120,
+    "seconds": 47.41105250001419,
+    "attempts": 1230,
+    "first": 0.3943382000143174,
+    "fifth": 1.790683250001166,
+    "per_second": 2.5310553905118236
+  },
+  "candidate-48": {
+    "successes": 120,
+    "seconds": 43.31350379996002,
+    "attempts": 806,
+    "first": 0.4658724000037182,
+    "fifth": 1.8051829500182066,
+    "per_second": 2.7704985621622873
+  }
+}

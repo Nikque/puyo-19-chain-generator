@@ -1,0 +1,866 @@
+[
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.390847600006964,
+    "successes": 20,
+    "completed_attempts": 304,
+    "first_success_seconds": 0.06822590000228956,
+    "fifth_success_seconds": 3.43569379998371,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed42",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 11.430828899960034,
+    "successes": 20,
+    "completed_attempts": 383,
+    "first_success_seconds": 2.74713229999179,
+    "fifth_success_seconds": 5.227392799977679,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed20260925",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.307162000040989,
+    "successes": 20,
+    "completed_attempts": 259,
+    "first_success_seconds": 0.48158650001278147,
+    "fifth_success_seconds": 1.6148028000025079,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed123",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.542411400005221,
+    "successes": 20,
+    "completed_attempts": 254,
+    "first_success_seconds": 0.10775360005209222,
+    "fifth_success_seconds": 2.161891399999149,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed2026",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.352271100040525,
+    "successes": 20,
+    "completed_attempts": 250,
+    "first_success_seconds": 0.3528376000467688,
+    "fifth_success_seconds": 1.461734600015916,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed98765",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 24,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.865081699972507,
+    "successes": 20,
+    "completed_attempts": 377,
+    "first_success_seconds": 1.117298999975901,
+    "fifth_success_seconds": 2.1294328999938443,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 24,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p00-seed1234567",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.609228400047868,
+    "successes": 20,
+    "completed_attempts": 197,
+    "first_success_seconds": 0.4032802000292577,
+    "fifth_success_seconds": 2.0375207000179216,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed20260925",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.480190499976743,
+    "successes": 20,
+    "completed_attempts": 183,
+    "first_success_seconds": 0.7364737999741919,
+    "fifth_success_seconds": 2.552937500004191,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed123",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 11.837784999981523,
+    "successes": 20,
+    "completed_attempts": 197,
+    "first_success_seconds": 0.21882820001337677,
+    "fifth_success_seconds": 3.5853769999812357,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed42",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.222402299987152,
+    "successes": 20,
+    "completed_attempts": 131,
+    "first_success_seconds": 0.19786509999539703,
+    "fifth_success_seconds": 1.847371599986218,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed98765",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.650782699987758,
+    "successes": 20,
+    "completed_attempts": 205,
+    "first_success_seconds": 1.2183871999732219,
+    "fifth_success_seconds": 2.065145800006576,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed2026",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 40,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.529064699949231,
+    "successes": 20,
+    "completed_attempts": 179,
+    "first_success_seconds": 0.514231099979952,
+    "fifth_success_seconds": 1.6285214999807067,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 40,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p01-seed1234567",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.313538799993694,
+    "successes": 20,
+    "completed_attempts": 138,
+    "first_success_seconds": 0.5513139999820851,
+    "fifth_success_seconds": 1.573638600006234,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed20260925",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.822631100018043,
+    "successes": 20,
+    "completed_attempts": 152,
+    "first_success_seconds": 0.13897910004016012,
+    "fifth_success_seconds": 1.720154300041031,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed42",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.325811000016984,
+    "successes": 20,
+    "completed_attempts": 158,
+    "first_success_seconds": 0.5271915000048466,
+    "fifth_success_seconds": 2.4480360000161454,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed123",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.068677800009027,
+    "successes": 20,
+    "completed_attempts": 154,
+    "first_success_seconds": 0.05967029999010265,
+    "fifth_success_seconds": 1.8819968999596313,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed2026",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.010431100032292,
+    "successes": 20,
+    "completed_attempts": 100,
+    "first_success_seconds": 0.5068922000355087,
+    "fifth_success_seconds": 1.9096619000192732,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed98765",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 6.026925700018182,
+    "successes": 20,
+    "completed_attempts": 104,
+    "first_success_seconds": 0.6134616000344977,
+    "fifth_success_seconds": 1.5294816000387073,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 48,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p02-seed1234567",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 8.965574000030756,
+    "successes": 20,
+    "completed_attempts": 222,
+    "first_success_seconds": 0.3095704999868758,
+    "fifth_success_seconds": 2.003292199980933,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed20260925",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 10.101335800020024,
+    "successes": 20,
+    "completed_attempts": 235,
+    "first_success_seconds": 0.22216000000480562,
+    "fifth_success_seconds": 2.730012500018347,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed42",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.593492999963928,
+    "successes": 20,
+    "completed_attempts": 234,
+    "first_success_seconds": 0.4583975999848917,
+    "fifth_success_seconds": 2.5735212999861687,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed123",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 2026,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 9.248903900035657,
+    "successes": 20,
+    "completed_attempts": 234,
+    "first_success_seconds": 0.4852736000320874,
+    "fifth_success_seconds": 3.019057099998463,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed2026",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 98765,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 7.519839700020384,
+    "successes": 20,
+    "completed_attempts": 176,
+    "first_success_seconds": 0.249709099996835,
+    "fifth_success_seconds": 1.3227569999871776,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed98765",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  },
+  {
+    "settings": {
+      "initial_seed": 1234567,
+      "color_count": 4,
+      "beam_width": 32,
+      "candidates_per_parent": 3,
+      "restarts": 1500,
+      "target_success_count": 20,
+      "max_extra_puyos": 0,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 10.619642200006638,
+    "successes": 20,
+    "completed_attempts": 261,
+    "first_success_seconds": 1.1537015999783762,
+    "fifth_success_seconds": 4.349740399979055,
+    "unique": 20,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 20
+    },
+    "overrides": {
+      "beam": 32,
+      "per_parent": 3,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    "planned_attempts": 1500,
+    "trial": "p03-seed1234567",
+    "executable_sha256": "5d0b2a7dc2f595d013d26e89bd014ac4e0701b43446aad845a01f4f5860fda1e",
+    "benchmark_sha256": "653c415c963d7dd6bd18ceeda7e2bd8c15d2dadeae143ac9c3bc233155dfd108",
+    "time_limit": 60
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "seeds": [
+    2026,
+    98765,
+    1234567
+  ],
+  "attempts": 1500,
+  "seconds": 60,
+  "settings": [
+    {
+      "beam": 32,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 64,
+      "per_parent": 2,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 32,
+      "per_parent": 4,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 128,
+      "per_parent": 8,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 32,
+      "per_parent": 2,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 64,
+      "per_parent": 2,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 32,
+      "per_parent": 4,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 128,
+      "per_parent": 8,
+      "colors": 5,
+      "extra": 0,
+      "target": 20
+    },
+    {
+      "beam": 128,
+      "per_parent": 32,
+      "colors": 4,
+      "extra": 0,
+      "target": 20
+    }
+  ]
+}

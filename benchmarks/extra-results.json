@@ -1,0 +1,377 @@
+[
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 1,
+      "min_extra_puyos": 1,
+      "target_chain": 19
+    },
+    "seconds": 6.06810430000769,
+    "successes": 10,
+    "completed_attempts": 158,
+    "first_success_seconds": 0.892691700020805,
+    "fifth_success_seconds": 3.2949740000185557,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/77-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 1,
+      "min_extra_puyos": 1,
+      "target_chain": 19
+    },
+    "seconds": 4.653007199987769,
+    "successes": 10,
+    "completed_attempts": 110,
+    "first_success_seconds": 0.14113579998956993,
+    "fifth_success_seconds": 2.781669999996666,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/77-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 1,
+      "min_extra_puyos": 1,
+      "target_chain": 19
+    },
+    "seconds": 4.640382700017653,
+    "successes": 10,
+    "completed_attempts": 119,
+    "first_success_seconds": 0.615580499987118,
+    "fifth_success_seconds": 2.330965200031642,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/77-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 2,
+      "target_chain": 19
+    },
+    "seconds": 13.188245699973777,
+    "successes": 10,
+    "completed_attempts": 281,
+    "first_success_seconds": 3.831014099996537,
+    "fifth_success_seconds": 7.641169799957424,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/78-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 2,
+      "target_chain": 19
+    },
+    "seconds": 11.337012199976016,
+    "successes": 10,
+    "completed_attempts": 253,
+    "first_success_seconds": 2.2266171000082977,
+    "fifth_success_seconds": 8.17901309998706,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/78-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 2,
+      "target_chain": 19
+    },
+    "seconds": 8.665120800025761,
+    "successes": 10,
+    "completed_attempts": 193,
+    "first_success_seconds": 0.0756493000080809,
+    "fifth_success_seconds": 3.973939999996219,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/78-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 5.962307800014969,
+    "successes": 10,
+    "completed_attempts": 120,
+    "first_success_seconds": 1.4355267999926582,
+    "fifth_success_seconds": 2.5839441000134684,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/77-cell": 4,
+      "19-chain/76-cell": 4,
+      "19-chain/78-cell": 2
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 4.999547099985648,
+    "successes": 10,
+    "completed_attempts": 75,
+    "first_success_seconds": 0.0774661999894306,
+    "fifth_success_seconds": 2.53354869998293,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 7,
+      "19-chain/78-cell": 3
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 2,
+      "min_extra_puyos": 0,
+      "target_chain": 19
+    },
+    "seconds": 3.7554402999812737,
+    "successes": 10,
+    "completed_attempts": 83,
+    "first_success_seconds": 0.5437086999882013,
+    "fifth_success_seconds": 1.809420700010378,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "19-chain/76-cell": 3,
+      "19-chain/77-cell": 5,
+      "19-chain/78-cell": 2
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 6,
+      "min_extra_puyos": 0,
+      "target_chain": 18
+    },
+    "seconds": 2.104027400026098,
+    "successes": 10,
+    "completed_attempts": 32,
+    "first_success_seconds": 0.08621440001297742,
+    "fifth_success_seconds": 1.6147396000451408,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "18-chain/74-cell": 1,
+      "18-chain/73-cell": 5,
+      "18-chain/76-cell": 2,
+      "18-chain/75-cell": 1,
+      "18-chain/72-cell": 1
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 6,
+      "min_extra_puyos": 0,
+      "target_chain": 18
+    },
+    "seconds": 4.189061200013384,
+    "successes": 10,
+    "completed_attempts": 54,
+    "first_success_seconds": 0.49546340003143996,
+    "fifth_success_seconds": 2.2137600000132807,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "18-chain/72-cell": 4,
+      "18-chain/74-cell": 2,
+      "18-chain/76-cell": 1,
+      "18-chain/78-cell": 1,
+      "18-chain/75-cell": 2
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 6,
+      "min_extra_puyos": 0,
+      "target_chain": 18
+    },
+    "seconds": 2.3203136999509297,
+    "successes": 10,
+    "completed_attempts": 43,
+    "first_success_seconds": 0.09924179996596649,
+    "fifth_success_seconds": 1.1346704999450594,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "18-chain/74-cell": 3,
+      "18-chain/73-cell": 4,
+      "18-chain/72-cell": 3
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 20260925,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 3,
+      "min_extra_puyos": 3,
+      "target_chain": 10
+    },
+    "seconds": 0.15412560000550002,
+    "successes": 10,
+    "completed_attempts": 10,
+    "first_success_seconds": 0.025378899998031557,
+    "fifth_success_seconds": 0.07771819998743013,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "10-chain/43-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 42,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 3,
+      "min_extra_puyos": 3,
+      "target_chain": 10
+    },
+    "seconds": 0.14708719996269792,
+    "successes": 10,
+    "completed_attempts": 10,
+    "first_success_seconds": 0.039838199969381094,
+    "fifth_success_seconds": 0.08855829999083653,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "10-chain/43-cell": 10
+    }
+  },
+  {
+    "settings": {
+      "initial_seed": 123,
+      "color_count": 4,
+      "beam_width": 48,
+      "candidates_per_parent": 2,
+      "restarts": 1500,
+      "target_success_count": 10,
+      "max_extra_puyos": 3,
+      "min_extra_puyos": 3,
+      "target_chain": 10
+    },
+    "seconds": 0.1480881999596022,
+    "successes": 10,
+    "completed_attempts": 10,
+    "first_success_seconds": 0.02554569998756051,
+    "fifth_success_seconds": 0.07913969998480752,
+    "unique": 10,
+    "timed_out": false,
+    "exit_code": 0,
+    "verified_counts": {
+      "10-chain/43-cell": 10
+    }
+  }
+]

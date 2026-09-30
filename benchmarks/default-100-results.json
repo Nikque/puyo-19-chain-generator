@@ -1,0 +1,24 @@
+{
+  "settings": {
+    "initial_seed": 20260925,
+    "color_count": 4,
+    "beam_width": 48,
+    "candidates_per_parent": 2,
+    "restarts": 1000,
+    "target_success_count": 100,
+    "max_extra_puyos": 0,
+    "min_extra_puyos": 0,
+    "target_chain": 19
+  },
+  "seconds": 36.28882750001503,
+  "successes": 100,
+  "completed_attempts": 713,
+  "first_success_seconds": 0.5673579999711365,
+  "fifth_success_seconds": 1.7143644000170752,
+  "unique": 100,
+  "timed_out": false,
+  "exit_code": 0,
+  "verified_counts": {
+    "19-chain/76-cell": 100
+  }
+}
