@@ -1,6 +1,8 @@
 /build/
 /out/
 /.vs/
+/artifacts/
+/results/
 *.obj
 *.o
 *.exe

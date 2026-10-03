@@ -1,0 +1,32 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - name: Configure
+        shell: pwsh
+        run: cmake -S . -B build -A x64 -DPython3_EXECUTABLE="$((Get-Command python).Source)"
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Test all ten suites
+        run: ctest --test-dir build -C Release --output-on-failure
+      - name: Verify packaging
+        shell: pwsh
+        run: ./tools/package_gui.ps1 -BuildDirectory build

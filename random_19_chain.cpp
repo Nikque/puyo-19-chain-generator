@@ -17,6 +17,26 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <atomic>
+#include <functional>
+
+struct GeneratorProgress {
+    int attempt, totalAttempts, depth, targetChain;
+    size_t parent, parentTotal, work, workTotal;
+    std::string phase;
+};
+struct Solution;
+struct GeneratorHooks {
+    const std::atomic_bool* cancel = nullptr;
+    std::function<void(const GeneratorProgress&)> progress;
+    std::function<void(const Solution&, uint64_t, int)> saved;
+};
+struct GenerationCancelled {};
+static thread_local const GeneratorHooks* activeHooks = nullptr;
+static void cancellationPoint() {
+    if (activeHooks && activeHooks->cancel && activeHooks->cancel->load())
+        throw GenerationCancelled{};
+}
 
 // 6列×13段。最上段(13段目)は連結・消去対象外だが、落下対象には含める。
 constexpr int W = 6;
@@ -237,6 +257,7 @@ static std::vector<Candidate> predecessors(const Field &post, const std::vector<
     std::vector<Insertion> insertions;
 
     for (const Shape &shape : shapes) {
+        cancellationPoint();
         int maxX = 0;
         int maxY = 0;
         for (const Point p : shape) {
@@ -561,6 +582,7 @@ static bool peelToBuildSequence(const Field &field, const std::array<Point, 4> &
                                 bool firstPeel, std::mt19937_64 &rng, int &nodeBudget,
                                 std::unordered_set<std::string> &dead,
                                 std::vector<Domino> &sequence) {
+    cancellationPoint();
     if (field.empty()) {
         sequence.clear();
         return true;
@@ -719,13 +741,20 @@ static void reportProgress(
     bool force = false)
 {
     using Clock = std::chrono::steady_clock;
-    static Clock::time_point lastUpdate{};
+    cancellationPoint();
+    static thread_local Clock::time_point lastUpdate{};
     const Clock::time_point now = Clock::now();
     if (!force && lastUpdate != Clock::time_point{} &&
         now - lastUpdate < std::chrono::milliseconds(300)) {
         return;
     }
 
+    if (activeHooks && activeHooks->progress) {
+        activeHooks->progress({attempt, totalAttempts, depth, targetChain,
+            parent, parentTotal, work, workTotal, phase});
+        lastUpdate = now;
+        return;
+    }
     std::ostringstream status;
     status << "再試行 " << attempt << '/' << totalAttempts
            << " | 段階 " << depth << '/' << targetChain
@@ -887,8 +916,8 @@ static std::string pathToUtf8(const std::filesystem::path& path) {
     return std::string(text.begin(), text.end());
 }
 
-static void appendSuccessfulUrl(const std::string& url) {
-    constexpr const char* OUTPUT_PATH = "19chain_urls.txt";
+static void appendSuccessfulUrl(const std::string& url,
+    const std::filesystem::path& OUTPUT_PATH = "19chain_urls.txt") {
     // An edited/copied URL file may not end with a newline. Keep URLs separate.
     bool needsNewline = false;
     if (std::filesystem::exists(OUTPUT_PATH)) {
@@ -904,13 +933,13 @@ static void appendSuccessfulUrl(const std::string& url) {
     }
     std::ofstream output(OUTPUT_PATH, std::ios::binary | std::ios::app);
     if (!output) {
-        throw std::runtime_error(std::string("cannot open output file: ") + OUTPUT_PATH);
+        throw std::runtime_error("cannot open output file: " + pathToUtf8(OUTPUT_PATH));
     }
     if (needsNewline) output << '\n';
     output << url << '\n';
     output.flush();
     if (!output) {
-        throw std::runtime_error(std::string("failed writing output file: ") + OUTPUT_PATH);
+        throw std::runtime_error("failed writing output file: " + pathToUtf8(OUTPUT_PATH));
     }
 }
 
@@ -971,12 +1000,12 @@ static std::string trim(std::string value) {
     return std::string(first, last);
 }
 
-static std::unordered_set<std::string> loadExistingUrls(const std::string& path) {
+static std::unordered_set<std::string> loadExistingUrls(const std::filesystem::path& path) {
     std::unordered_set<std::string> urls;
     std::ifstream input(path);
     if (!input) {
         if (std::filesystem::exists(path))
-            throw std::runtime_error("cannot read output file: " + path);
+            throw std::runtime_error("cannot read output file: " + pathToUtf8(path));
         return urls; // First run: there is no output file yet.
     }
 
@@ -988,7 +1017,7 @@ static std::unordered_set<std::string> loadExistingUrls(const std::string& path)
             urls.insert(std::move(line));
         }
     }
-    if (input.bad()) throw std::runtime_error("failed reading output file: " + path);
+    if (input.bad()) throw std::runtime_error("failed reading output file: " + pathToUtf8(path));
     return urls;
 }
 
@@ -1110,7 +1139,13 @@ static GeneratorConfig loadConfig(const std::filesystem::path& path) {
     return config;
 }
 
-static int runGenerator(const std::filesystem::path& configPath) {
+static int runGenerator(const std::filesystem::path& configPath, const GeneratorHooks* hooks = nullptr,
+    const std::filesystem::path& outputDirectory = ".") {
+    struct HookScope {
+        const GeneratorHooks* previous;
+        HookScope(const GeneratorHooks* h) : previous(activeHooks) { activeHooks = h; }
+        ~HookScope() { activeHooks = previous; }
+    } hookScope(hooks);
     ConsoleOutputEncoding consoleEncoding;
     try {
         const GeneratorConfig config = loadConfig(configPath);
@@ -1130,7 +1165,7 @@ static int runGenerator(const std::filesystem::path& configPath) {
 
         std::mt19937_64 rng(config.initialSeed);
         const std::vector<Shape> shapes = makeTetrominoShapes();
-        constexpr const char* OUTPUT_PATH = "19chain_urls.txt";
+        const auto OUTPUT_PATH = outputDirectory / "19chain_urls.txt";
         std::unordered_set<std::string> seenUrls = loadExistingUrls(OUTPUT_PATH);
         int successCount = 0;
         int duplicateCount = 0;
@@ -1164,9 +1199,11 @@ static int runGenerator(const std::filesystem::path& configPath) {
                     continue;
                 }
 
-                appendSuccessfulUrl(url);
+                appendSuccessfulUrl(url, OUTPUT_PATH);
                 ++successCount;
                 printSolution(*result, config.initialSeed);
+                std::cout.flush();
+                if (hooks && hooks->saved) hooks->saved(*result, config.initialSeed, successCount);
                 std::cout << "URLを19chain_urls.txtに追記しました。\n"
                           << "今回のユニークな生成数: " << successCount
                           << '/' << config.targetSuccessCount << "\n";
@@ -1190,6 +1227,9 @@ static int runGenerator(const std::filesystem::path& configPath) {
                   << ", 重複スキップ数: " << duplicateCount << "\n"
                   << "config.iniのrestartsを増やすか、initial_seedを変更してください。\n";
         return 1;
+    } catch (const GenerationCancelled&) {
+        std::cout << "Cancelled; saved results are retained.\n" << std::flush;
+        return 3;
     } catch (const std::exception& e) {
         std::cerr << "Configuration or generation error: "
                   << e.what() << "\n";

@@ -1,12 +1,27 @@
-# Puyo 1–19-chain generator
+# Puyo Chain Generator
 
 [日本語 README](README.md)
 
+## Windows GUI (v0.3.0)
+
+Run `PuyoChainGenerator.exe` for settings, asynchronous generation/cancellation, a result list,
+6×13 board display, construction navigation and chain playback. The original CLI
+remains available. See [GUI_README.md](GUI_README.md) for usage and build instructions.
+Each GUI run uses a new folder; existing CLI configuration and URL history are untouched.
+The GUI links the same C++ engine directly, uses typed callbacks, and needs no additional runtime.
+The board editor supports five colors, garbage, point, hard, iron Puyo and fixed walls.
+It includes undo/redo, simulation playback and versioned .puyoboard save/load.
+Point Puyo export is enabled only for the mattulwan mirror; unsupported destinations are disabled.
+The GUI can export completed boards to Ishikawa Puyo, Puyo Park, and the pndsng mattulwan mirror.
+See [URL_FORMATS.md](URL_FORMATS.md) for destination selection and compatibility checks.
+
 A C++20 randomized inverse-chain beam search for playable constructions using pairs of puyos. Each of the configured 1–19 waves clears exactly one group of four. The default run generates **100 new 19-chain, 76-cell boards using four colors**. Successful URLs are appended to `19chain_urls.txt` in the working directory. Shorter chains use the same filename for compatibility.
 
-## Windows release (v0.2.1)
+## Windows release (v0.3.0)
 
-Extract the release's `windows-x64.zip` and run `run.cmd`. Direct execution of the exe also displays Japanese correctly: attached consoles use UTF-8 during execution, then regain their original output code page. Redirected logs remain UTF-8. Progress lines fit the console width to prevent wrapping during updates.
+Extract [the release](https://github.com/Nikque/puyo-19-chain-generator/releases/tag/v0.3.0)'s `puyo-chain-generator-v0.3.0-windows-x64.zip`. Run `PuyoChainGenerator.exe` for the Japanese GUI, or `run.cmd` for the original CLI. No additional runtime is required. The fixed default seed is **20261004**, matching the release date (October 4, 2026); loaded configurations retain their own seed. See [CHANGELOG.md](CHANGELOG.md) for changes.
+
+Direct execution of the CLI exe also displays Japanese correctly: attached consoles use UTF-8 during execution, then regain their original output code page. Redirected logs remain UTF-8. Progress lines fit the console width to prevent wrapping during updates.
 
 Windows configuration paths support Japanese and emoji. The launcher changes to its own directory to read settings and save URLs; the exe without arguments reads `config.ini` in its working directory. Existing settings remain compatible. An existing URL file without a final newline receives a separator before the next URL. Existing-file read failures are reported as errors.
 
@@ -57,7 +72,7 @@ Save `config.ini` as UTF-8, with or without a BOM. Lines use `key = value`; blan
 | --- | --- | ---: | --- |
 | `target_chain` | 1–19 | 19 | Number of final chain waves, excluding preparation. Optional; omitted value is 19. |
 | `target_success_count` | Positive integer | 100 | Number of new unique boards to save in this run. Existing URLs and duplicates do not count. Generation stops on reaching this target. |
-| `initial_seed` | Decimal integer, 0–18446744073709551615 | 20260925 | Random seed for search. The same implementation, settings and URL history reproduce the search. This is not an in-game tsumo seed. Change it to explore different boards. |
+| `initial_seed` | Decimal integer, 0–18446744073709551615 | 20261004 | Random seed for search. The same implementation, settings and URL history reproduce the search. This is not an in-game tsumo seed. Change it to explore different boards. |
 | `color_count` | 4 or 5 | 4 | Number of regular colors. Four matches ordinary Tsu matches; five is also supported. The first three pairs still use at most three colors. |
 | `beam_width` | Positive integer | 48 | Maximum fields retained at each inverse-search depth. Wider beams retain more alternatives but increase time and memory per attempt. Wider does not always mean faster output. |
 | `restarts` | Positive integer | 1000 | Maximum independent attempts. Each attempt yields at most one new board; failures and duplicates also consume attempts. The limit must at least equal the output target, and usually needs to be much larger. Partial results are retained. |
@@ -75,7 +90,7 @@ Complete shipped configuration:
 [Generator]
 target_chain = 19
 target_success_count = 100
-initial_seed = 20260925
+initial_seed = 20261004
 color_count = 4
 beam_width = 48
 restarts = 1000
@@ -110,7 +125,7 @@ Measured on 2026-09-30, Windows x64, Visual Studio 2022 / MSVC 19.44, Release / 
 
 Using the same three seeds, 48/2 provides about 2.49 times the outputs/second of 128/32. The first-result latency varies; 128/32 is faster for some seeds. Defaults balance sustained output speed with the wait for five results. Initial comparisons included four/five colors, beams 4–4096 and parent limits 2–32. Very wide beams improved per-attempt success probability but reduced output speed.
 
-The new shipped settings (target 100, restart limit 1000, seed 20260925) also produced **100 boards in 36.29 seconds over 713 attempts**. The first output arrived at 0.57 seconds and the fifth at 1.71 seconds. All 100 constructions and chains passed independent replay. [Raw 100-board results](benchmarks/default-100-results.json)
+The v0.2.0–v0.2.1 shipped settings (target 100, restart limit 1000, seed 20260925) also produced **100 boards in 36.29 seconds over 713 attempts**. The first output arrived at 0.57 seconds and the fifth at 1.71 seconds. All 100 constructions and chains passed independent replay. [Raw 100-board results](benchmarks/default-100-results.json). These historical measurements are not speed guarantees for v0.3.0's default seed 20261004.
 
 Extra-cell measurements with the same 48/2 parameters, three seeds and ten results per seed:
 
