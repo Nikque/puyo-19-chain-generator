@@ -88,6 +88,13 @@ same-colour-neighbour masks without flood fill, and candidate positions come fro
 Each step keeps `candidates_per_parent` uniformly chosen children per board and at most `beam_width`
 boards; the step before the last keeps every child.
 
+On a nearly full board the last pair has very little room: with 76 puyos a trigger puyo of a valid last
+pair must sit at row 10 or higher in the third column or at row 12 in the second or fourth, and nowhere
+else. So for boards of **72 puyos or more**, the six steps before the last use only insertions that leave
+at most one old puyo above the new group in one of its columns. This raises the share of successful
+attempts for 19 chains / 76 puyos from 24% to 52%. Smaller boards, where the rules leave the trigger almost
+free, are searched without this guidance so that their variety is not narrowed.
+
 **Every saved board is checked against the full definition directly** (`verifySolution`), and an
 independent Python cell simulator (`tests/verify_output.py`) checks the same conditions, including that
 the printed last pairs are exactly all valid ones.
@@ -134,11 +141,11 @@ Other work was running on the machine, so the numbers are indicative.
 
 | Setting | v0.3.0 (20 boards) | new, 1 thread (2000 boards) | new, 16 threads (2000 boards) |
 | --- | ---: | ---: | ---: |
-| 19 chains, 76 puyos, 4 colours | 3.81 s (5.2/s) | 4.83 s (414/s) | 0.41 s |
-| 19 chains, 77 puyos | 8.65 s (2.3/s) | 6.78 s (295/s) | 0.81 s |
-| 19 chains, 78 puyos | 17.54 s (1.1/s) | 12.67 s (158/s) | 1.07 s |
-| 18 chains, 72-78 puyos | 2.87 s (7.0/s) | 3.26 s (613/s) | 0.57 s |
-| 19 chains, 76 puyos, 5 colours | 5.51 s (3.6/s) | 5.66 s (353/s) | 0.71 s |
+| 19 chains, 76 puyos, 4 colours | 3.81 s (5.2/s) | 2.52 s (794/s) | 0.23 s |
+| 19 chains, 77 puyos | 8.65 s (2.3/s) | 3.13 s (639/s) | 0.28 s |
+| 19 chains, 78 puyos | 17.54 s (1.1/s) | 4.76 s (420/s) | 0.41 s |
+| 18 chains, 72-78 puyos | 2.87 s (7.0/s) | 2.15 s (930/s) | 0.20 s |
+| 19 chains, 76 puyos, 5 colours | 5.51 s (3.6/s) | 2.96 s (676/s) | 0.27 s |
 
 v0.3.0 also searched for a build sequence from an empty board, so this is not a like-for-like comparison.
 See [BENCHMARK.md](BENCHMARK.md) (Japanese).

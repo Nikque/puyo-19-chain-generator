@@ -28,6 +28,7 @@ struct Placement {
     FieldBits low;  // shape columns: the cells below the insertion; other columns: all cells
     FieldBits mul;  // shape columns: 1 << (cells inserted in this column); other columns: 1
     FieldBits near; // visible cells next to the inserted ones
+    int8_t slot[W]; // row where the insertion starts in each column, -1 if the column is not used
 };
 
 using Shape = std::vector<std::pair<int, int>>;
@@ -92,6 +93,7 @@ std::vector<Placement> makePlacements() {
                     mul[x] = uint16_t(1u << n);
                 }
                 Placement p;
+                for (int x = 0; x < W; ++x) p.slot[x] = ins[x] ? int8_t(std::countr_zero(unsigned(ins[x]))) : int8_t(-1);
                 p.ins = FieldBits::fromColumns(ins);
                 p.low = FieldBits::fromColumns(low);
                 p.mul = FieldBits::fromColumns(mul);
@@ -226,6 +228,27 @@ bool makeResidual(BitField& field, int extra, int colorCount, Rng& rng) {
     return true;
 }
 
+// Guidance near the end of the search.
+//
+// On a nearly full board the last pair has very little room: the trigger must
+// have a puyo among the two topmost of a column the pair can still reach, and
+// the last insertion must also move a puyo of the previous trigger. That only
+// works when the previous triggers were themselves close to the surface. So
+// during the last GUIDED_STEPS steps before the final one, an insertion is
+// used only if at most one old puyo ends up above the new group in one of its
+// columns. Every board found is still checked by the full definition; the
+// guidance changes which boards are found, not what counts as valid.
+// Measured for 19 chains / 76 puyos: 24% -> 52% of the attempts succeed.
+//
+// The guidance narrows the variety of boards, so it is used only where the
+// rules leave no choice anyway. With 72 or more puyos a trigger puyo of a valid
+// last pair must sit at row 6 or higher in the third column and higher still
+// elsewhere (76 puyos: row 10 in the third column, row 12 in the second and
+// fourth, nowhere else). With 68 puyos (17 chains without extras) it may be
+// almost anywhere, so smaller boards are searched without guidance.
+constexpr int GUIDED_STEPS = 6;
+constexpr int GUIDE_MIN_PUYOS = 72;
+
 bool stopped(const std::atomic_bool* stop) { return stop && stop->load(std::memory_order_relaxed); }
 
 } // namespace
@@ -330,6 +353,7 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng, con
         : 0;
     if (!makeResidual(beam[0].field, extra, colors, rng)) return std::nullopt;
 
+    const bool guided = extra + 4 * target >= GUIDE_MIN_PUYOS;
     std::vector<Choice> choices;
     std::unordered_set<BitField::Key, KeyHash> seen;
     for (int depth = 1; depth <= target; ++depth) {
@@ -341,6 +365,20 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng, con
             choices.clear();
             if (depth < target) {
                 forEachPredecessor(post, colors, [&](uint16_t i, Cell color) { choices.push_back({i, color}); });
+                int heights[W];
+                post.field.heights(heights);
+                if (guided && depth >= target - GUIDED_STEPS) {
+                    // Keep the insertions with at most one old puyo above the new group
+                    // in one of its columns (see GUIDED_STEPS).
+                    size_t kept = 0;
+                    for (size_t i = 0; i < choices.size(); ++i) {
+                        const Placement& p = placements()[choices[i].placement];
+                        bool nearTop = false;
+                        for (int x = 0; x < W; ++x) nearTop |= p.slot[x] >= 0 && heights[x] - p.slot[x] <= 1;
+                        if (nearTop) choices[kept++] = choices[i];
+                    }
+                    choices.resize(kept);
+                }
                 // The step before the last one keeps every child: few of them can be
                 // completed by a last pair, and trying them all is cheaper than a new attempt.
                 const size_t take = depth == target - 1 ? choices.size() : std::min(perParent, choices.size());
