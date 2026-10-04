@@ -1,25 +1,44 @@
-"""Independent cell-grid simulator and emitted-route verifier (Python 3, stdlib).
+"""Independent cell-grid verifier of the generator's output (Python 3, stdlib).
 
 Usage: python tests/verify_output.py generator.log [--allow-extra]
-Consumes the generator's stdout, not its internal C++ state.
+
+It consumes the generator's stdout, not its internal C++ state, and checks the
+definition of a valid result directly, one cell at a time. The C++ search skips
+most of these checks because they follow from the way it builds a board; this
+program exists to catch a hole in that reasoning.
+
+A result is valid when
+  1. no column has a gap and nothing sits in the 14th row;
+  2. firing it clears exactly `chains` waves, each one group of exactly four,
+     and the first wave is the printed trigger;
+  3. after the chain the cell where pairs appear (column 3, row 12) is empty;
+  4. at least one "last pair" is printed, and for every printed pair:
+     a. it is the two topmost puyos of one column, or the topmost puyos of two
+        neighbouring columns;
+     b. without the pair nothing clears;
+     c. without the pair the cell where pairs appear is empty;
+     d. the pair can travel to its place (rule below);
+  5. the printed pairs are exactly all pairs that satisfy 4a-4d.
+The board itself may cover the cell where pairs appear: the last pair is
+allowed to choke as long as the chain frees that cell again (rule 3).
 """
 import argparse
 import re
-from collections import deque
 
 OFFSETS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 
 def wave(board):
+    """One clearing wave. Returns (groups of four or more, board after gravity)."""
     visited, erase = set(), set()
     groups = []
     for cell, color in board.items():
         if cell[1] >= 12 or cell in visited:
             continue
-        group, queue = set(), deque([cell])
+        group, queue = set(), [cell]
         visited.add(cell)
         while queue:
-            x, y = queue.popleft()
+            x, y = queue.pop()
             group.add((x, y))
             for dx, dy in OFFSETS:
                 q = x + dx, y + dy
@@ -37,64 +56,64 @@ def wave(board):
     return groups, after
 
 
-def fits(board, pose):
-    x, y, r = pose
-    dx, dy = OFFSETS[r]
-    child = x + dx, y + dy
-    return (0 <= x < 6 and 0 <= y < 13 and 0 <= child[0] < 6 and
-            0 <= child[1] < 14 and (x, y) not in board and child not in board)
+def heights(board):
+    return [sum(1 for (x, _) in board if x == column) for column in range(6)]
 
 
-def rotate(board, pose, direction):
-    x, y, r = pose
-    nr = (r + direction) % 4
-    q = x, y, nr
-    if fits(board, q):
-        return q, False
-    dx, dy = OFFSETS[nr]
-    if dx and fits(board, (x - dx, y, nr)):
-        return (x - dx, y, nr), False
-    if dy == -1 and fits(board, (x, y + 1, nr)):
-        return (x, y + 1, nr), False
-    if r in (0, 2) and not fits(board, (x, y, 1)) and not fits(board, (x, y, 3)):
-        q = x, y + OFFSETS[r][1], (r + 2) % 4
-        if fits(board, q):
-            return q, True
-    raise AssertionError(f"illegal rotation at {pose}")
+def column_reachable(h, target):
+    """Can the falling pair travel from column 3 to `target`? (puyoai's rule)
+
+    11 or lower: always passable. 13: never. 12: only while the axis puyo is
+    lifted to row 13 - by a quick turn at the spawn (both neighbours 12+), by
+    a floor kick from a column exactly 11 high, or across a one-column gap.
+    """
+    if h[2] >= 12:
+        return False
+    lifted = h[1] >= 12 and h[3] >= 12
+    step = -1 if target < 2 else 1
+    x = 2
+    while x != target:
+        previous, x = x, x + step
+        if h[x] <= 11:
+            lifted = False
+            continue
+        if h[x] == 12:
+            if lifted:
+                continue
+            if h[previous] == 11 or (previous != 2 and h[previous - step] == 12):
+                lifted = True
+                continue
+        return False
+    return True
 
 
-def replay(board, colors, targets, controls):
-    pose = 2, 11, 0
-    assert fits(board, pose), "blocked spawn"
-    i = 0
-    while i < len(controls):
-        c = controls[i]
-        x, y, r = pose
-        if c in "LRD":
-            pose = x + (c == "R") - (c == "L"), y - (c == "D"), r
-            assert fits(board, pose), "illegal translation or row-13 wall crossing"
-        else:
-            assert c in "AB"
-            pose, quick = rotate(board, pose, 1 if c == "A" else -1)
-            if quick:
-                assert controls[i:i + 2] == c * 2, "quick turn needs two presses"
-                i += 1
-        i += 1
-    x, y, r = pose
-    assert not fits(board, (x, y - 1, r)), "pair not grounded"
-    dx, dy = OFFSETS[r]
-    positions = [(x, y), (x + dx, y + dy)]
-    # Independent gravity after locking: bottom piece first for a vertical pair.
-    for k in sorted(range(2), key=lambda k: positions[k][1]):
-        cx, cy = positions[k]
-        while cy > 0 and (cx, cy - 1) not in board:
-            cy -= 1
-        assert (cx, cy) == targets[k], "emitted axis/child coordinates don't match route"
-        assert cy < 13, "persistent row-14 placement"
-        board[cx, cy] = colors[k]
+def pair_candidates(board):
+    """Every pair of topmost puyos: (kind, frozenset of two cells)."""
+    h = heights(board)
+    for x in range(6):
+        if h[x] >= 2:
+            yield "V", frozenset({(x, h[x] - 1), (x, h[x] - 2)})
+    for x in range(5):
+        if h[x] and h[x + 1]:
+            yield "H", frozenset({(x, h[x] - 1), (x + 1, h[x + 1] - 1)})
 
 
-PAIR = re.compile(r"^(\d+): [VH] ([RGBYP]{2}) at \((\d+),(\d+)\) and \((\d+),(\d+)\) axis/child; controls=([LRDAB]*)(?:; setup_clear=(\d+))?$", re.M)
+def pair_is_valid(board, kind, cells):
+    before = {cell: color for cell, color in board.items() if cell not in cells}
+    if wave(before)[0]:
+        return False
+    if (2, 11) in before:
+        return False
+    h = heights(before)
+    columns = sorted(x for x, _ in cells)
+    if kind == "V":
+        return h[columns[0]] <= 11 and column_reachable(h, columns[0])
+    far = columns[1] if columns[0] >= 2 else columns[0]
+    return h[columns[0]] <= 12 and h[columns[1]] <= 12 and column_reachable(h, far)
+
+
+CELL = re.compile(r"\((\d+),(\d+)\)")
+OPTION = re.compile(r"([VH])\((\d+),(\d+)\)\((\d+),(\d+)\)")
 
 
 def verify(text, allow_extra=False):
@@ -103,47 +122,49 @@ def verify(text, allow_extra=False):
     assert len(sections) > 1, "no solutions in log"
     for index, chunk in enumerate(sections[1:], 1):
         chain_headers = re.findall(r"chains=(\d+)", sections[index - 1])
-        target = int(chain_headers[-1]) if chain_headers else 19
-        rows = [line.split() for line in chunk.splitlines()[:13]]
+        target = int(chain_headers[-1])
+        lines = chunk.splitlines()
+        rows = [line.split() for line in lines[:13]]
         assert all(len(row) == 6 for row in rows)
-        expected = {(x, 12 - y): c for y, row in enumerate(rows)
-                    for x, c in enumerate(row) if c != "."}
-        assert 4 * target <= len(expected) <= 78
+        board = {(x, 12 - y): c for y, row in enumerate(rows)
+                 for x, c in enumerate(row) if c != "."}
+        assert all(c in "RGBYP" for c in board.values())
+        assert 4 * target <= len(board) <= 78
         if not allow_extra:
-            assert len(expected) == 4 * target
-        pairs = PAIR.findall(chunk)
-        assert len(pairs) * 2 == len(expected) + (5 if len(expected) % 2 else 0)
-        built, opening, setups = {}, set(), 0
-        for index, pair in enumerate(pairs):
-            n, colors, x, y, xx, yy, controls, setup = pair
-            assert int(n) == index + 1
-            if index < 3:
-                opening.update(colors)
-            replay(built, colors, [(int(x) - 1, int(y) - 1), (int(xx) - 1, int(yy) - 1)], controls)
-            if setup:
-                assert index == 2 and int(setup) == 5
-                groups, built = wave(built)
-                assert len(groups) == 1 and len(groups[0]) == 5
-                assert len(built) == 1 and not wave(built)[0]
-                setups += 1
-            elif index + 1 < len(pairs):
-                assert (2, 11) not in built, "death before ignition"
-                assert not wave(built)[0], "chain fires before final pair"
-        assert len(opening) <= 3
-        assert setups == len(expected) % 2
-        assert built == expected
-        waves = 0
+            assert len(board) == 4 * target
+        # 1. compact columns (row 14 cannot be printed at all)
+        h = heights(board)
+        assert all((x, y) in board for x in range(6) for y in range(h[x])), "hole in a column"
+
+        trigger_line = next(line for line in lines if line.startswith("trigger cells"))
+        trigger = {(int(x) - 1, int(y) - 1) for x, y in CELL.findall(trigger_line)}
+        assert len(trigger) == 4
+        option_line = next(line for line in lines if line.startswith("last pair options"))
+        printed = {(kind, frozenset({(int(a) - 1, int(b) - 1), (int(c) - 1, int(d) - 1)}))
+                   for kind, a, b, c, d in OPTION.findall(option_line.split(":", 1)[1])}
+
+        # 4 and 5: the printed last pairs are exactly the valid ones
+        valid = {(kind, cells) for kind, cells in pair_candidates(board) if pair_is_valid(board, kind, cells)}
+        assert printed, "no last pair"
+        assert printed <= set(pair_candidates(board)), "a printed pair is not made of topmost puyos"
+        assert printed <= valid, "a printed last pair is not valid"
+        assert valid <= printed, "a valid last pair was not found"
+
+        # 2 and 3: the chain
+        built, waves = dict(board), 0
         while True:
             groups, after = wave(built)
             if not groups:
                 break
-            assert len(groups) == 1 and len(groups[0]) == 4
+            assert len(groups) == 1 and len(groups[0]) == 4, "a wave is not one group of four"
+            if waves == 0:
+                assert groups[0] == trigger, "first wave is not the trigger"
             built = after
             waves += 1
         assert waves == target
-        assert len(built) == len(expected) - 4 * target
-        assert (2, 11) not in built, "death after the final chain"
-        key = f"{target}-chain/{len(expected)}-cell"
+        assert len(built) == len(board) - 4 * target
+        assert (2, 11) not in built, "choked after the chain"
+        key = f"{target}-chain/{len(board)}-cell"
         counts[key] = counts.get(key, 0) + 1
     return counts
 
