@@ -60,30 +60,48 @@ def heights(board):
     return [sum(1 for (x, _) in board if x == column) for column in range(6)]
 
 
+MAX_HOP = 2  # lower columns the lifted axis puyo can cross before it must land
+
+
 def column_reachable(h, target):
-    """Can the falling pair travel from column 3 to `target`? (puyoai's rule)
+    """Can the falling pair travel from column 3 to `target`?
 
     11 or lower: always passable. 13: never. 12: only while the axis puyo is
-    lifted to row 13 - by a quick turn at the spawn (both neighbours 12+), by
-    a floor kick from a column exactly 11 high, or across a one-column gap.
+    lifted to row 13 (wall crossing). It is lifted by a quick turn at the
+    spawn (both neighbours 12+), by a floor kick on a column exactly 11 high,
+    or by standing on a 12-high column; once lifted it may hop over up to
+    MAX_HOP lower columns. The floor kick may be made on the other side of the
+    spawn column; the columns crossed on the way back count as hopped.
     """
     if h[2] >= 12:
         return False
-    lifted = h[1] >= 12 and h[3] >= 12
     step = -1 if target < 2 else 1
+    fly = -1  # lower columns that may still be crossed in the air; -1 = not lifted
+    if (h[1] >= 12 and h[3] >= 12) or h[2] == 11:
+        fly = MAX_HOP
+    else:
+        x = 2 - step
+        for hopped in range(1, MAX_HOP + 1):
+            if not 0 <= x < 6:
+                break
+            if h[x] == 11:
+                fly = MAX_HOP - hopped
+            if h[x] >= 11:
+                break
+            x -= step
     x = 2
     while x != target:
-        previous, x = x, x + step
-        if h[x] <= 11:
-            lifted = False
-            continue
+        x += step
+        if h[x] >= 13:
+            return False
         if h[x] == 12:
-            if lifted:
-                continue
-            if h[previous] == 11 or (previous != 2 and h[previous - step] == 12):
-                lifted = True
-                continue
-        return False
+            if fly < 0:
+                return False
+            fly = MAX_HOP
+        elif h[x] == 11:
+            fly = MAX_HOP
+        elif fly >= 0:
+            fly -= 1
     return True
 
 

@@ -294,6 +294,15 @@ static void testReach(std::mt19937_64& rng) {
     check(pairs({0, 12, 5, 12, 0, 0}) >> 5 & 1, "quick turn between two 12-high columns");
     check(pairs({0, 0, 11, 12, 12, 0}) >> 5 & 1, "walking along 12-high columns");
     check(pairs({0, 0, 11, 12, 3, 12}) >> 10 & 1, "one-column gap");
+    check(pairs({0, 0, 11, 3, 12, 0}) >> 9 & 1, "floor kick, then a hop over one lower column");
+    check(pairs({0, 0, 11, 3, 3, 12}) >> 10 & 1, "floor kick, then a hop over two lower columns");
+    check(pairs({0, 12, 5, 11, 0, 0}) >> 7 & 1, "floor kick on one side, hop over the spawn column");
+    check(pairs({12, 3, 5, 11, 0, 0}) >> 6 & 1, "floor kick on one side, hop over the spawn column and one more");
+    check(pairs({0, 12, 5, 3, 11, 0}) >> 7 & 1, "floor kick two columns away, hop back over two columns");
+    check(!(pairs({12, 3, 5, 3, 11, 0}) >> 6 & 1), "no hop over three columns");
+    check(!(pairs({0, 12, 5, 10, 0, 0}) >> 7 & 1), "a column 10 high gives no lift");
+    check(!(pairs({0, 12, 5, 12, 11, 0}) >> 7 & 1) == false, "quick turn between two walls");
+    check(!(pairs({0, 12, 5, 3, 12, 0}) >> 7 & 1), "a wall on the other side cannot be used without a lift");
     check(!(pairs({0, 0, 0, 0, 0, 12}) >> 5 & 1), "no vertical pair on a 12-high column");
     check(pairs({0, 0, 0, 0, 11, 12}) >> 10 & 1, "horizontal pair onto a 12-high column");
     // Whatever this rule allows, the v0.3.0 movement model (kicks and quick

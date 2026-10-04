@@ -16,6 +16,7 @@
 #include "generator.h"
 #include <algorithm>
 #include <cstdlib>
+#include <cstring>
 #include <set>
 #include <unordered_set>
 
@@ -170,9 +171,12 @@ inline BitField fillGap(BitField q, const Placement& p, Cell color) {
     return q;
 }
 
-// Calls f(placement index, colour) for every accepted insertion into `post`.
-template <class F> void forEachPredecessor(const Node& post, int colorCount, F&& f) {
-    const Placement* table = placements().data();
+constexpr size_t MAX_PLACEMENTS = 64 * PlacementIndex::WORDS;
+
+// The placements that can be valid at all for `post`, as indices into the
+// table. With `guideHeights` (the column heights of `post`) only placements
+// near the surface are listed, see GUIDED_STEPS.
+inline size_t candidatePlacements(const Node& post, uint16_t* out, const int* guideHeights = nullptr) {
     const PlacementIndex& index = placementIndex();
     uint16_t columns[W], triggerColumns[W];
     post.field.occupied().columns(columns);
@@ -192,15 +196,84 @@ template <class F> void forEachPredecessor(const Node& post, int colorCount, F&&
         const auto& fits = index.fits[x][std::popcount(unsigned(columns[x]))];
         for (int w = 0; w < index.words; ++w) candidates[w] &= fits[w];
     }
+    const Placement* table = placements().data();
+    size_t count = 0;
     for (int w = 0; w < index.words; ++w)
         for (uint64_t rest = candidates[w]; rest; rest &= rest - 1) {
             const size_t i = size_t(w) * 64 + size_t(std::countr_zero(rest));
-            const Placement& p = table[i];
-            const BitField q = openGap(post.field, p);
-            if (q.hasClear()) continue;
-            for (Cell color = 1; color <= colorCount; ++color)
-                if (q.colorMask(color).disjoint(p.near)) f(uint16_t(i), color);
+            if (guideHeights) {
+                // At most one old puyo above the new group in one of its columns.
+                const Placement& p = table[i];
+                bool nearTop = false;
+                for (int x = 0; x < W; ++x) nearTop |= p.slot[x] >= 0 && guideHeights[x] - p.slot[x] <= 1;
+                if (!nearTop) continue;
+            }
+            out[count++] = uint16_t(i);
         }
+    return count;
+}
+
+// The colours (bit c for colour c) with which placement p is an accepted
+// insertion into `post`; 0 if the gap alone already makes something clear.
+inline unsigned validColors(const BitField& post, const Placement& p, int colorCount) {
+    const BitField q = openGap(post, p);
+    if (q.hasClear()) return 0;
+    unsigned colors = 0;
+    for (Cell color = 1; color <= colorCount; ++color)
+        if (q.colorMask(color).disjoint(p.near)) colors |= 1u << color;
+    return colors;
+}
+
+// Calls f(placement index, colour) for every accepted insertion into `post`.
+template <class F> void forEachPredecessor(const Node& post, int colorCount, F&& f, const int* guideHeights = nullptr) {
+    uint16_t candidates[MAX_PLACEMENTS];
+    const size_t count = candidatePlacements(post, candidates, guideHeights);
+    const Placement* table = placements().data();
+    for (size_t n = 0; n < count; ++n) {
+        const unsigned colors = validColors(post.field, table[candidates[n]], colorCount);
+        for (Cell color = 1; color <= colorCount; ++color)
+            if (colors >> color & 1) f(candidates[n], color);
+    }
+}
+
+// Up to `take` accepted insertions chosen uniformly at random, without listing
+// them all: random (placement, colour) pairs are tested until enough distinct
+// accepted ones are found. Early in the search most pairs are accepted and a
+// few tests suffice. If SAMPLE_DRAWS tests were not enough, the accepted
+// insertions are listed and the missing ones chosen among the rest, which
+// keeps the choice uniform.
+constexpr int SAMPLE_DRAWS = 96;
+inline void samplePredecessors(const Node& post, int colorCount, size_t take, Rng& rng, std::vector<Choice>& out,
+                               const int* guideHeights) {
+    uint16_t candidates[MAX_PLACEMENTS];
+    uint8_t known[MAX_PLACEMENTS]; // accepted colours of a candidate, 0xFF = not tested yet
+    const size_t count = candidatePlacements(post, candidates, guideHeights);
+    out.clear();
+    if (!count) return;
+    std::memset(known, 0xFF, count);
+    const Placement* table = placements().data();
+    const auto colorsOf = [&](size_t n) {
+        if (known[n] == 0xFF) known[n] = uint8_t(validColors(post.field, table[candidates[n]], colorCount));
+        return known[n];
+    };
+    const auto chosen = [&](uint16_t placement, Cell color) {
+        for (const Choice& c : out)
+            if (c.placement == placement && c.color == color) return true;
+        return false;
+    };
+    for (int draw = 0; draw < SAMPLE_DRAWS && out.size() < take; ++draw) {
+        const size_t n = size_t(rng.below(count));
+        const Cell color = Cell(1 + rng.below(uint64_t(colorCount)));
+        if ((colorsOf(n) >> color & 1) && !chosen(candidates[n], color)) out.push_back({candidates[n], color});
+    }
+    if (out.size() >= take) return;
+    const size_t found = out.size();
+    for (size_t n = 0; n < count; ++n)
+        for (Cell color = 1; color <= colorCount; ++color)
+            if ((colorsOf(n) >> color & 1) && !chosen(candidates[n], color)) out.push_back({candidates[n], color});
+    const size_t more = std::min(take - found, out.size() - found);
+    rng.partialShuffle(out.data() + found, out.size() - found, more);
+    out.resize(found + more);
 }
 
 inline Node makeChild(const Node& post, Choice c) {
@@ -364,27 +437,18 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng, con
             if (stopped(stop) || stopped(cancel)) return std::nullopt;
             choices.clear();
             if (depth < target) {
-                forEachPredecessor(post, colors, [&](uint16_t i, Cell color) { choices.push_back({i, color}); });
                 int heights[W];
                 post.field.heights(heights);
-                if (guided && depth >= target - GUIDED_STEPS) {
-                    // Keep the insertions with at most one old puyo above the new group
-                    // in one of its columns (see GUIDED_STEPS).
-                    size_t kept = 0;
-                    for (size_t i = 0; i < choices.size(); ++i) {
-                        const Placement& p = placements()[choices[i].placement];
-                        bool nearTop = false;
-                        for (int x = 0; x < W; ++x) nearTop |= p.slot[x] >= 0 && heights[x] - p.slot[x] <= 1;
-                        if (nearTop) choices[kept++] = choices[i];
-                    }
-                    choices.resize(kept);
+                const int* guide = guided && depth >= target - GUIDED_STEPS ? heights : nullptr;
+                if (depth == target - 1) {
+                    // The step before the last one keeps every child: few of them can be
+                    // completed by a last pair, and trying them all is cheaper than a new attempt.
+                    forEachPredecessor(post, colors, [&](uint16_t i, Cell color) { choices.push_back({i, color}); }, guide);
+                } else {
+                    samplePredecessors(post, colors, perParent, rng, choices, guide);
                 }
-                // The step before the last one keeps every child: few of them can be
-                // completed by a last pair, and trying them all is cheaper than a new attempt.
-                const size_t take = depth == target - 1 ? choices.size() : std::min(perParent, choices.size());
-                rng.partialShuffle(choices.data(), choices.size(), take);
-                for (size_t i = 0; i < take; ++i) {
-                    const Node child = makeChild(post, choices[i]);
+                for (const Choice& choice : choices) {
+                    const Node child = makeChild(post, choice);
                     if (seen.insert(child.field.key()).second) next.push_back(child);
                 }
                 continue;

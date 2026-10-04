@@ -4,91 +4,91 @@ seed=101
 chains=19
 puyos=76, extra_puyos=0
 field (top row first; columns left to right):
-G G . . G Y 
-G R G R Y Y 
-Y R R G R G 
-G R Y B B Y 
-G B B R R Y 
-G R G B R Y 
-Y G G R Y B 
-Y R B B G B 
-Y G B G Y B 
-B G Y G R R 
-B R B R G B 
-R R G Y G R 
-G G R G B Y 
-URL: https://ishikawapuyo.net/simu/pe.html?i0khhAxaahzsjpchjcyhzxrjyqzqy9ppj9khias
-trigger cells (x from left, y from bottom, 1-based): (2,10) (2,11) (2,12) (3,11)
-last pair options (V vertical, H horizontal): V(3,11)(3,12)
+. R Y Y G B 
+. B Y B B B 
+Y B Y Y G Y 
+Y B G Y R Y 
+B G B B B G 
+B B R R R B 
+Y R G Y B B 
+Y Y G Y Y R 
+G B R B B B 
+G Y Y R R R 
+G B R G Y B 
+B G B Y B G 
+B B G B G G 
+URL: https://ishikawapuyo.net/simu/pe.html?1Aj3zrzAkzkcqrqr9bxkrAkxjbrkx9jazqsqrji
+trigger cells (x from left, y from bottom, 1-based): (3,11) (3,12) (4,10) (4,11)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/3
 seed=101
 chains=19
 puyos=76, extra_puyos=0
 field (top row first; columns left to right):
-. B . B R B 
-G Y Y R G R 
-B G B Y G R 
-B Y B Y R B 
-R G B R Y B 
-Y Y B R Y B 
-R R Y B B G 
-R G R Y R G 
-B G G B B R 
-Y Y B Y R B 
-Y G B R Y R 
-B G Y R B R 
-Y Y B R Y B 
-URL: https://ishikawapuyo.net/simu/pe.html?33bkxhqshssbapzApz9zqacaqjpAsbypxqxpApz
-trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (3,10) (3,11)
-last pair options (V vertical, H horizontal): V(3,11)(3,12)
+G R . B Y G 
+B Y . R Y R 
+Y B G G R Y 
+B Y Y G B R 
+Y B Y R B G 
+Y G Y G R G 
+Y R R G Y B 
+B Y B R B B 
+Y R B Y Y G 
+Y G Y B Y G 
+B G R B G R 
+B B Y R B B 
+G R Y R Y Y 
+URL: https://ishikawapuyo.net/simu/pe.html?h3ys1xzicsypzxqyyaxazsprxsyyzyqbhrxrhxA
+trigger cells (x from left, y from bottom, 1-based): (2,10) (3,8) (3,9) (3,10)
+last pair options (V vertical, H horizontal): V(3,10)(3,11)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/3
 seed=101
 chains=19
 puyos=76, extra_puyos=0
 field (top row first; columns left to right):
-. B B B Y . 
-G B G R R Y 
-G R G G Y G 
-G Y G R G Y 
-R Y B R G R 
-R Y B B Y B 
-Y G G R Y B 
-B Y B B Y B 
-G G G B G Y 
-B B R G Y B 
-B Y B G Y Y 
-Y R B R G R 
-R Y R G R Y 
-URL: https://ishikawapuyo.net/simu/pe.html?3rwjhchiykhkcphcrzyhzsrzijkrazsqAxphcac
-trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,11)
-last pair options (V vertical, H horizontal): V(3,12)(3,13)
+G B . . G G 
+G G Y B R R 
+Y B Y Y Y B 
+G B G R R R 
+B Y B Y B B 
+G R B Y G B 
+R Y G R Y R 
+R B Y R B R 
+R Y B G G R 
+G G B R G Y 
+R R B G B B 
+G G G R Y B 
+R R B Y G Y 
+URL: https://ishikawapuyo.net/simu/pe.html?j0iiz9zAzjh9ssrhsjchxbxpcqhipk9qrihz9sk
+trigger cells (x from left, y from bottom, 1-based): (3,11) (3,12) (4,11) (5,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12) H(2,13)(3,12) H(3,12)(4,12)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 3/3
 目標数 3 件のユニークな19連鎖盤面を生成しました。
-試行数: 8, 重複スキップ数: 0
+試行数: 6, 重複スキップ数: 0
 seed=102, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=1, min_extra_puyos=1, target_chain=19, threads=2
 再試行 1/100000 | 段階 0/19 | 生成 0/2
 seed=102
 chains=19
 puyos=77, extra_puyos=1
 field (top row first; columns left to right):
-. G R B B B 
-B Y G Y Y Y 
-Y B G R B G 
-Y Y G G B B 
-G G B R G G 
-B R B R B G 
-G G R Y Y Y 
-R R G R B B 
-R Y R Y R G 
-G B Y G R B 
-G G Y Y R B 
-B B R G G B 
-G G Y B G R 
-URL: https://ishikawapuyo.net/simu/pe.html?2brskAzhqAiripippqicA9hrccajybiAbrajizh
-trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,10)
+. B Y G R R 
+G G Y R R G 
+B B Y Y B G 
+G B R Y R B 
+Y Y R B Y G 
+Y G G B R R 
+R G Y Y B R 
+G B Y R G B 
+G R B B G R 
+G B R B R R 
+R G R Y G G 
+R G R B R Y 
+R G Y R G Y 
+URL: https://ishikawapuyo.net/simu/pe.html?3y9ixarAqjcbAbyyj9aApjxjhrhjb9aciabcaxk
+trigger cells (x from left, y from bottom, 1-based): (3,11) (3,12) (4,10) (4,11)
 last pair options (V vertical, H horizontal): V(3,12)(3,13)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/2
@@ -96,47 +96,47 @@ seed=102
 chains=19
 puyos=77, extra_puyos=1
 field (top row first; columns left to right):
-B Y . Y G Y 
-Y Y G B Y Y 
-Y R Y B G R 
-G G Y R R B 
-B G Y G Y Y 
-Y R Y G R Y 
-Y R G R R G 
-G G R B Y G 
-G B G G Y Y 
-Y R Y R B G 
-Y R Y B Y Y 
-B R B G R B 
-B G R Y G Y 
-URL: https://ishikawapuyo.net/simu/pe.html?s4kAjAxzhixbqyAxycxhaibyjiAxxqxzApqbqck
-trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (3,10) (3,11)
+G B . G R R 
+B R B G R G 
+G G G Y B Y 
+G B Y G R G 
+Y B B R B G 
+R G Y G B R 
+R G Y Y R B 
+R B G G Y Y 
+Y B B G Y B 
+Y G R Y B R 
+Y B G R B G 
+G B B R Y G 
+G G R G B Y 
+URL: https://ishikawapuyo.net/simu/pe.html?j29pqaiksjyazpqaypaAbbiAzqzycpzhqjpyias
+trigger cells (x from left, y from bottom, 1-based): (1,10) (1,11) (2,11) (3,11)
 last pair options (V vertical, H horizontal): V(3,11)(3,12)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/2
 目標数 2 件のユニークな19連鎖盤面を生成しました。
-試行数: 11, 重複スキップ数: 0
+試行数: 2, 重複スキップ数: 0
 seed=103, colors=5, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=2, min_extra_puyos=2, target_chain=19, threads=2
 再試行 1/100000 | 段階 0/19 | 生成 0/2
 seed=103
 chains=19
 puyos=78, extra_puyos=2
 field (top row first; columns left to right):
-P B R G Y Y 
-B G P G B B 
-P B P Y B G 
-P B P R G B 
-R R P G R P 
-R Y B Y P R 
-P B G Y G R 
-P B G P G B 
-B P R R B B 
-Y P R G Y Y 
-B P B B R B 
-Y Y Y R P R 
-P G R B R Y 
-URL: https://ishikawapuyo.net/simu/pe.html?HaAqGrHIqHFj9GdcsFHkhHljt9rBaAtrbAxFGbc
-trigger cells (x from left, y from bottom, 1-based): (3,9) (3,10) (3,11) (3,12)
+Y R Y P G Y 
+Y G G G G Y 
+B P R P B Y 
+B R P P B P 
+B R G G B G 
+G R Y R Y B 
+G P P P R R 
+G B R B B R 
+Y G R Y B Y 
+B Y R P P Y 
+B G P R P G 
+Y Y P B Y G 
+B B P G P G 
+URL: https://ishikawapuyo.net/simu/pe.html?xBkyiktdspJtpiqhxzlJ9jbpycssdIqFGAHyrGG
+trigger cells (x from left, y from bottom, 1-based): (2,12) (3,12) (4,12) (5,12)
 last pair options (V vertical, H horizontal): V(3,12)(3,13)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/2
@@ -144,144 +144,144 @@ seed=103
 chains=19
 puyos=78, extra_puyos=2
 field (top row first; columns left to right):
-B B P P P P 
-P B Y Y Y B 
-P Y G Y B B 
-R R G P Y P 
-P G P P B P 
-R R G Y G G 
-R Y P G R Y 
-P P R G B Y 
-P G Y G B Y 
-R R G R B G 
-R P G P P G 
-P G B R Y Y 
-R Y R G Y B 
-URL: https://ishikawapuyo.net/simu/pe.html?rJJHAzIkr9lBGJt9kicGcJasGys9hqdlGGpAcaz
-trigger cells (x from left, y from bottom, 1-based): (3,12) (4,11) (4,12) (5,12)
+R Y P Y Y R 
+Y G Y P R G 
+G P Y Y R G 
+P P B Y R B 
+G Y B P Y B 
+G P B P Y B 
+Y B P Y R R 
+Y Y G Y R Y 
+B B G B Y B 
+P B G Y B G 
+P P Y P Y G 
+R R G Y B B 
+R Y B Y B R 
+URL: https://ishikawapuyo.net/simu/pe.html?cIxyBalAaJsbktzltzzI9AkcrjzHkqJBy9krcsp
+trigger cells (x from left, y from bottom, 1-based): (3,11) (3,12) (4,10) (4,11)
 last pair options (V vertical, H horizontal): V(3,12)(3,13)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/2
 目標数 2 件のユニークな19連鎖盤面を生成しました。
-試行数: 73, 重複スキップ数: 0
+試行数: 8, 重複スキップ数: 0
 seed=104, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=3, max_extra_puyos=6, min_extra_puyos=0, target_chain=18, threads=2
 再試行 1/100000 | 段階 0/18 | 生成 0/3
 seed=104
 chains=18
 puyos=73, extra_puyos=1
 field (top row first; columns left to right):
-Y G . . G . 
-B B . . R R 
-B R B G R G 
-R G Y B Y G 
-Y Y B B Y G 
-Y R B G B Y 
-G R Y G Y R 
-G R Y Y G Y 
-R Y B R B Y 
-G R B G R Y 
-R B R B G R 
-B Y R G B R 
-Y Y R G R Y 
-URL: https://ishikawapuyo.net/simu/pe.html?y0gr09pqaazyAryxqshyxhAkcpshqcbbhsapAac
-trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (4,9) (4,10)
-last pair options (V vertical, H horizontal): V(4,10)(4,11)
+R . . . . B 
+R G . Y R G 
+G Y G R G G 
+G R G Y R R 
+Y B G G R B 
+G B Y R G R 
+R R Y Y G G 
+R G B G Y R 
+G Y B G B R 
+Y R Y G R B 
+Y Y G Y R B 
+G G Y G R G 
+R Y B B B G 
+URL: https://ishikawapuyo.net/simu/pe.html?803a4akhihk9zibjxh9AiaqxkqpxybAkbiyacrq
+trigger cells (x from left, y from bottom, 1-based): (3,9) (3,10) (3,11) (4,9)
+last pair options (V vertical, H horizontal): V(3,10)(3,11) H(2,12)(3,11) H(3,11)(4,12)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/3
 seed=104
 chains=18
-puyos=75, extra_puyos=3
+puyos=73, extra_puyos=1
 field (top row first; columns left to right):
-R Y . . Y . 
-Y Y B R G B 
-R B G Y Y G 
-G G G R Y B 
-R Y Y B G B 
-R Y B G R B 
-R G R G G Y 
-Y R G B B G 
-Y Y R G G Y 
-B R B G R B 
-B G G Y B G 
-Y B R R Y B 
-B B R G R B 
-URL: https://ishikawapuyo.net/simu/pe.html?c0wApjbkyihzczjcqbaakxjqAakpqbqkqz9zrab
-trigger cells (x from left, y from bottom, 1-based): (1,10) (2,10) (3,10) (3,11)
-last pair options (V vertical, H horizontal): V(3,11)(3,12)
+. Y . . Y B 
+R B R . R Y 
+G R Y . B Y 
+R Y R R B G 
+B Y R Y Y G 
+R Y R G B G 
+R B G Y G B 
+B R G Y R B 
+R B G R Y R 
+R G B Y R R 
+G G Y Y G G 
+R B R B Y G 
+R R B R G B 
+URL: https://ishikawapuyo.net/simu/pe.html?40zb8chwsc9qscycaqbkjpkbbhxas9iAibby9pj
+trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (3,10) (4,10)
+last pair options (V vertical, H horizontal): H(3,12)(4,10)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/3
 seed=104
 chains=18
-puyos=75, extra_puyos=3
+puyos=73, extra_puyos=1
 field (top row first; columns left to right):
-B B . B . Y 
-G R R B . R 
-B G G Y B R 
-G G Y R R B 
-B R Y B G G 
-B G Y B B Y 
-B Y G G R Y 
-G Y R Y G Y 
-G Y B B G R 
-G B R Y R R 
-B Y B B G Y 
-B G R R B G 
-G G Y Y G R 
-URL: https://ishikawapuyo.net/simu/pe.html?r34hb1qkpixbpziqzssickckkrhjc9srkq9qiAh
-trigger cells (x from left, y from bottom, 1-based): (1,10) (2,10) (2,11) (3,11)
+B B . . . . 
+B R Y R . R 
+B G G R G B 
+R G R B R B 
+Y G R B R Y 
+Y R Y Y Y G 
+R Y G R R G 
+R Y B Y B G 
+G G R B Y Y 
+B B R Y G Y 
+B G G Y R R 
+G B Y G R G 
+G R G B G R 
+URL: https://ishikawapuyo.net/simu/pe.html?r00px1qhjabbybcxAychacsqibArckqk9jyahjh
+trigger cells (x from left, y from bottom, 1-based): (2,9) (2,10) (2,11) (3,11)
 last pair options (V vertical, H horizontal): V(3,11)(3,12)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 3/3
 目標数 3 件のユニークな18連鎖盤面を生成しました。
-試行数: 4, 重複スキップ数: 0
+試行数: 6, 重複スキップ数: 0
 seed=105, colors=5, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=38, min_extra_puyos=0, target_chain=10, threads=2
 再試行 1/100000 | 段階 0/10 | 生成 0/2
 seed=105
 chains=10
 puyos=64, extra_puyos=24
 field (top row first; columns left to right):
-B G . . . . 
-P R . . . . 
-G P G . G . 
-G P G . R R 
-B B Y . R G 
-Y Y B . Y B 
-G Y G . P B 
-R P Y G P B 
-R P R G G Y 
-P R G R G R 
-P R B P P R 
-B G G G Y Y 
-B Y Y P R P 
-URL: https://ishikawapuyo.net/simu/pe.html?q00F00lgglg9rwaAozkgHdyHdakFhhFtFqiAsBd
-trigger cells (x from left, y from bottom, 1-based): (4,5) (4,6) (5,4) (5,5)
-last pair options (V vertical, H horizontal): V(4,5)(4,6) H(3,11)(4,6) H(4,6)(5,11)
+. R . . . . 
+. P . . Y R 
+B P . . Y G 
+P B . . G B 
+B R G . P B 
+Y R G . P G 
+B P Y G B Y 
+G G B P P B 
+P G Y B P P 
+R B G R B Y 
+R B R Y P P 
+P Y Y G G B 
+P Y G P R P 
+URL: https://ishikawapuyo.net/simu/pe.html?10050xt0yH0jpgHxgGtysitHGzJbhsbcJIyjIld
+trigger cells (x from left, y from bottom, 1-based): (4,6) (5,5) (5,6) (6,5)
+last pair options (V vertical, H horizontal): V(4,6)(4,7)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/2
 seed=105
 chains=10
-puyos=77, extra_puyos=37
+puyos=67, extra_puyos=27
 field (top row first; columns left to right):
-P G G G R . 
-P B P R P G 
-Y B P R R Y 
-G B P Y B R 
-B R P Y B G 
-G Y G G Y R 
-G R P G Y B 
-Y G B P G B 
-Y R G Y Y R 
-G P P Y G R 
-G Y P B B R 
-Y R R P G P 
-G B B R Y R 
-URL: https://ishikawapuyo.net/simu/pe.html?Gi8HFGzFcjIppIqkixhGzytjxkxlIhkHpxdljpx
-trigger cells (x from left, y from bottom, 1-based): (3,9) (3,10) (3,11) (3,12)
-last pair options (V vertical, H horizontal): V(3,12)(3,13)
+. . . R G . 
+. P . Y P P 
+. B . G R R 
+. Y . Y R B 
+G Y . Y G R 
+B Y G B B Y 
+B P R P B P 
+B P Y R R R 
+B R B B Y P 
+G B R B G P 
+G G P G R P 
+B B R Y Y Y 
+G B G B R R 
+URL: https://ishikawapuyo.net/simu/pe.html?1g54J32944bk4hsjstdttx9prBjbliGdrcAjj9
+trigger cells (x from left, y from bottom, 1-based): (1,5) (1,6) (1,7) (1,8)
+last pair options (V vertical, H horizontal): V(1,8)(1,9)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/2
 目標数 2 件のユニークな10連鎖盤面を生成しました。
-試行数: 3, 重複スキップ数: 0
+試行数: 2, 重複スキップ数: 0
 seed=106, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=3, max_extra_puyos=74, min_extra_puyos=0, target_chain=1, threads=2
 再試行 1/100000 | 段階 0/1 | 生成 0/3
 seed=106
@@ -360,42 +360,42 @@ puyos=23, extra_puyos=3
 field (top row first; columns left to right):
 . . . . . . 
 . . . . . . 
-. . . . . . 
 . . R . . . 
-. . Y . . . 
-. . Y . . . 
+. R G . . . 
+. R G . . . 
+. B R . . . 
+. G B . . . 
 . B G . . . 
-. Y R . . . 
-R G Y . . . 
-Y R B . . . 
-Y Y Y . . . 
-R G B . . . 
-G B B . Y . 
-URL: https://ishikawapuyo.net/simu/pe.html?800w00w03g0480aw0xo0Aw0ao0jow
-trigger cells (x from left, y from bottom, 1-based): (1,3) (1,4) (2,3) (3,3)
-last pair options (V vertical, H horizontal): V(1,4)(1,5)
+. R G . . . 
+. B G . . . 
+. R B . . . 
+. R G . . . 
+R R G . Y . 
+URL: https://ishikawapuyo.net/simu/pe.html?801g01g03802o03g01g03g01o01g09gw
+trigger cells (x from left, y from bottom, 1-based): (1,1) (2,1) (2,2) (2,3)
+last pair options (V vertical, H horizontal): H(1,1)(2,10)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 1/2
 seed=107
 chains=5
 puyos=23, extra_puyos=3
 field (top row first; columns left to right):
-. . . . . Y 
-. . . . . Y 
-. . . . . Y 
-. . . . . R 
-. . . . . G 
-. . . . . G 
-. . . . R G 
-. . . . B Y 
-. . . . B B 
-. . . . Y B 
-. . . . Y G 
-. . . . Y R 
-G B B . R Y 
-URL: https://ishikawapuyo.net/simu/pe.html?400400400100200200a00s00r00z00y00xjoc
-trigger cells (x from left, y from bottom, 1-based): (5,5) (5,6) (6,4) (6,5)
-last pair options (V vertical, H horizontal): V(5,6)(5,7)
+. . . . . . 
+. . B . . . 
+. . G . . . 
+. . G . . . 
+. . G . . . 
+. . Y . . . 
+. . G . . . 
+. B B . . . 
+. Y B . . . 
+. B R . . . 
+. R G G . . 
+G B R G . . 
+Y Y R G . . 
+URL: https://ishikawapuyo.net/simu/pe.html?o00g00g00g00w00g03o04o03801i0ja0Aa0
+trigger cells (x from left, y from bottom, 1-based): (3,3) (4,1) (4,2) (4,3)
+last pair options (V vertical, H horizontal): H(3,12)(4,3)
 URLを19chain_urls.txtに追記しました。
 今回のユニークな生成数: 2/2
 目標数 2 件のユニークな5連鎖盤面を生成しました。

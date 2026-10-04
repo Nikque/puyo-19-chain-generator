@@ -40,18 +40,23 @@ chain frees it again (item 4). For each board the program prints the four puyos 
 ### Reach rule
 
 The pair appears in the third column (axis in row 12, child in row 13). Whether a position can be reached
-is decided from the column heights alone, following puyoai's `PuyoController::isReachable`:
+is decided from the column heights alone:
 
 - a column of height 11 or less can always be passed;
 - a column of height 13 can never be passed (the axis puyo cannot enter the 14th row);
-- a column of height 12 can be passed only while the axis puyo is lifted to the 13th row: right after
-  the spawn when both neighbours of the third column are 12 or higher (quick turn), when the previous
-  column is exactly 11 high (floor kick), or across a one-column gap from another 12-high column;
+- a column of height 12 can be passed only while the axis puyo is lifted to the 13th row (wall crossing).
+  It is lifted right after the spawn when both neighbours of the third column are 12 or higher (quick
+  turn), on a column exactly 11 high (floor kick), or on top of a 12-high column it has already climbed;
+- once lifted it may hop over **up to two** lower columns before landing on the 12-high column. The floor
+  kick may be made on the other side of the spawn column; the columns crossed on the way back count;
 - a vertical pair needs a column of height 11 or less (nothing is left in the 14th row).
 
-Every placement this rule allows is also allowed by the movement model of v0.3.0 (kicks and quick turns
-searched without gravity); this was checked for all 6.45 million height combinations with
-`tools/compare_reach.cpp`. The only difference is hovering across a low column.
+The quick turn, the floor kick and a one-column hop from a 12-high column are puyoai's
+`PuyoController::isReachable`; hops after a floor kick and over two columns were added as ordinary wall
+crossings of the real game (`MAX_HOP` in `core/reach.h`). Every placement this rule allows is also allowed
+by the movement model of v0.3.0 (kicks and quick turns searched without gravity); this was checked for all
+6.45 million height combinations with `tools/compare_reach.cpp`. The remaining difference is hops over
+three or more columns.
 
 ### Not guaranteed
 
@@ -86,7 +91,8 @@ extra count and colour count. So no chain simulation runs inside the search:
 Insertion is a per-column multiplication, "is there a group of four or more" is derived from four
 same-colour-neighbour masks without flood fill, and candidate positions come from precomputed bit sets.
 Each step keeps `candidates_per_parent` uniformly chosen children per board and at most `beam_width`
-boards; the step before the last keeps every child.
+boards; the children are found by testing random (position, colour) pairs instead of listing them all.
+The step before the last keeps every child.
 
 On a nearly full board the last pair has very little room: with 76 puyos a trigger puyo of a valid last
 pair must sit at row 10 or higher in the third column or at row 12 in the second or fourth, and nowhere
@@ -141,11 +147,11 @@ Other work was running on the machine, so the numbers are indicative.
 
 | Setting | v0.3.0 (20 boards) | new, 1 thread (2000 boards) | new, 16 threads (2000 boards) |
 | --- | ---: | ---: | ---: |
-| 19 chains, 76 puyos, 4 colours | 3.81 s (5.2/s) | 2.52 s (794/s) | 0.23 s |
-| 19 chains, 77 puyos | 8.65 s (2.3/s) | 3.13 s (639/s) | 0.28 s |
-| 19 chains, 78 puyos | 17.54 s (1.1/s) | 4.76 s (420/s) | 0.41 s |
-| 18 chains, 72-78 puyos | 2.87 s (7.0/s) | 2.15 s (930/s) | 0.20 s |
-| 19 chains, 76 puyos, 5 colours | 5.51 s (3.6/s) | 2.96 s (676/s) | 0.27 s |
+| 19 chains, 76 puyos, 4 colours | 3.81 s (5.2/s) | 1.49 s (1340/s) | 0.17 s |
+| 19 chains, 77 puyos | 8.65 s (2.3/s) | 1.83 s (1090/s) | 0.20 s |
+| 19 chains, 78 puyos | 17.54 s (1.1/s) | 2.80 s (714/s) | 0.28 s |
+| 18 chains, 72-78 puyos | 2.87 s (7.0/s) | 1.29 s (1550/s) | 0.15 s |
+| 19 chains, 76 puyos, 5 colours | 5.51 s (3.6/s) | 1.39 s (1440/s) | 0.18 s |
 
 v0.3.0 also searched for a build sequence from an empty board, so this is not a like-for-like comparison.
 See [BENCHMARK.md](BENCHMARK.md) (Japanese).
