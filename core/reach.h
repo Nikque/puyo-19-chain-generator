@@ -68,8 +68,8 @@ inline unsigned reachablePairs(const int h[W]) {
     for (int x = 0; x < W; ++x)
         if ((column >> x & 1) && h[x] <= 11) result |= 1u << x;
     for (int x = 0; x + 1 < W; ++x) {
-        const int far = x >= SPAWN_X ? x + 1 : x; // the column farther from the spawn
-        if ((column >> far & 1) && h[x] <= 12 && h[x + 1] <= 12) result |= 1u << (W + x);
+        const int outer = x >= SPAWN_X ? x + 1 : x; // the column farther from the spawn
+        if ((column >> outer & 1) && h[x] <= 12 && h[x + 1] <= 12) result |= 1u << (W + x);
     }
     return result;
 }

@@ -230,6 +230,16 @@ bool stopped(const std::atomic_bool* stop) { return stop && stop->load(std::memo
 
 } // namespace
 
+std::vector<Predecessor> predecessors(const BitField& post, FieldBits trigger, int colorCount) {
+    std::vector<Predecessor> result;
+    const Node node{post, trigger};
+    forEachPredecessor(node, colorCount, [&](uint16_t i, Cell color) {
+        const Node child = makeChild(node, {i, color});
+        result.push_back({child.field, child.trigger});
+    });
+    return result;
+}
+
 FieldBits pairCells(const BitField& field, int id) {
     int h[W];
     field.heights(h);
@@ -260,6 +270,21 @@ unsigned firePairs(const BitField& field, FieldBits trigger) {
     for (int x = 0; x + 1 < W; ++x)
         if (h[x] && h[x + 1] && ((t[x] >> (h[x] - 1) & 1) || (t[x + 1] >> (h[x + 1] - 1) & 1)))
             reachable(W + x, x, x + 1, 1, 1);
+    return result;
+}
+
+unsigned firePairsByDefinition(const BitField& field) {
+    unsigned result = 0;
+    for (int id = 0; id < PAIR_POSITIONS; ++id) {
+        const FieldBits pair = pairCells(field, id);
+        if (pair.count() != 2) continue;
+        BitField before = field;
+        before.erase(pair);
+        if (before.hasClear() || before.get(SPAWN_X, CLEAR_H - 1)) continue;
+        int h[W];
+        before.heights(h);
+        if (reachablePairs(h) >> id & 1) result |= 1u << id;
+    }
     return result;
 }
 

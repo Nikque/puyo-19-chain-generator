@@ -33,6 +33,9 @@ FieldBits pairCells(const BitField& field, int id);
 // board on which nothing clears, the pair can appear, and the position is
 // reachable. Uses the shortcuts that hold for boards made by this generator.
 unsigned firePairs(const BitField& field, FieldBits trigger);
+// The same set found from the definition alone, for any compact board
+// (used for boards that were not made by this generator, e.g. loaded files).
+unsigned firePairsByDefinition(const BitField& field);
 // Checks every condition of a valid result directly, by simulation, without
 // relying on how the board was made. Returns an empty string when valid.
 std::string verifySolution(const Solution& s);
@@ -57,6 +60,15 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng,
                                     const std::atomic_bool* stop = nullptr,
                                     std::atomic_int* depthOut = nullptr,
                                     const std::atomic_bool* cancel = nullptr);
+
+// Every board from which `post` results after one wave that clears exactly the
+// inserted group of four, with that group. `trigger` is the group that clears
+// first on `post` (empty if nothing clears there). Exposed for the tests.
+struct Predecessor {
+    BitField field;
+    FieldBits trigger;
+};
+std::vector<Predecessor> predecessors(const BitField& post, FieldBits trigger, int colorCount);
 
 struct GeneratorProgress {
     int attempt = 0, totalAttempts = 0, depth = 0, targetChain = 0;

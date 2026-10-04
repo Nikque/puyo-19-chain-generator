@@ -7,7 +7,7 @@ from verify_output import verify
 
 executable = str(pathlib.Path(sys.argv[1]).resolve())
 base = dict(initial_seed=42, color_count=4, beam_width=16,
-            candidates_per_parent=8, restarts=50, target_success_count=1)
+            candidates_per_parent=8, restarts=5000, target_success_count=1)
 
 
 def run(settings, directory):
@@ -27,6 +27,22 @@ with tempfile.TemporaryDirectory(prefix="puyo-cli-test-") as temp:
         assert result.returncode == 0, result.stderr
         counts = verify(result.stdout, True)
         assert counts == {f"{target}-chain/{4 * target + extra}-cell": 1}, counts
+    # The boards and their order must not depend on the number of threads.
+    outputs = []
+    for threads in (1, 2, 7):
+        directory = root / f"threads-{threads}"
+        directory.mkdir()
+        settings = dict(base, beam_width=48, candidates_per_parent=2, target_chain=19,
+                        target_success_count=30, restarts=100000, threads=threads)
+        result = run(settings, directory)
+        assert result.returncode == 0, result.stderr
+        assert f"threads={threads}" in result.stdout
+        assert verify(result.stdout, True) == {"19-chain/76-cell": 30}
+        outputs.append((directory / "19chain_urls.txt").read_text())
+    assert outputs[0] == outputs[1] == outputs[2], "thread count changed the result"
+    directory = root / "threads-invalid"
+    directory.mkdir()
+    assert run(dict(base, threads=1000), directory).returncode == 2
     # Old six-key files retain target 19, zero extras. One narrow attempt may
     # fail to find a field; it must still parse and execute without code 2.
     directory = root / "legacy"

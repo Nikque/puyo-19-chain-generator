@@ -1,596 +1,402 @@
+seed=101, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=3, max_extra_puyos=0, min_extra_puyos=0, target_chain=19, threads=2
+再試行 1/100000 | 段階 0/19 | 生成 0/3
+seed=101
 chains=19
 puyos=76, extra_puyos=0
 field (top row first; columns left to right):
-R R . B . G
-Y Y B R G Y
-Y G Y Y Y B
-B G Y G R G
-B R B R Y G
-B Y B B G R
-G Y R R G R
-B G B R B R
-G B Y G Y B
-G B G G B B
-G R Y B R R
-R R B B R Y
-Y G R R G G
-URL: https://ishikawapuyo.net/simu/pe.html?932ApkyAzqyappysrhk9hqppjyzjirhz99rcy9i
-trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (4,11) (5,11)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V GY at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-2: V YR at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-3: V GG at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-4: V RB at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-5: V BR at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-6: H GG at (2,1) and (1,5) axis/child; controls=LDDDDDDDB
-7: V RB at (4,1) and (4,2) axis/child; controls=RDDDDDDDDDDD
-8: V BG at (1,6) and (1,7) axis/child; controls=LLDDDDDD
-9: V RR at (6,7) and (6,8) axis/child; controls=RRRDDDDD
-10: V GG at (6,9) and (6,10) axis/child; controls=RRRDDD
-11: V GR at (5,1) and (5,2) axis/child; controls=RRDDDDDDDDDDD
-12: H RB at (5,3) and (6,11) axis/child; controls=RRDA
-13: H RB at (2,2) and (1,8) axis/child; controls=LDDDDB
-14: V BG at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-15: V BY at (5,4) and (5,5) axis/child; controls=RRDDDDDDDD
-16: V GR at (4,5) and (4,6) axis/child; controls=RDDDDDDD
-17: H RB at (4,7) and (5,6) axis/child; controls=RDDDDDA
-18: V GG at (5,7) and (5,8) axis/child; controls=RRDDDDD
-19: V BR at (4,8) and (4,9) axis/child; controls=RDDDD
-20: V GY at (4,10) and (4,11) axis/child; controls=RDD
-21: H RR at (2,3) and (3,1) axis/child; controls=DDDDDDDDDA
-22: V YR at (5,9) and (5,10) axis/child; controls=RRDDD
-23: V BB at (2,4) and (2,5) axis/child; controls=LDDDDDDDD
-24: V GY at (2,6) and (2,7) axis/child; controls=LDDDDDD
-25: H YY at (5,11) and (6,12) axis/child; controls=RRA
-26: V YR at (2,8) and (2,9) axis/child; controls=LDDDD
-27: V BB at (1,9) and (1,10) axis/child; controls=LLDDD
-28: V BY at (3,2) and (3,3) axis/child; controls=DDDDDDDDDD
-29: V GY at (3,4) and (3,5) axis/child; controls=DDDDDDDD
-30: V YY at (1,11) and (1,12) axis/child; controls=LLD
-31: V GG at (2,10) and (2,11) axis/child; controls=LDD
-32: V BR at (3,6) and (3,7) axis/child; controls=DDDDDD
-33: V BB at (3,8) and (3,9) axis/child; controls=DDDD
-34: H YR at (2,12) and (1,13) axis/child; controls=LAAA
-35: H GG at (5,12) and (6,13) axis/child; controls=BRBB
-36: H YR at (3,10) and (2,13) axis/child; controls=BBLA
-37: V RB at (4,12) and (4,13) axis/child; controls=R
-38: V YB at (3,11) and (3,12) axis/child; controls=D
-
-
+G G . . G Y 
+G R G R Y Y 
+Y R R G R G 
+G R Y B B Y 
+G B B R R Y 
+G R G B R Y 
+Y G G R Y B 
+Y R B B G B 
+Y G B G Y B 
+B G Y G R R 
+B R B R G B 
+R R G Y G R 
+G G R G B Y 
+URL: https://ishikawapuyo.net/simu/pe.html?i0khhAxaahzsjpchjcyhzxrjyqzqy9ppj9khias
+trigger cells (x from left, y from bottom, 1-based): (2,10) (2,11) (2,12) (3,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/3
+seed=101
+chains=19
+puyos=76, extra_puyos=0
+field (top row first; columns left to right):
+. B . B R B 
+G Y Y R G R 
+B G B Y G R 
+B Y B Y R B 
+R G B R Y B 
+Y Y B R Y B 
+R R Y B B G 
+R G R Y R G 
+B G G B B R 
+Y Y B Y R B 
+Y G B R Y R 
+B G Y R B R 
+Y Y B R Y B 
+URL: https://ishikawapuyo.net/simu/pe.html?33bkxhqshssbapzApz9zqacaqjpAsbypxqxpApz
+trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (3,10) (3,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/3
+seed=101
+chains=19
+puyos=76, extra_puyos=0
+field (top row first; columns left to right):
+. B B B Y . 
+G B G R R Y 
+G R G G Y G 
+G Y G R G Y 
+R Y B R G R 
+R Y B B Y B 
+Y G G R Y B 
+B Y B B Y B 
+G G G B G Y 
+B B R G Y B 
+B Y B G Y Y 
+Y R B R G R 
+R Y R G R Y 
+URL: https://ishikawapuyo.net/simu/pe.html?3rwjhchiykhkcphcrzyhzsrzijkrazsqAxphcac
+trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,11)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 3/3
+目標数 3 件のユニークな19連鎖盤面を生成しました。
+試行数: 8, 重複スキップ数: 0
+seed=102, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=1, min_extra_puyos=1, target_chain=19, threads=2
+再試行 1/100000 | 段階 0/19 | 生成 0/2
+seed=102
 chains=19
 puyos=77, extra_puyos=1
 field (top row first; columns left to right):
-R B Y Y B .
-R G Y G R B
-R Y Y R B B
-B Y G B R Y
-Y B G G B Y
-R R Y Y B Y
-R G Y B Y G
-Y G G R R R
-Y R Y B Y B
-B Y B G Y B
-Y R B G B G
-B B G R Y G
-Y Y G R B G
-URL: https://ishikawapuyo.net/simu/pe.html?bAoaybcxrsjczis9Asazyyh9xzzsqzxqqrhyAhq
-trigger cells (x from left, y from bottom, 1-based): (2,10) (2,11) (3,11) (3,12)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V RR at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-2: V RR at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-3: H RY at (2,1) and (1,3) axis/child; controls=LDDDDDDDDDB; setup_clear=5
-4: V BY at (1,2) and (1,3) axis/child; controls=LLDDDDDDDDDD
-5: V BY at (1,4) and (1,5) axis/child; controls=LLDDDDDDDD
-6: V YR at (1,6) and (1,7) axis/child; controls=LLDDDDDD
-7: V GG at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-8: V GB at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-9: H YR at (2,1) and (1,8) axis/child; controls=LDDDDB
-10: V RR at (4,1) and (4,2) axis/child; controls=RDDDDDDDDDDD
-11: H BY at (2,2) and (1,9) axis/child; controls=LDDDB
-12: H BB at (5,1) and (6,5) axis/child; controls=RRDDDDDDDA
-13: V RG at (6,6) and (6,7) axis/child; controls=RRRDDDDDD
-14: H RB at (2,3) and (1,10) axis/child; controls=LDDB
-15: H YR at (2,4) and (1,11) axis/child; controls=LDB
-16: V RR at (1,12) and (1,13) axis/child; controls=LL
-17: V YB at (5,2) and (5,3) axis/child; controls=RRDDDDDDDDDD
-18: V GG at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-19: V BR at (4,5) and (4,6) axis/child; controls=RDDDDDDD
-20: H GB at (3,1) and (4,7) axis/child; controls=DDDDDA
-21: V YY at (6,8) and (6,9) axis/child; controls=RRRDDDD
-22: V GB at (3,2) and (3,3) axis/child; controls=DDDDDDDDDD
-23: V YY at (5,4) and (5,5) axis/child; controls=RRDDDDDDDD
-24: V RY at (5,6) and (5,7) axis/child; controls=RRDDDDDD
-25: H RB at (2,5) and (3,4) axis/child; controls=DDDDDDDA
-26: H YY at (3,5) and (4,8) axis/child; controls=DDDDA
-27: V YB at (6,10) and (6,11) axis/child; controls=RRRDD
-28: H GG at (2,6) and (3,6) axis/child; controls=DDDDDDA
-29: V BB at (5,8) and (5,9) axis/child; controls=RRDDDD
-30: H GR at (4,9) and (5,10) axis/child; controls=RDDA
-31: H GY at (2,7) and (3,7) axis/child; controls=DDDDDA
-32: V RB at (2,8) and (2,9) axis/child; controls=LDDDD
-33: H YB at (3,8) and (4,10) axis/child; controls=DDA
-34: H RB at (4,11) and (5,11) axis/child; controls=RDA
-35: V YY at (2,10) and (2,11) axis/child; controls=LDD
-36: H GG at (3,9) and (4,12) axis/child; controls=A
-37: H RB at (5,12) and (6,12) axis/child; controls=AARBRRD
-38: H YB at (4,13) and (5,13) axis/child; controls=AARBR
-39: V GB at (2,12) and (2,13) axis/child; controls=L
-40: V GY at (3,10) and (3,11) axis/child; controls=DD
-41: V YY at (3,12) and (3,13) axis/child; controls=
-
-
+. G R B B B 
+B Y G Y Y Y 
+Y B G R B G 
+Y Y G G B B 
+G G B R G G 
+B R B R B G 
+G G R Y Y Y 
+R R G R B B 
+R Y R Y R G 
+G B Y G R B 
+G G Y Y R B 
+B B R G G B 
+G G Y B G R 
+URL: https://ishikawapuyo.net/simu/pe.html?2brskAzhqAiripippqicA9hrccajybiAbrajizh
+trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,10)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/2
+seed=102
+chains=19
+puyos=77, extra_puyos=1
+field (top row first; columns left to right):
+B Y . Y G Y 
+Y Y G B Y Y 
+Y R Y B G R 
+G G Y R R B 
+B G Y G Y Y 
+Y R Y G R Y 
+Y R G R R G 
+G G R B Y G 
+G B G G Y Y 
+Y R Y R B G 
+Y R Y B Y Y 
+B R B G R B 
+B G R Y G Y 
+URL: https://ishikawapuyo.net/simu/pe.html?s4kAjAxzhixbqyAxycxhaibyjiAxxqxzApqbqck
+trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (3,10) (3,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/2
+目標数 2 件のユニークな19連鎖盤面を生成しました。
+試行数: 11, 重複スキップ数: 0
+seed=103, colors=5, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=2, min_extra_puyos=2, target_chain=19, threads=2
+再試行 1/100000 | 段階 0/19 | 生成 0/2
+seed=103
 chains=19
 puyos=78, extra_puyos=2
 field (top row first; columns left to right):
-Y Y Y B R B
-Y Y B B G G
-G R B G Y R
-B Y B Y B R
-B R G Y R B
-R B G G B R
-G G R B R R
-G B R B Y B
-R B R Y G B
-B Y B R G R
-Y R R Y G R
-Y Y G G B B
-B G R G Y B
-URL: https://ishikawapuyo.net/simu/pe.html?AzbArihqxssppkbbipib9jbzbcjsphxchAirqaz
-trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,12)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V BY at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-2: V BB at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-3: V YB at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-4: V RG at (1,5) and (1,6) axis/child; controls=LLDDDDDDD
-5: V RR at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-6: V GR at (1,7) and (1,8) axis/child; controls=LLDDDDD
-7: V BB at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-8: V BB at (1,9) and (1,10) axis/child; controls=LLDDD
-9: H GG at (2,1) and (1,11) axis/child; controls=LDB
-10: V RR at (6,7) and (6,8) axis/child; controls=RRRDDDDD
-11: V GG at (4,1) and (4,2) axis/child; controls=RDDDDDDDDDDD
-12: V YR at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-13: V YR at (2,2) and (2,3) axis/child; controls=LDDDDDDDDDD
-14: V BR at (6,9) and (6,10) axis/child; controls=RRRDDD
-15: V YB at (4,5) and (4,6) axis/child; controls=RDDDDDDD
-16: V RG at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-17: V YB at (5,1) and (5,2) axis/child; controls=RRDDDDDDDDDDD
-18: V YB at (2,4) and (2,5) axis/child; controls=LDDDDDDDD
-19: H GR at (5,3) and (6,11) axis/child; controls=RRDA
-20: V BG at (2,6) and (2,7) axis/child; controls=LDDDDDD
-21: V RB at (3,3) and (3,4) axis/child; controls=DDDDDDDDD
-22: V RR at (3,5) and (3,6) axis/child; controls=DDDDDDD
-23: V GG at (5,4) and (5,5) axis/child; controls=RRDDDDDDDD
-24: V RG at (3,7) and (3,8) axis/child; controls=DDDDD
-25: H YG at (5,6) and (6,12) axis/child; controls=RRA
-26: H GB at (3,9) and (4,7) axis/child; controls=DDDA
-27: V GY at (4,8) and (4,9) axis/child; controls=RDDDD
-28: V YY at (1,12) and (1,13) axis/child; controls=LL
-29: V RB at (5,7) and (5,8) axis/child; controls=RRDDDDD
-30: V RB at (5,9) and (5,10) axis/child; controls=RRDDD
-31: V BR at (2,8) and (2,9) axis/child; controls=LDDDD
-32: V YG at (5,11) and (5,12) axis/child; controls=RRD
-33: V YR at (2,10) and (2,11) axis/child; controls=LDD
-34: V YY at (2,12) and (2,13) axis/child; controls=L
-35: V YG at (4,10) and (4,11) axis/child; controls=RDD
-36: H RB at (5,13) and (6,13) axis/child; controls=BBBR
-37: V BB at (3,10) and (3,11) axis/child; controls=DD
-38: V BB at (4,12) and (4,13) axis/child; controls=R
-39: V BY at (3,12) and (3,13) axis/child; controls=
-
-
-chains=18
-puyos=78, extra_puyos=6
+P B R G Y Y 
+B G P G B B 
+P B P Y B G 
+P B P R G B 
+R R P G R P 
+R Y B Y P R 
+P B G Y G R 
+P B G P G B 
+B P R R B B 
+Y P R G Y Y 
+B P B B R B 
+Y Y Y R P R 
+P G R B R Y 
+URL: https://ishikawapuyo.net/simu/pe.html?HaAqGrHIqHFj9GdcsFHkhHljt9rBaAtrbAxFGbc
+trigger cells (x from left, y from bottom, 1-based): (3,9) (3,10) (3,11) (3,12)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/2
+seed=103
+chains=19
+puyos=78, extra_puyos=2
 field (top row first; columns left to right):
-B B Y B Y G
-Y R B B G Y
-Y B B Y G B
-Y R G G B B
-R R Y B R Y
-B B B R G G
-G Y Y R G Y
-G Y G R B Y
-G R G B R Y
-R R G B G G
-G Y Y Y R R
-B B B G B R
-Y R Y R R Y
-URL: https://ishikawapuyo.net/simu/pe.html?rzyxrkzsjxir9zcrpikxkkhshjc9jikA9rqpxxc
-trigger cells (x from left, y from bottom, 1-based): (2,11) (3,11) (3,12) (4,12)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V YR at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-2: V YB at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-3: H RR at (5,1) and (6,3) axis/child; controls=RRDDDDDDDDDA
-4: V GR at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-5: V GG at (1,5) and (1,6) axis/child; controls=LLDDDDDDD
-6: V GB at (1,7) and (1,8) axis/child; controls=LLDDDDD
-7: V GY at (6,4) and (6,5) axis/child; controls=RRRDDDDDDDD
-8: V YY at (6,6) and (6,7) axis/child; controls=RRRDDDDDD
-9: H RR at (2,1) and (1,9) axis/child; controls=LDDDB
-10: V BY at (2,2) and (2,3) axis/child; controls=LDDDDDDDDDD
-11: V RR at (2,4) and (2,5) axis/child; controls=LDDDDDDDD
-12: H YY at (2,6) and (1,10) axis/child; controls=LDDB
-13: V YB at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-14: V YG at (3,3) and (3,4) axis/child; controls=DDDDDDDDD
-15: V GG at (3,5) and (3,6) axis/child; controls=DDDDDDD
-16: H RB at (4,1) and (5,2) axis/child; controls=RDDDDDDDDDDA
-17: V YB at (2,7) and (2,8) axis/child; controls=LDDDDD
-18: V GY at (4,2) and (4,3) axis/child; controls=RDDDDDDDDDD
-19: V GY at (6,8) and (6,9) axis/child; controls=RRRDDDD
-20: V YY at (1,11) and (1,12) axis/child; controls=LLD
-21: V BB at (4,4) and (4,5) axis/child; controls=RDDDDDDDD
-22: V BB at (6,10) and (6,11) axis/child; controls=RRRDD
-23: V RG at (5,3) and (5,4) axis/child; controls=RRDDDDDDDDD
-24: V RR at (2,9) and (2,10) axis/child; controls=LDDD
-25: H BB at (2,11) and (1,13) axis/child; controls=RRRBBLLLLA
-26: V YG at (6,12) and (6,13) axis/child; controls=RRR
-27: V YB at (3,7) and (3,8) axis/child; controls=DDDDD
-28: V RR at (4,6) and (4,7) axis/child; controls=RDDDDDD
-29: V RB at (2,12) and (2,13) axis/child; controls=L
-30: V RB at (5,5) and (5,6) axis/child; controls=RRDDDDDDD
-31: H RG at (4,8) and (5,7) axis/child; controls=RDDDDA
-32: V GR at (5,8) and (5,9) axis/child; controls=RRDDDD
-33: H YB at (3,9) and (4,9) axis/child; controls=DDDA
-34: V BG at (5,10) and (5,11) axis/child; controls=RRDD
-35: H GG at (3,10) and (4,10) axis/child; controls=DDA
-36: V GY at (5,12) and (5,13) axis/child; controls=RR
-37: H BY at (3,11) and (4,11) axis/child; controls=DA
-38: V BB at (4,12) and (4,13) axis/child; controls=R
-39: V BY at (3,12) and (3,13) axis/child; controls=
-
-
-chains=18
-puyos=74, extra_puyos=2
-field (top row first; columns left to right):
-. R Y G B G
-. B G Y G Y
-. B G B G R
-. B G G Y G
-R Y R B G R
-R B Y B B R
-R Y G R G G
-B R B R G R
-B B Y R Y R
-Y Y B B Y G
-R B G B R G
-R B R Y R G
-B Y G B G R
-URL: https://ishikawapuyo.net/simu/pe.html?1yq3kk3jh3iycbhbzpchipphrxxArybjabcasjh
-trigger cells (x from left, y from bottom, 1-based): (3,10) (3,11) (3,12) (4,10)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V YB at (2,1) and (2,2) axis/child; controls=LDDDDDDDDDDD
-2: V BY at (2,3) and (2,4) axis/child; controls=LDDDDDDDDD
-3: H BG at (4,1) and (5,1) axis/child; controls=RDDDDDDDDDDDA
-4: V YB at (4,2) and (4,3) axis/child; controls=RDDDDDDDDDD
-5: V BR at (4,4) and (4,5) axis/child; controls=RDDDDDDDD
-6: H RR at (4,6) and (5,2) axis/child; controls=RDDDDDDA
-7: H RR at (5,3) and (6,1) axis/child; controls=RRDDDDDDDDDA
-8: H YG at (5,4) and (6,2) axis/child; controls=RRDDDDDDDDA
-9: H BG at (2,5) and (3,1) axis/child; controls=DDDDDDDA
-10: H RY at (4,7) and (5,5) axis/child; controls=RDDDDDA
-11: V GG at (5,6) and (5,7) axis/child; controls=RRDDDDDD
-12: V GG at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-13: V BG at (5,8) and (5,9) axis/child; controls=RRDDDD
-14: V RY at (2,6) and (2,7) axis/child; controls=LDDDDDD
-15: V YG at (5,10) and (5,11) axis/child; controls=RRDD
-16: H RB at (3,2) and (4,8) axis/child; controls=DDDDA
-17: V RR at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-18: V GR at (6,7) and (6,8) axis/child; controls=RRRDDDDD
-19: V RG at (6,9) and (6,10) axis/child; controls=RRRDDD
-20: V BG at (4,9) and (4,10) axis/child; controls=RDDD
-21: V GB at (3,3) and (3,4) axis/child; controls=DDDDDDDDD
-22: V BR at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-23: V YB at (3,5) and (3,6) axis/child; controls=DDDDDDD
-24: H BG at (2,8) and (3,7) axis/child; controls=DDDDA
-25: V YR at (3,8) and (3,9) axis/child; controls=DDDD
-26: V BY at (4,11) and (4,12) axis/child; controls=RD
-27: V YB at (2,9) and (2,10) axis/child; controls=LDDD
-28: V RY at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-29: H BB at (2,11) and (1,5) axis/child; controls=LDB
-30: H GR at (5,12) and (6,11) axis/child; controls=AARBRRD
-31: V BR at (1,6) and (1,7) axis/child; controls=LLDDDDDD
-32: V GG at (3,10) and (3,11) axis/child; controls=DD
-33: V GY at (6,13) and (6,12) axis/child; controls=BBARRRB
-34: H BR at (2,12) and (1,8) axis/child; controls=LB
-35: H GB at (4,13) and (5,13) axis/child; controls=AABR
-36: H RR at (2,13) and (1,9) axis/child; controls=AAAL
-37: V GY at (3,12) and (3,13) axis/child; controls=
-
-
-chains=18
-puyos=72, extra_puyos=0
-field (top row first; columns left to right):
-R G . . G .
-R G . . G G
-B R . Y R R
-G Y B G R G
-B B Y Y B Y
-G G B Y R Y
-B G R Y R Y
-R Y R G Y R
-Y Y B B R R
-R G Y R Y B
-R Y Y R Y B
-B B G B G G
-R R Y B Y B
-URL: https://ishikawapuyo.net/simu/pe.html?a0ga0ip49kqarAsiscqcccaxAr9axzcxzrji9zz
-trigger cells (x from left, y from bottom, 1-based): (3,9) (4,7) (4,8) (4,9)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V RB at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-2: V RR at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-3: H YB at (5,1) and (6,1) axis/child; controls=RRDDDDDDDDDDDA
-4: V GY at (5,2) and (5,3) axis/child; controls=RRDDDDDDDDDD
-5: V YR at (5,4) and (5,5) axis/child; controls=RRDDDDDDDD
-6: V YR at (1,5) and (1,6) axis/child; controls=LLDDDDDDD
-7: H YR at (3,1) and (2,1) axis/child; controls=DDDDDDDDDDDB
-8: V BY at (2,2) and (2,3) axis/child; controls=LDDDDDDDDDD
-9: H GG at (3,2) and (2,4) axis/child; controls=DDDDDDDDB
-10: H YY at (3,3) and (2,5) axis/child; controls=DDDDDDDB
-11: V BG at (1,7) and (1,8) axis/child; controls=LLDDDDD
-12: H YB at (3,4) and (4,1) axis/child; controls=DDDDDDDDA
-13: V YG at (2,6) and (2,7) axis/child; controls=LDDDDDD
-14: V GB at (6,2) and (6,3) axis/child; controls=RRRDDDDDDDDDD
-15: V BG at (1,9) and (1,10) axis/child; controls=LLDDD
-16: V BR at (6,4) and (6,5) axis/child; controls=RRRDDDDDDDD
-17: H BY at (4,2) and (5,6) axis/child; controls=RDDDDDDA
-18: H BG at (3,5) and (2,8) axis/child; controls=DDDDB
-19: H RR at (5,7) and (6,6) axis/child; controls=RRDDDDDA
-20: H RY at (5,8) and (6,7) axis/child; controls=RRDDDDA
-21: H BB at (2,9) and (1,11) axis/child; controls=LDB
-22: V RR at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-23: V RR at (1,12) and (1,13) axis/child; controls=LL
-24: H BY at (5,9) and (6,8) axis/child; controls=RRDDDA
-25: V YG at (6,9) and (6,10) axis/child; controls=RRRDDD
-26: H RY at (3,6) and (2,10) axis/child; controls=DDB
-27: V RG at (6,11) and (6,12) axis/child; controls=RRRD
-28: H RR at (3,7) and (2,11) axis/child; controls=DB
-29: V GG at (2,12) and (2,13) axis/child; controls=L
-30: H BR at (4,5) and (5,10) axis/child; controls=RDDA
-31: H GR at (4,6) and (5,11) axis/child; controls=RDA
-32: H BY at (3,8) and (4,7) axis/child; controls=DDDDA
-33: V GG at (5,12) and (5,13) axis/child; controls=RR
-34: V YY at (4,8) and (4,9) axis/child; controls=RDDDD
-35: V GY at (4,10) and (4,11) axis/child; controls=RDD
-36: V YB at (3,9) and (3,10) axis/child; controls=DDD
-
-
+B B P P P P 
+P B Y Y Y B 
+P Y G Y B B 
+R R G P Y P 
+P G P P B P 
+R R G Y G G 
+R Y P G R Y 
+P P R G B Y 
+P G Y G B Y 
+R R G R B G 
+R P G P P G 
+P G B R Y Y 
+R Y R G Y B 
+URL: https://ishikawapuyo.net/simu/pe.html?rJJHAzIkr9lBGJt9kicGcJasGys9hqdlGGpAcaz
+trigger cells (x from left, y from bottom, 1-based): (3,12) (4,11) (4,12) (5,12)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/2
+目標数 2 件のユニークな19連鎖盤面を生成しました。
+試行数: 73, 重複スキップ数: 0
+seed=104, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=3, max_extra_puyos=6, min_extra_puyos=0, target_chain=18, threads=2
+再試行 1/100000 | 段階 0/18 | 生成 0/3
+seed=104
 chains=18
 puyos=73, extra_puyos=1
 field (top row first; columns left to right):
-G R . . B .
-G B . Y B B
-R Y . G Y G
-G Y Y G B Y
-B Y R G R G
-B B Y R R G
-G R R B B B
-G Y G Y R G
-G B R B B G
-R B B Y G Y
-R G Y G Y Y
-R B R R B G
-G Y G B R B
-URL: https://ishikawapuyo.net/simu/pe.html?h0oj4rc2ykyssaarxahbrkkajbqbskayAb9qkjb
-trigger cells (x from left, y from bottom, 1-based): (2,9) (2,10) (2,11) (3,10)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V GG at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-2: V GG at (5,1) and (5,2) axis/child; controls=RRDDDDDDDDDDD
-3: H GR at (4,1) and (5,3) axis/child; controls=RDDDDDDDDDA; setup_clear=5
-4: V BY at (5,2) and (5,3) axis/child; controls=RRDDDDDDDDDD
-5: H GB at (5,4) and (6,1) axis/child; controls=RRDDDDDDDDA
-6: V GY at (6,2) and (6,3) axis/child; controls=RRRDDDDDDDDDD
-7: V BR at (5,5) and (5,6) axis/child; controls=RRDDDDDDD
-8: H BY at (5,7) and (6,4) axis/child; controls=RRDDDDDA
-9: V GG at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-10: V BG at (6,7) and (6,8) axis/child; controls=RRRDDDDD
-11: V RR at (5,8) and (5,9) axis/child; controls=RRDDDD
-12: H BB at (4,1) and (5,10) axis/child; controls=RDDA
-13: V YB at (2,1) and (2,2) axis/child; controls=LDDDDDDDDDDD
-14: H GG at (3,1) and (2,3) axis/child; controls=DDDDDDDDDB
-15: H RR at (3,2) and (4,2) axis/child; controls=DDDDDDDDDDA
-16: V GR at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-17: H BR at (2,4) and (1,3) axis/child; controls=LDDDDDDDDB
-18: V GY at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-19: H BR at (2,5) and (1,4) axis/child; controls=LDDDDDDDB
-20: H YG at (2,6) and (1,5) axis/child; controls=LDDDDDDB
-21: H YB at (3,3) and (4,5) axis/child; controls=DDDDDDDA
-22: V YB at (4,6) and (4,7) axis/child; controls=RDDDDDD
-23: H RY at (4,8) and (5,11) axis/child; controls=RDA
-24: V BR at (3,4) and (3,5) axis/child; controls=DDDDDDDD
-25: H RG at (2,7) and (1,6) axis/child; controls=LDDDDDB
-26: V GB at (1,7) and (1,8) axis/child; controls=LLDDDDD
-27: V GY at (6,9) and (6,10) axis/child; controls=RRRDDD
-28: V GB at (6,11) and (6,12) axis/child; controls=RRRD
-29: V GG at (4,9) and (4,10) axis/child; controls=RDDD
-30: V BG at (1,9) and (1,10) axis/child; controls=LLDDD
-31: V GR at (3,6) and (3,7) axis/child; controls=DDDDDD
-32: H BY at (2,8) and (3,8) axis/child; controls=DDDDA
-33: V RG at (1,11) and (1,12) axis/child; controls=LLD
-34: V YY at (2,9) and (2,10) axis/child; controls=LDDD
-35: V BB at (5,12) and (5,13) axis/child; controls=RR
-36: V YB at (2,11) and (2,12) axis/child; controls=LD
-37: H RG at (3,9) and (4,11) axis/child; controls=DA
-38: H RG at (2,13) and (1,13) axis/child; controls=BBLAL
-39: H YY at (3,10) and (4,12) axis/child; controls=A
-
-
-chains=18
-puyos=76, extra_puyos=4
-field (top row first; columns left to right):
-Y Y G Y . G
-G R B Y . G
-R Y B G G B
-G B B Y R R
-G Y G Y B R
-G Y G R B Y
-R Y B R Y Y
-R R G B R B
-Y Y R G G B
-Y R Y Y G Y
-G R Y G B B
-R G G B R B
-G B Y B G Y
-URL: https://ishikawapuyo.net/simu/pe.html?Ak2hs2cqjjs9kkpkhscpA9jbAajxAkhyrajbjzk
-trigger cells (x from left, y from bottom, 1-based): (2,10) (3,10) (3,11) (3,12)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V YG at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-2: V YY at (3,3) and (3,4) axis/child; controls=DDDDDDDDD
-3: V RG at (3,5) and (3,6) axis/child; controls=DDDDDDD
-4: V YB at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-5: V BY at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-6: V BB at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-7: H GB at (1,1) and (2,1) axis/child; controls=LDDDDDDDDDDDA
-8: H GY at (5,1) and (6,7) axis/child; controls=RRDDDDDA
-9: H RY at (5,2) and (6,8) axis/child; controls=RRDDDDA
-10: H BR at (5,3) and (6,9) axis/child; controls=RRDDDA
-11: V RG at (1,2) and (1,3) axis/child; controls=LLDDDDDDDDDD
-12: V RB at (6,10) and (6,11) axis/child; controls=RRRDD
-13: V GR at (2,2) and (2,3) axis/child; controls=LDDDDDDDDDD
-14: V BG at (3,7) and (3,8) axis/child; controls=DDDDD
-15: V YY at (1,4) and (1,5) axis/child; controls=LLDDDDDDDD
-16: V GG at (5,4) and (5,5) axis/child; controls=RRDDDDDDDD
-17: V RR at (1,6) and (1,7) axis/child; controls=LLDDDDDD
-18: H BR at (4,1) and (5,6) axis/child; controls=RDDDDDDA
-19: H GR at (3,9) and (2,4) axis/child; controls=DDDB
-20: V GG at (6,12) and (6,13) axis/child; controls=RRR
-21: V YR at (2,5) and (2,6) axis/child; controls=LDDDDDDD
-22: V GG at (1,8) and (1,9) axis/child; controls=LLDDDD
-23: H YG at (2,7) and (1,10) axis/child; controls=LDDB
-24: H BY at (4,2) and (5,7) axis/child; controls=RDDDDDA
-25: H BG at (3,10) and (4,3) axis/child; controls=DDA
-26: V YG at (4,4) and (4,5) axis/child; controls=RDDDDDDDD
-27: H BB at (4,6) and (5,8) axis/child; controls=RDDDDA
-28: H BY at (3,11) and (2,8) axis/child; controls=DB
-29: H RB at (4,7) and (5,9) axis/child; controls=RDDDA
-30: V RY at (4,8) and (4,9) axis/child; controls=RDDDD
-31: V YG at (4,10) and (4,11) axis/child; controls=RDD
-32: H RY at (1,11) and (2,9) axis/child; controls=LDA
-33: V BY at (2,10) and (2,11) axis/child; controls=LDD
-34: H YR at (4,12) and (5,10) axis/child; controls=RA
-35: H YG at (4,13) and (5,11) axis/child; controls=BBBR
-36: V GY at (1,12) and (1,13) axis/child; controls=LL
-37: V RY at (2,12) and (2,13) axis/child; controls=L
-38: V BG at (3,12) and (3,13) axis/child; controls=
-
-
+Y G . . G . 
+B B . . R R 
+B R B G R G 
+R G Y B Y G 
+Y Y B B Y G 
+Y R B G B Y 
+G R Y G Y R 
+G R Y Y G Y 
+R Y B R B Y 
+G R B G R Y 
+R B R B G R 
+B Y R G B R 
+Y Y R G R Y 
+URL: https://ishikawapuyo.net/simu/pe.html?y0gr09pqaazyAryxqshyxhAkcpshqcbbhsapAac
+trigger cells (x from left, y from bottom, 1-based): (3,8) (3,9) (4,9) (4,10)
+last pair options (V vertical, H horizontal): V(4,10)(4,11)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/3
+seed=104
 chains=18
 puyos=75, extra_puyos=3
 field (top row first; columns left to right):
-. R . R R G
-B Y . B Y Y
-Y G B Y R Y
-R R G G R G
-Y G R G G R
-R G B B R Y
-R B G Y Y R
-R Y B B B R
-Y B Y G R G
-Y B Y G B G
-R R Y G Y G
-G B B R B Y
-R Y Y B B R
-URL: https://ishikawapuyo.net/simu/pe.html?11as3Aysc9iayaharcbkxcrpzyazyq9yyjpsczp
-trigger cells (x from left, y from bottom, 1-based): (3,10) (4,9) (4,10) (5,9)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V GG at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-2: V GG at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-3: H GR at (2,1) and (1,3) axis/child; controls=LDDDDDDDDDB; setup_clear=5
-4: V RY at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-5: V GG at (6,3) and (6,4) axis/child; controls=RRRDDDDDDDDD
-6: V GR at (6,5) and (6,6) axis/child; controls=RRRDDDDDDD
-7: V GR at (1,2) and (1,3) axis/child; controls=LLDDDDDDDDDD
-8: V RY at (6,7) and (6,8) axis/child; controls=RRRDDDDD
-9: V BR at (4,1) and (4,2) axis/child; controls=RDDDDDDDDDDD
-10: V YY at (1,4) and (1,5) axis/child; controls=LLDDDDDDDD
-11: V GG at (4,3) and (4,4) axis/child; controls=RDDDDDDDDD
-12: H GB at (4,5) and (5,1) axis/child; controls=RDDDDDDDA
-13: H BB at (4,6) and (5,2) axis/child; controls=RDDDDDDA
-14: V YB at (5,3) and (5,4) axis/child; controls=RRDDDDDDDDD
-15: V RB at (5,5) and (5,6) axis/child; controls=RRDDDDDDD
-16: V RG at (6,9) and (6,10) axis/child; controls=RRRDDD
-17: H YY at (5,7) and (6,11) axis/child; controls=RRDA
-18: H YR at (4,7) and (5,8) axis/child; controls=RDDDDA
-19: V YG at (6,12) and (6,13) axis/child; controls=RRR
-20: V GR at (5,9) and (5,10) axis/child; controls=RRDDD
-21: V RR at (1,6) and (1,7) axis/child; controls=LLDDDDDD
-22: V YB at (3,1) and (3,2) axis/child; controls=DDDDDDDDDDD
-23: V BG at (4,8) and (4,9) axis/child; controls=RDDDD
-24: V RY at (5,11) and (5,12) axis/child; controls=RRD
-25: H YG at (3,3) and (4,10) axis/child; controls=DDA
-26: V RY at (1,8) and (1,9) axis/child; controls=LLDDDD
-27: H YR at (2,1) and (1,10) axis/child; controls=LDDB
-28: H BY at (2,2) and (1,11) axis/child; controls=LDB
-29: H RY at (2,3) and (3,4) axis/child; controls=DDDDDDDDA
-30: H BY at (2,4) and (3,5) axis/child; controls=DDDDDDDA
-31: H BB at (2,5) and (3,6) axis/child; controls=DDDDDDA
-32: H YR at (4,11) and (5,13) axis/child; controls=LLAARRRB
-33: H YB at (2,6) and (1,12) axis/child; controls=LB
-34: V GB at (3,7) and (3,8) axis/child; controls=DDDDD
-35: H BR at (2,7) and (3,9) axis/child; controls=DDDA
-36: V BR at (4,12) and (4,13) axis/child; controls=R
-37: V GG at (2,8) and (2,9) axis/child; controls=LDDDD
-38: V RG at (2,10) and (2,11) axis/child; controls=LDD
-39: V YR at (2,12) and (2,13) axis/child; controls=L
-40: V GB at (3,10) and (3,11) axis/child; controls=DD
-
-
+R Y . . Y . 
+Y Y B R G B 
+R B G Y Y G 
+G G G R Y B 
+R Y Y B G B 
+R Y B G R B 
+R G R G G Y 
+Y R G B B G 
+Y Y R G G Y 
+B R B G R B 
+B G G Y B G 
+Y B R R Y B 
+B B R G R B 
+URL: https://ishikawapuyo.net/simu/pe.html?c0wApjbkyihzczjcqbaakxjqAakpqbqkqz9zrab
+trigger cells (x from left, y from bottom, 1-based): (1,10) (2,10) (3,10) (3,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/3
+seed=104
 chains=18
-puyos=77, extra_puyos=5
+puyos=75, extra_puyos=3
 field (top row first; columns left to right):
-B B B Y G .
-B Y Y G R B
-B Y B B Y B
-G Y G B G B
-G R G Y Y G
-G R B R R Y
-B B R Y R Y
-G G B R G Y
-R Y G R G G
-R Y G B R Y
-B Y R G Y G
-G G R Y B G
-Y B B Y Y G
-URL: https://ishikawapuyo.net/simu/pe.html?rsgsybsrzkjjhkyhpcrccipkchicjcsayicqzsy
-trigger cells (x from left, y from bottom, 1-based): (2,10) (2,11) (2,12) (3,12)
-pair placements from empty board; setup_clear marks preparation; last placement fires:
-1: V RR at (4,1) and (4,2) axis/child; controls=RDDDDDDDDDDD
-2: V RR at (6,1) and (6,2) axis/child; controls=RRRDDDDDDDDDDD
-3: H RG at (5,1) and (6,3) axis/child; controls=RRDDDDDDDDDA; setup_clear=5
-4: V YG at (1,1) and (1,2) axis/child; controls=LLDDDDDDDDDDD
-5: V BR at (1,3) and (1,4) axis/child; controls=LLDDDDDDDDD
-6: H BB at (3,1) and (2,1) axis/child; controls=DDDDDDDDDDDB
-7: V RG at (1,5) and (1,6) axis/child; controls=LLDDDDDDD
-8: V BG at (1,7) and (1,8) axis/child; controls=LLDDDDD
-9: V RR at (3,2) and (3,3) axis/child; controls=DDDDDDDDDD
-10: V GG at (1,9) and (1,10) axis/child; controls=LLDDD
-11: V GY at (2,2) and (2,3) axis/child; controls=LDDDDDDDDDD
-12: H YB at (2,4) and (1,11) axis/child; controls=LDB
-13: V GG at (6,2) and (6,3) axis/child; controls=RRRDDDDDDDDDD
-14: H GY at (3,4) and (2,5) axis/child; controls=DDDDDDDB
-15: H GB at (2,6) and (1,12) axis/child; controls=LB
-16: V YG at (6,4) and (6,5) axis/child; controls=RRRDDDDDDDD
-17: H GY at (3,5) and (4,1) axis/child; controls=DDDDDDDA
-18: V BR at (2,7) and (2,8) axis/child; controls=LDDDDD
-19: V YG at (4,2) and (4,3) axis/child; controls=RDDDDDDDDDD
-20: V BR at (3,6) and (3,7) axis/child; controls=DDDDDD
-21: H YY at (5,1) and (6,6) axis/child; controls=RRDDDDDDA
-22: V BR at (4,4) and (4,5) axis/child; controls=RDDDDDDDD
-23: H BR at (3,8) and (2,9) axis/child; controls=DDDB
-24: V GG at (3,9) and (3,10) axis/child; controls=DDD
-25: H BY at (5,2) and (6,7) axis/child; controls=RRDDDDDA
-26: V YR at (5,3) and (5,4) axis/child; controls=RRDDDDDDDDD
-27: H BY at (3,11) and (2,10) axis/child; controls=DB
-28: V GG at (5,5) and (5,6) axis/child; controls=RRDDDDDDD
-29: V YY at (2,11) and (2,12) axis/child; controls=LD
-30: H RY at (5,7) and (6,8) axis/child; controls=RRDDDDA
-31: H BB at (2,13) and (1,13) axis/child; controls=AAAL
-32: V GB at (6,9) and (6,10) axis/child; controls=RRRDDD
-33: H RR at (4,6) and (5,8) axis/child; controls=RDDDDA
-34: V YR at (4,7) and (4,8) axis/child; controls=RDDDDD
-35: H YB at (5,9) and (6,11) axis/child; controls=RRDA
-36: H YG at (4,9) and (5,10) axis/child; controls=RDDA
-37: V BB at (4,10) and (4,11) axis/child; controls=RDD
-38: V YR at (5,11) and (5,12) axis/child; controls=RRD
-39: H GB at (5,13) and (6,12) axis/child; controls=BBBR
-40: V GY at (4,12) and (4,13) axis/child; controls=R
-41: V YB at (3,12) and (3,13) axis/child; controls=
+B B . B . Y 
+G R R B . R 
+B G G Y B R 
+G G Y R R B 
+B R Y B G G 
+B G Y B B Y 
+B Y G G R Y 
+G Y R Y G Y 
+G Y B B G R 
+G B R Y R R 
+B Y B B G Y 
+B G R R B G 
+G G Y Y G R 
+URL: https://ishikawapuyo.net/simu/pe.html?r34hb1qkpixbpziqzssickckkrhjc9srkq9qiAh
+trigger cells (x from left, y from bottom, 1-based): (1,10) (2,10) (2,11) (3,11)
+last pair options (V vertical, H horizontal): V(3,11)(3,12)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 3/3
+目標数 3 件のユニークな18連鎖盤面を生成しました。
+試行数: 4, 重複スキップ数: 0
+seed=105, colors=5, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=38, min_extra_puyos=0, target_chain=10, threads=2
+再試行 1/100000 | 段階 0/10 | 生成 0/2
+seed=105
+chains=10
+puyos=64, extra_puyos=24
+field (top row first; columns left to right):
+B G . . . . 
+P R . . . . 
+G P G . G . 
+G P G . R R 
+B B Y . R G 
+Y Y B . Y B 
+G Y G . P B 
+R P Y G P B 
+R P R G G Y 
+P R G R G R 
+P R B P P R 
+B G G G Y Y 
+B Y Y P R P 
+URL: https://ishikawapuyo.net/simu/pe.html?q00F00lgglg9rwaAozkgHdyHdakFhhFtFqiAsBd
+trigger cells (x from left, y from bottom, 1-based): (4,5) (4,6) (5,4) (5,5)
+last pair options (V vertical, H horizontal): V(4,5)(4,6) H(3,11)(4,6) H(4,6)(5,11)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/2
+seed=105
+chains=10
+puyos=77, extra_puyos=37
+field (top row first; columns left to right):
+P G G G R . 
+P B P R P G 
+Y B P R R Y 
+G B P Y B R 
+B R P Y B G 
+G Y G G Y R 
+G R P G Y B 
+Y G B P G B 
+Y R G Y Y R 
+G P P Y G R 
+G Y P B B R 
+Y R R P G P 
+G B B R Y R 
+URL: https://ishikawapuyo.net/simu/pe.html?Gi8HFGzFcjIppIqkixhGzytjxkxlIhkHpxdljpx
+trigger cells (x from left, y from bottom, 1-based): (3,9) (3,10) (3,11) (3,12)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/2
+目標数 2 件のユニークな10連鎖盤面を生成しました。
+試行数: 3, 重複スキップ数: 0
+seed=106, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=3, max_extra_puyos=74, min_extra_puyos=0, target_chain=1, threads=2
+再試行 1/100000 | 段階 0/1 | 生成 0/3
+seed=106
+chains=1
+puyos=7, extra_puyos=3
+field (top row first; columns left to right):
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . Y R . B 
+. . R R R B 
+URL: https://ishikawapuyo.net/simu/pe.html?x309b
+trigger cells (x from left, y from bottom, 1-based): (3,1) (4,1) (4,2) (5,1)
+last pair options (V vertical, H horizontal): V(3,1)(3,2) V(4,1)(4,2) H(3,2)(4,2) H(4,2)(5,1) H(5,1)(6,2)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/3
+seed=106
+chains=1
+puyos=71, extra_puyos=67
+field (top row first; columns left to right):
+. . Y . . B 
+. . Y Y . G 
+G Y Y B R Y 
+B R B B R Y 
+G R G Y G Y 
+G R B B Y R 
+G B R B Y Y 
+R G Y G R R 
+Y R Y Y R Y 
+Y B R B Y B 
+Y B B G Y B 
+G R G R G R 
+B Y Y R Y R 
+URL: https://ishikawapuyo.net/simu/pe.html?w30A2kzcprchkkhrxjbAay9xAczbzzqzhhhsxx
+trigger cells (x from left, y from bottom, 1-based): (2,11) (3,11) (3,12) (4,12)
+last pair options (V vertical, H horizontal): V(3,12)(3,13)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/3
+seed=106
+chains=1
+puyos=48, extra_puyos=44
+field (top row first; columns left to right):
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. B B G . . 
+G R R G R . 
+B B R Y B . 
+Y Y R Y R . 
+B R G Y G G 
+B G G B R R 
+G B R R B R 
+B B Y Y Y G 
+Y G B R B R 
+URL: https://ishikawapuyo.net/simu/pe.html?3q0ha8rcoAc8pkiqj9j9prAyypp
+trigger cells (x from left, y from bottom, 1-based): (2,8) (3,6) (3,7) (3,8)
+last pair options (V vertical, H horizontal): V(2,8)(2,9) V(3,8)(3,9)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 3/3
+目標数 3 件のユニークな1連鎖盤面を生成しました。
+試行数: 4, 重複スキップ数: 0
+seed=107, colors=4, beam_width=48, restarts=100000, candidates_per_parent=2, target_success_count=2, max_extra_puyos=3, min_extra_puyos=3, target_chain=5, threads=2
+再試行 1/100000 | 段階 0/5 | 生成 0/2
+seed=107
+chains=5
+puyos=23, extra_puyos=3
+field (top row first; columns left to right):
+. . . . . . 
+. . . . . . 
+. . . . . . 
+. . R . . . 
+. . Y . . . 
+. . Y . . . 
+. B G . . . 
+. Y R . . . 
+R G Y . . . 
+Y R B . . . 
+Y Y Y . . . 
+R G B . . . 
+G B B . Y . 
+URL: https://ishikawapuyo.net/simu/pe.html?800w00w03g0480aw0xo0Aw0ao0jow
+trigger cells (x from left, y from bottom, 1-based): (1,3) (1,4) (2,3) (3,3)
+last pair options (V vertical, H horizontal): V(1,4)(1,5)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 1/2
+seed=107
+chains=5
+puyos=23, extra_puyos=3
+field (top row first; columns left to right):
+. . . . . Y 
+. . . . . Y 
+. . . . . Y 
+. . . . . R 
+. . . . . G 
+. . . . . G 
+. . . . R G 
+. . . . B Y 
+. . . . B B 
+. . . . Y B 
+. . . . Y G 
+. . . . Y R 
+G B B . R Y 
+URL: https://ishikawapuyo.net/simu/pe.html?400400400100200200a00s00r00z00y00xjoc
+trigger cells (x from left, y from bottom, 1-based): (5,5) (5,6) (6,4) (6,5)
+last pair options (V vertical, H horizontal): V(5,6)(5,7)
+URLを19chain_urls.txtに追記しました。
+今回のユニークな生成数: 2/2
+目標数 2 件のユニークな5連鎖盤面を生成しました。
+試行数: 2, 重複スキップ数: 0

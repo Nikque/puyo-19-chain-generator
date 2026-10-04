@@ -55,9 +55,9 @@ inline uint64_t pdep64(uint64_t v, uint64_t m) { return _pdep_u64(v, m); }
 __attribute__((target("bmi2"))) inline uint64_t pext64(uint64_t v, uint64_t m) { return _pext_u64(v, m); }
 __attribute__((target("bmi2"))) inline uint64_t pdep64(uint64_t v, uint64_t m) { return _pdep_u64(v, m); }
 #endif
-inline const bool fastPext = detectFastPext();
+inline bool fastPext = detectFastPext(); // tests switch it off to cover the portable path
 #else
-inline const bool fastPext = false;
+inline bool fastPext = false;
 inline uint64_t pext64(uint64_t, uint64_t) { return 0; }
 inline uint64_t pdep64(uint64_t, uint64_t) { return 0; }
 #endif

@@ -13,7 +13,8 @@
 #include <cstdint>
 #include <bit>
 
-#if defined(_M_X64) || defined(__SSE4_1__)
+// PUYO_FORCE_PORTABLE selects the plain 64-bit implementation (used by the tests).
+#if !defined(PUYO_FORCE_PORTABLE) && (defined(_M_X64) || defined(__SSE4_1__))
 #define PUYO_SSE 1
 #include <immintrin.h>
 #else

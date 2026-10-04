@@ -1,33 +1,41 @@
 cmake_minimum_required(VERSION 3.16)
-project(puyo_19_chain_generator VERSION 0.3.0 LANGUAGES CXX)
+project(puyo_19_chain_generator VERSION 0.4.0 LANGUAGES CXX)
 
-add_executable(random_19_chain random_19_chain.cpp)
-set_target_properties(random_19_chain PROPERTIES
-    CXX_STANDARD 20
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-)
-
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS NO)
 if(MSVC)
-    target_compile_options(random_19_chain PRIVATE /utf-8)
-    set_property(TARGET random_19_chain PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    add_compile_options(/utf-8)
+    # Static runtime: the distributed executables need no extra DLL.
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|amd64")
+    # core/field_bits.h uses SSE4.1; PEXT/PDEP is selected at run time.
+    add_compile_options(-msse4.1 -mpopcnt)
 endif()
+
+# The engine: bitboard core (header only) and the generator.
+add_library(puyo_engine STATIC
+    generator/generator.cpp
+    generator/runner.cpp
+    generator/generator.h
+    core/field_bits.h core/bit_field.h core/reach.h core/rng.h
+    app/console_output.h)
+find_package(Threads REQUIRED)
+target_link_libraries(puyo_engine PUBLIC Threads::Threads)
+
+add_executable(random_19_chain app/main.cpp)
+target_link_libraries(random_19_chain PRIVATE puyo_engine)
 if(MINGW)
     target_link_options(random_19_chain PRIVATE -municode)
 endif()
 
 if(WIN32)
     enable_language(RC)
-    add_executable(puyo_gui WIN32 puyo_gui.cpp puyo_gui.rc)
-    set_target_properties(puyo_gui PROPERTIES
-        OUTPUT_NAME PuyoChainGenerator
-        CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
-    target_link_libraries(puyo_gui PRIVATE comctl32 comdlg32 shell32 ole32 gdi32 user32)
+    add_executable(puyo_gui WIN32 gui/puyo_gui.cpp gui/puyo_gui.rc)
+    set_target_properties(puyo_gui PROPERTIES OUTPUT_NAME PuyoChainGenerator)
+    target_link_libraries(puyo_gui PRIVATE puyo_engine comctl32 comdlg32 shell32 ole32 gdi32 user32)
     if(MSVC)
-        target_compile_options(puyo_gui PRIVATE /utf-8)
-        set_property(TARGET puyo_gui PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-        target_link_options(puyo_gui PRIVATE "/MANIFEST:EMBED" "/MANIFESTINPUT:${CMAKE_CURRENT_SOURCE_DIR}/puyo_gui.manifest")
+        target_link_options(puyo_gui PRIVATE "/MANIFEST:EMBED" "/MANIFESTINPUT:${CMAKE_CURRENT_SOURCE_DIR}/gui/puyo_gui.manifest")
     endif()
     if(MINGW)
         target_link_options(puyo_gui PRIVATE -municode -static -static-libgcc -static-libstdc++)
@@ -36,48 +44,29 @@ endif()
 
 include(CTest)
 if(BUILD_TESTING)
-    add_executable(generator_tests tests/tests.cpp)
-    set_target_properties(generator_tests PROPERTIES
-        CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
-    if(MSVC)
-        target_compile_options(generator_tests PRIVATE /utf-8)
-        set_property(TARGET generator_tests PROPERTY
-            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    endif()
-    add_test(NAME generator_regressions COMMAND generator_tests)
+    # Bitboard core and generator against cell-by-cell references, once with
+    # the SSE implementation and once with the portable 64-bit one.
+    add_executable(core_tests tests/core_tests.cpp)
+    target_link_libraries(core_tests PRIVATE puyo_engine)
+    add_test(NAME core_and_generator COMMAND core_tests)
+    add_executable(core_tests_portable tests/core_tests.cpp generator/generator.cpp generator/runner.cpp)
+    target_compile_definitions(core_tests_portable PRIVATE PUYO_FORCE_PORTABLE)
+    target_link_libraries(core_tests_portable PRIVATE Threads::Threads)
+    add_test(NAME core_and_generator_portable COMMAND core_tests_portable)
+
     find_package(Python3 COMPONENTS Interpreter QUIET)
     if(WIN32)
-        add_executable(gui_model_tests tests/gui_model_tests.cpp)
-        set_target_properties(gui_model_tests PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
-        if(MSVC)
-            target_compile_options(gui_model_tests PRIVATE /utf-8)
-            set_property(TARGET gui_model_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-        endif()
-        if(MINGW)
-            target_link_options(gui_model_tests PRIVATE -municode)
-        endif()
+        foreach(name gui_model_tests editor_tests console_tests)
+            add_executable(${name} tests/${name}.cpp)
+            target_link_libraries(${name} PRIVATE puyo_engine)
+            if(MINGW)
+                target_link_options(${name} PRIVATE -municode)
+            endif()
+        endforeach()
         add_test(NAME gui_model_and_archives COMMAND gui_model_tests "${CMAKE_CURRENT_BINARY_DIR}/gui-model-test")
-        add_executable(editor_tests tests/editor_tests.cpp)
-        set_target_properties(editor_tests PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
-        if(MSVC)
-            target_compile_options(editor_tests PRIVATE /utf-8)
-            set_property(TARGET editor_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-        endif()
-        if(MINGW)
-            target_link_options(editor_tests PRIVATE -municode)
-        endif()
         add_test(NAME editor_model_and_specials COMMAND editor_tests "${CMAKE_CURRENT_BINARY_DIR}/editor-test")
         add_test(NAME gui_native_integration COMMAND puyo_gui --self-test "${CMAKE_CURRENT_BINARY_DIR}/gui-native-test")
         set_tests_properties(gui_native_integration PROPERTIES TIMEOUT 240)
-        add_executable(console_tests tests/console_tests.cpp)
-        set_target_properties(console_tests PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES)
-        if(MSVC)
-            target_compile_options(console_tests PRIVATE /utf-8)
-            set_property(TARGET console_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-        endif()
-        if(MINGW)
-            target_link_options(console_tests PRIVATE -municode)
-        endif()
     endif()
     if(Python3_Interpreter_FOUND)
         if(WIN32)
@@ -98,6 +87,7 @@ if(BUILD_TESTING)
         add_test(NAME config_and_generation_integration
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_cli.py"
                 "$<TARGET_FILE:random_19_chain>")
+        # Every chain length, colour count and extra range, verified independently.
         add_test(NAME all_chain_lengths
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_all_chains.py"
                 "$<TARGET_FILE:random_19_chain>" "${CMAKE_CURRENT_SOURCE_DIR}/config.ini")
