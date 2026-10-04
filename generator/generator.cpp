@@ -15,6 +15,7 @@
 // count; verifySolution() checks them directly on every board that is saved.
 #include "generator.h"
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 #include <unordered_set>
 
@@ -26,8 +27,6 @@ struct Placement {
     FieldBits ins;  // the four inserted cells, at their final position
     FieldBits low;  // shape columns: the cells below the insertion; other columns: all cells
     FieldBits mul;  // shape columns: 1 << (cells inserted in this column); other columns: 1
-    FieldBits need; // cells that must be occupied: the one right below each insertion
-    FieldBits top;  // cells that must be empty so that no column grows past the 13th row
     FieldBits near; // visible cells next to the inserted ones
 };
 
@@ -82,7 +81,7 @@ std::vector<Placement> makePlacements() {
         if (!contiguous) continue;
         for (int x0 = 0; x0 + width <= W; ++x0)
             for (int y0 = 0; y0 + height <= CLEAR_H; ++y0) {
-                uint16_t ins[W]{}, low[W], mul[W], need[W]{}, top[W]{};
+                uint16_t ins[W]{}, low[W], mul[W];
                 std::fill(low, low + W, uint16_t(0xFFFF));
                 std::fill(mul, mul + W, uint16_t(1));
                 for (int dx = 0; dx < width; ++dx) {
@@ -91,15 +90,11 @@ std::vector<Placement> makePlacements() {
                     ins[x] = uint16_t(run << slot);
                     low[x] = uint16_t((1u << slot) - 1);
                     mul[x] = uint16_t(1u << n);
-                    need[x] = slot ? uint16_t(1u << (slot - 1)) : 0;
-                    top[x] = uint16_t(run << (H - n));
                 }
                 Placement p;
                 p.ins = FieldBits::fromColumns(ins);
                 p.low = FieldBits::fromColumns(low);
                 p.mul = FieldBits::fromColumns(mul);
-                p.need = FieldBits::fromColumns(need);
-                p.top = FieldBits::fromColumns(top);
                 p.near = (p.ins.up() | p.ins.down() | p.ins.left() | p.ins.right()).without(p.ins) & MASK_12;
                 table.push_back(p);
             }
@@ -110,6 +105,45 @@ std::vector<Placement> makePlacements() {
 const std::vector<Placement>& placements() {
     static const std::vector<Placement> table = makePlacements();
     return table;
+}
+// Which placements can be valid at all, found with a few word operations
+// instead of a scan of the whole table.
+//  - belowCell[x][y]: placements that insert into column x at row y or lower,
+//    i.e. that move the puyo at (x, y).
+//  - fits[x][h]: placements that are possible in column x when it holds h
+//    puyos (the insertion starts at or below the top and the column does not
+//    grow past the 13th row), or that do not use column x.
+struct PlacementIndex {
+    static constexpr int WORDS = 16; // 64 * 16 = 1024 placements at most
+    using Set = std::array<uint64_t, WORDS>;
+    Set belowCell[W][H]{};
+    Set fits[W][H + 1]{};
+    int words = 0;
+};
+
+const PlacementIndex& placementIndex() {
+    static const PlacementIndex index = [] {
+        PlacementIndex ix;
+        const std::vector<Placement>& table = placements();
+        if (table.size() > 64 * PlacementIndex::WORDS) std::abort();
+        ix.words = int((table.size() + 63) / 64);
+        for (size_t i = 0; i < table.size(); ++i) {
+            uint16_t ins[W];
+            table[i].ins.columns(ins);
+            const uint64_t bit = 1ull << (i % 64);
+            for (int x = 0; x < W; ++x) {
+                if (!ins[x]) {
+                    for (int h = 0; h <= H; ++h) ix.fits[x][h][i / 64] |= bit;
+                    continue;
+                }
+                const int slot = std::countr_zero(unsigned(ins[x])), n = std::popcount(unsigned(ins[x]));
+                for (int y = slot; y < H; ++y) ix.belowCell[x][y][i / 64] |= bit;
+                for (int h = slot; h + n <= H; ++h) ix.fits[x][h][i / 64] |= bit;
+            }
+        }
+        return ix;
+    }();
+    return index;
 }
 
 struct Node {
@@ -136,20 +170,35 @@ inline BitField fillGap(BitField q, const Placement& p, Cell color) {
 
 // Calls f(placement index, colour) for every accepted insertion into `post`.
 template <class F> void forEachPredecessor(const Node& post, int colorCount, F&& f) {
-    const std::vector<Placement>& table = placements();
-    const FieldBits occupied = post.field.occupied();
-    const bool hasTrigger = post.trigger.any();
-    for (size_t i = 0; i < table.size(); ++i) {
-        const Placement& p = table[i];
-        // The group that clears first on `post` must not survive on `pre`:
-        // at least one of its cells has to move.
-        if (hasTrigger && post.trigger.subsetOf(p.low)) continue;
-        if (!p.need.subsetOf(occupied) || !p.top.disjoint(occupied)) continue;
-        const BitField q = openGap(post.field, p);
-        if (q.hasClear()) continue;
-        for (Cell color = 1; color <= colorCount; ++color)
-            if (q.colorMask(color).disjoint(p.near)) f(uint16_t(i), color);
+    const Placement* table = placements().data();
+    const PlacementIndex& index = placementIndex();
+    uint16_t columns[W], triggerColumns[W];
+    post.field.occupied().columns(columns);
+    post.trigger.columns(triggerColumns);
+    // The group that clears first on `post` must not survive on `pre`: at
+    // least one of its puyos has to move, so the insertion must be below one.
+    PlacementIndex::Set candidates{};
+    bool hasTrigger = false;
+    for (int x = 0; x < W; ++x)
+        if (triggerColumns[x]) {
+            hasTrigger = true;
+            const auto& below = index.belowCell[x][std::bit_width(unsigned(triggerColumns[x])) - 1];
+            for (int w = 0; w < index.words; ++w) candidates[w] |= below[w];
+        }
+    if (!hasTrigger) candidates.fill(~0ull);
+    for (int x = 0; x < W; ++x) {
+        const auto& fits = index.fits[x][std::popcount(unsigned(columns[x]))];
+        for (int w = 0; w < index.words; ++w) candidates[w] &= fits[w];
     }
+    for (int w = 0; w < index.words; ++w)
+        for (uint64_t rest = candidates[w]; rest; rest &= rest - 1) {
+            const size_t i = size_t(w) * 64 + size_t(std::countr_zero(rest));
+            const Placement& p = table[i];
+            const BitField q = openGap(post.field, p);
+            if (q.hasClear()) continue;
+            for (Cell color = 1; color <= colorCount; ++color)
+                if (q.colorMask(color).disjoint(p.near)) f(uint16_t(i), color);
+        }
 }
 
 inline Node makeChild(const Node& post, Choice c) {
@@ -267,7 +316,9 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng, con
             choices.clear();
             if (depth < target) {
                 forEachPredecessor(post, colors, [&](uint16_t i, Cell color) { choices.push_back({i, color}); });
-                const size_t take = std::min(perParent, choices.size());
+                // The step before the last one keeps every child: few of them can be
+                // completed by a last pair, and trying them all is cheaper than a new attempt.
+                const size_t take = depth == target - 1 ? choices.size() : std::min(perParent, choices.size());
                 rng.partialShuffle(choices.data(), choices.size(), take);
                 for (size_t i = 0; i < take; ++i) {
                     const Node child = makeChild(post, choices[i]);
@@ -291,8 +342,9 @@ std::optional<Solution> generateOne(const GeneratorConfig& config, Rng& rng, con
         }
         if (next.empty()) return std::nullopt;
         // A uniformly random subset of the new boards, in random order.
-        rng.partialShuffle(next.data(), next.size(), std::min(beamWidth, next.size()));
-        if (next.size() > beamWidth) next.resize(beamWidth);
+        const size_t width = depth == target - 1 ? next.size() : beamWidth;
+        rng.partialShuffle(next.data(), next.size(), std::min(width, next.size()));
+        if (next.size() > width) next.resize(width);
         beam.swap(next);
     }
     return std::nullopt;
