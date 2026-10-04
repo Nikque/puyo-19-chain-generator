@@ -1,7 +1,7 @@
 """Run a bounded, reproducible generation benchmark in a fresh directory.
 
 python tools/benchmark.py path/to/random_19_chain.exe --seed 20260925 --colors 4
-Use --legacy to omit max_extra_puyos when benchmarking the original executable.
+Use --legacy to omit the newer keys when benchmarking an old executable.
 """
 import argparse
 import json
@@ -23,6 +23,7 @@ parser.add_argument("--chain", type=int, default=19)
 parser.add_argument("--restarts", type=int, default=100)
 parser.add_argument("--target", type=int)
 parser.add_argument("--seconds", type=float, default=60)
+parser.add_argument("--threads", type=int, default=1, help="search threads, 0 = automatic")
 parser.add_argument("--legacy", action="store_true")
 parser.add_argument("--save-log", type=Path)
 args = parser.parse_args()
@@ -34,6 +35,7 @@ if not args.legacy:
     settings["max_extra_puyos"] = args.extra
     settings["min_extra_puyos"] = args.min_extra
     settings["target_chain"] = args.chain
+    settings["threads"] = args.threads
 with tempfile.TemporaryDirectory(prefix="puyo-benchmark-") as directory:
     work = Path(directory)
     config = work / "config.ini"

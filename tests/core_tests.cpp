@@ -333,7 +333,6 @@ static void testRng() {
     const uint64_t first = a.next(), second = a.next();
     Rng b(20261004, 1), c(20261004, 2);
     check(b.next() == first && b.next() == second && c.next() != first, "streams");
-    std::cout << "  rng: " << first << ' ' << second << '\n';
     check(first == 1187160665230963522ull && second == 14745419000101852816ull, "rng golden values");
     int counts[7]{};
     for (int i = 0; i < 70000; ++i) ++counts[a.below(7)];

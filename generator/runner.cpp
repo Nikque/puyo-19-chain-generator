@@ -91,27 +91,38 @@ std::unordered_set<std::string> loadExistingUrls(const std::filesystem::path& pa
     return urls;
 }
 
-void appendUrl(const std::string& url, const std::filesystem::path& path) {
-    // An edited/copied URL file may not end with a newline. Keep URLs separate.
-    bool needsNewline = false;
-    if (std::filesystem::exists(path)) {
-        std::ifstream previous(path, std::ios::binary);
-        if (!previous) throw std::runtime_error("cannot read output file: " + pathToUtf8(path));
-        previous.seekg(0, std::ios::end);
-        if (previous.tellg() > 0) {
-            previous.seekg(-1, std::ios::end);
-            char last = 0;
-            if (!previous.get(last)) throw std::runtime_error("failed reading output file: " + pathToUtf8(path));
-            needsNewline = last != '\n';
+// Appends URLs to the history file, one per line, flushing after each so that
+// an interrupted run keeps what it found. The file is opened on first use.
+class UrlWriter {
+    std::filesystem::path path;
+    std::ofstream output;
+
+public:
+    explicit UrlWriter(std::filesystem::path p) : path(std::move(p)) {}
+    void append(const std::string& url) {
+        if (!output.is_open()) {
+            // An edited/copied URL file may not end with a newline. Keep URLs separate.
+            bool needsNewline = false;
+            if (std::filesystem::exists(path)) {
+                std::ifstream previous(path, std::ios::binary);
+                if (!previous) throw std::runtime_error("cannot read output file: " + pathToUtf8(path));
+                previous.seekg(0, std::ios::end);
+                if (previous.tellg() > 0) {
+                    previous.seekg(-1, std::ios::end);
+                    char last = 0;
+                    if (!previous.get(last)) throw std::runtime_error("failed reading output file: " + pathToUtf8(path));
+                    needsNewline = last != '\n';
+                }
+            }
+            output.open(path, std::ios::binary | std::ios::app);
+            if (!output) throw std::runtime_error("cannot open output file: " + pathToUtf8(path));
+            if (needsNewline) output << '\n';
         }
+        output << url << '\n';
+        output.flush();
+        if (!output) throw std::runtime_error("failed writing output file: " + pathToUtf8(path));
     }
-    std::ofstream output(path, std::ios::binary | std::ios::app);
-    if (!output) throw std::runtime_error("cannot open output file: " + pathToUtf8(path));
-    if (needsNewline) output << '\n';
-    output << url << '\n';
-    output.flush();
-    if (!output) throw std::runtime_error("failed writing output file: " + pathToUtf8(path));
-}
+};
 
 } // namespace
 
@@ -206,6 +217,7 @@ int runGenerator(const std::filesystem::path& configPath, const GeneratorHooks* 
 
         const auto outputPath = outputDirectory / URL_FILE;
         std::unordered_set<std::string> seenUrls = loadExistingUrls(outputPath);
+        UrlWriter urlWriter(outputPath);
 
         // Attempt k always uses random stream k, and attempts are committed in
         // numerical order, so the results do not depend on the thread count.
@@ -252,7 +264,7 @@ int runGenerator(const std::filesystem::path& configPath, const GeneratorHooks* 
                     } else {
                         const std::string problem = verifySolution(*solution);
                         if (!problem.empty()) throw std::logic_error("generated board failed verification: " + problem);
-                        appendUrl(url, outputPath);
+                        urlWriter.append(url);
                         ++successCount;
                         printSolution(std::cout, *solution, config.initialSeed);
                         std::cout.flush();

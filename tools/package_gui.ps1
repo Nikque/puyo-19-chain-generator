@@ -1,7 +1,7 @@
 param(
     [string]$BuildDirectory = "build",
     [string]$Configuration = "Release",
-    [string]$Destination = "artifacts/puyo-chain-generator-v0.3.0-windows-x64"
+    [string]$Destination = "artifacts/puyo-chain-generator-v0.4.0-windows-x64"
 )
 $ErrorActionPreference = "Stop"
 $sourceDirectory = Split-Path $PSScriptRoot -Parent
