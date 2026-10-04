@@ -10,6 +10,14 @@ All board work is done on bitboards: one 16-bit lane per column, six columns in 
 three registers for the colour code (48 bytes per board). The same core (`core/`) is meant to be reused
 for solo play, versus play and an AI.
 
+## Windows build (v0.4.0)
+
+Extract `puyo-chain-generator-v0.4.0-windows-x64.zip` from the
+[release page](https://github.com/Nikque/puyo-19-chain-generator/releases/tag/v0.4.0) into a new folder and
+run `PuyoChainGenerator.exe` (GUI) or `run.cmd` (CLI). No runtime is needed. Compared with v0.3.0 the
+output, the result file format and the boards produced by a given seed have changed; see
+[CHANGELOG.md](CHANGELOG.md) (Japanese).
+
 ## Windows GUI
 
 `PuyoChainGenerator.exe` offers settings, asynchronous generation with cancellation, a result list, a
@@ -106,7 +114,8 @@ independent Python cell simulator (`tests/verify_output.py`) checks the same con
 the printed last pairs are exactly all valid ones.
 
 Attempts run on several threads. Attempt k always uses random stream k and results are committed in
-order, so **the same settings give the same boards in the same order for any thread count and compiler**.
+order, so **the same settings give the same boards in the same order for any thread count and compiler**
+(checked: MSVC and GCC produce the same 2000 URLs).
 
 ## Build and test
 

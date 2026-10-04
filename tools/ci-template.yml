@@ -25,7 +25,7 @@ jobs:
         run: cmake -S . -B build -A x64 -DPython3_EXECUTABLE="$((Get-Command python).Source)"
       - name: Build
         run: cmake --build build --config Release
-      - name: Test all ten suites
+      - name: Test all suites
         run: ctest --test-dir build -C Release --output-on-failure
       - name: Verify packaging
         shell: pwsh
